@@ -1,19 +1,44 @@
 module.exports = (sequelize, DataTypes) => {
   const Book = sequelize.define('Book', {
-    author: DataTypes.STRING,
+    author: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
     format: DataTypes.STRING,
     date_published: DataTypes.DATE,
-    description: DataTypes.STRING,
-    genres: DataTypes.ARRAY(DataTypes.STRING),
+    description: DataTypes.TEXT,
     image_url: DataTypes.STRING,
-    isbn: DataTypes.INTEGER,
-    language: DataTypes.STRING,
-    pages: DataTypes.INTEGER,
+    isbn: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    language: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    pages: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     publisher: DataTypes.STRING,
-    title: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   }, {});
-  Book.associate = function(models) {
+
+  Book.associate = (models) => {
     // associations can be defined here
   };
+
   return Book;
 };

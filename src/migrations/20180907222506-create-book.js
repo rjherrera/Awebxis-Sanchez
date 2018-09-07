@@ -15,7 +15,7 @@ module.exports = {
       type: Sequelize.DATE,
     },
     description: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     genres: {
       type: Sequelize.ARRAY(Sequelize.STRING),
