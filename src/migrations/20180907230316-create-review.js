@@ -9,6 +9,14 @@ module.exports = {
     comment: {
       type: Sequelize.TEXT,
     },
+    isbn: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Books',
+        key: 'isbn',
+      },
+      onDelete: 'cascade',
+    },
     rating: {
       type: Sequelize.INTEGER,
     },
