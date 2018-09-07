@@ -1,8 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const Book = sequelize.define('Book', {
     author: {
-      type: DataTypes.STRING,
       allowNull: false,
+      type: DataTypes.STRING,
       validate: {
         notEmpty: true,
       },
@@ -12,8 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     image_url: DataTypes.STRING,
     isbn: {
-      type: DataTypes.INTEGER,
       allowNull: false,
+      type: DataTypes.STRING,
+      unique: true,
     },
     language: {
       type: DataTypes.STRING,
@@ -23,13 +24,13 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     pages: {
-      type: DataTypes.INTEGER,
       allowNull: false,
+      type: DataTypes.INTEGER,
     },
     publisher: DataTypes.STRING,
     title: {
-      type: DataTypes.STRING,
       allowNull: false,
+      type: DataTypes.STRING,
       validate: {
         notEmpty: true,
       },

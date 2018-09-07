@@ -1,14 +1,12 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Books', {
-    isbn: {
+    id: {
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
     author: {
-      type: Sequelize.STRING,
-    },
-    format: {
       type: Sequelize.STRING,
     },
     date_published: {
@@ -17,11 +15,19 @@ module.exports = {
     description: {
       type: Sequelize.TEXT,
     },
+    format: {
+      type: Sequelize.STRING,
+    },
     genres: {
       type: Sequelize.ARRAY(Sequelize.STRING),
     },
     image_url: {
       type: Sequelize.STRING,
+    },
+    isbn: {
+      allowNull: false,
+      type: Sequelize.STRING,
+      unique: true,
     },
     language: {
       type: Sequelize.STRING,

@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   Genre.associate = (models) => {
-    Genre.hasMany(models.Book, { as: 'books' });
   };
 
   return Genre;

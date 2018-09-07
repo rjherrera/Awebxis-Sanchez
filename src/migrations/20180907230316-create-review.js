@@ -10,7 +10,7 @@ module.exports = {
       type: Sequelize.TEXT,
     },
     isbn: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       references: {
         model: 'Books',
         key: 'isbn',
