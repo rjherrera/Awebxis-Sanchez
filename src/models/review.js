@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   Review.associate = (models) => {
+    Review.belongsTo(models.Book);
   };
 
   return Review;
