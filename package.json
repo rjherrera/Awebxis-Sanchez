@@ -1,8 +1,8 @@
 {
-  "name": "template",
+  "name": "Cambalache",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/IIC2513-2017-2/template.git",
+  "repository": "https://github.com/IIC2513-2018-2/Awebxis-Sanchez.git",
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
