@@ -23,5 +23,5 @@ module.exports = {
     return queryInterface.bulkInsert('Books', booksData);
   },
 
-  down: queryInterface => queryInterface.bulkDelete('books', null, {}),
+  down: queryInterface => queryInterface.bulkDelete('Books', null, {}),
 };
