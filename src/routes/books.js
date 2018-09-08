@@ -4,6 +4,7 @@ const router = new KoaRouter();
 
 const loadBook = async (ctx, next) => {
   ctx.state.book = await ctx.orm.Book.findOne({ where: { isbn: ctx.params.isbn } });
+  ctx.assert(ctx.state.book, 404);
   return next();
 };
 
@@ -65,7 +66,6 @@ router.patch('books-update', '/:isbn', loadBook, async (ctx) => {
 router.get('books-show', '/:isbn', loadBook, async (ctx) => {
   const { book } = ctx.state;
   const reviews = await book.getReviews({ limit: 10, order: [['createdAt', 'DESC']] });
-  ctx.assert(book, 404);
   await ctx.render('books/show', {
     book,
     reviews,
@@ -73,9 +73,8 @@ router.get('books-show', '/:isbn', loadBook, async (ctx) => {
   });
 });
 
-router.delete('books-destroy', '/:isbn', async (ctx) => {
+router.delete('books-destroy', '/:isbn', loadBook, async (ctx) => {
   const { book } = ctx.state;
-  ctx.assert(book, 404);
   await book.destroy();
   ctx.redirect(ctx.router.url('books'));
 });
