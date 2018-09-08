@@ -1,5 +1,8 @@
 # Cambalache
 
+![Heroku](http://heroku-badge.herokuapp.com/?app=cambalache&style=flat&svg=1&root=)    
+
+
 Web app built with [koa](http://koajs.com/) for IIC2513 - Tecnologías y Aplicaciones Web, Pontificia Universidad Católica de Chile.
 
 Available at [cambalache](https://cambalache.herokuapp.com) hosted by Heroku
