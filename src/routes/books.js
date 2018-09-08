@@ -19,26 +19,55 @@ router.get('books', '/', async (ctx) => {
   });
 });
 
+router.get('books-new', '/new', async (ctx) => {
+  const book = ctx.orm.Book.build();
+  await ctx.render('books/new', {
+    book,
+    submitBookPath: ctx.router.url('books-create'),
+  });
+});
+
+router.get('books-edit', '/:isbn/edit', loadBook, async (ctx) => {
+  const { book } = ctx.state;
+  await ctx.render('books/edit', {
+    book,
+    submitBookPath: ctx.router.url('books-update', book.isbn),
+  });
+});
+
+router.post('books-create', '/', async (ctx) => {
+  try {
+    const book = await ctx.orm.Book.create(ctx.request.body);
+    ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
+  } catch (validationError) {
+    await ctx.render('books/new', {
+      book: ctx.orm.Book.build(ctx.request.body),
+      errors: validationError.errors,
+      submitBookPath: ctx.router.url('books-create'),
+    });
+  }
+});
+
+router.patch('books-update', '/:isbn', loadBook, async (ctx) => {
+  const { book } = ctx.state;
+  try {
+    await book.update(ctx.request.body);
+    ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
+  } catch (validationError) {
+    await ctx.render('books/edit', {
+      book,
+      errors: validationError.errors,
+      submitBookPath: ctx.router.url('books-update', book.isbn),
+    });
+  }
+});
+
 router.get('books-show', '/:isbn', loadBook, async (ctx) => {
   const { book } = ctx.state;
   ctx.assert(book, 404);
   await ctx.render('books/show', {
     book,
-    booksPath: ctx.router.url('books'),
   });
-});
-
-router.post('books-create', '/', async (ctx) => {
-  await ctx.orm.Book.create(ctx.request.body);
-  ctx.redirect(ctx.router.url('books'));
-});
-
-router.patch('books-update', '/:isbn', async (ctx) => {
-  const { book } = ctx.state;
-  ctx.assert(book, 404);
-  ctx.body = await book.update(
-    ctx.request.body,
-  );
 });
 
 router.delete('books-destroy', '/:isbn', async (ctx) => {
