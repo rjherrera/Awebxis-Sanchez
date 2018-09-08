@@ -1,22 +1,25 @@
+const chrono = require('chrono-node');
+const booksJson = require('./books.json');
+
 module.exports = {
   up: (queryInterface) => {
     const booksData = [];
-    for (let i = 0; i < 1; i += 1) {
+    booksJson.books.forEach((book) => {
       booksData.push({
-        author: 'Dan Brown',
-        format: 'Paperback',
-        date_published: new Date(),
-        description: 'this is a description ... a big description',
-        image_url: 'this is a url',
-        isbn: '9780307277671',
-        language: 'English',
-        pages: 481,
-        publisher: 'Anchor',
-        title: 'The Da Vinci Code',
+        author: book.author,
+        format: book.book_format,
+        date_published: chrono.parseDate(book.date_published),
+        description: book.description,
+        image_url: book.img_url,
+        isbn: book.isbn,
+        language: book.language,
+        pages: book.pages,
+        publisher: book.publisher,
+        title: book.title,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-    }
+    });
     return queryInterface.bulkInsert('Books', booksData);
   },
 
