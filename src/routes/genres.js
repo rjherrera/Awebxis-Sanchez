@@ -4,6 +4,7 @@ const router = new KoaRouter();
 
 const loadGenre = async (ctx, next) => {
   ctx.state.genre = await ctx.orm.Genre.findOne({ where: { id: ctx.params.id } });
+  ctx.assert(ctx.state.genre, 404);
   return next();
 };
 
@@ -59,16 +60,14 @@ router.patch('genres-update', '/:id', loadGenre, async (ctx) => {
 
 router.get('genres-show', '/:id', loadGenre, async (ctx) => {
   const { genre } = ctx.state;
-  ctx.assert(genre, 404);
   await ctx.render('genres/show', {
     genre,
     editGenrePath: ctx.router.url('genres-edit', genre.id),
   });
 });
 
-router.delete('genres-destroy', '/:id', async (ctx) => {
+router.delete('genres-destroy', '/:id', loadGenre, async (ctx) => {
   const { genre } = ctx.state;
-  ctx.assert(genre, 404);
   await genre.destroy();
   ctx.redirect(ctx.router.url('genres'));
 });
