@@ -3,7 +3,8 @@ const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 
 router.get('books', '/', async (ctx) => {
-  ctx.body = await ctx.orm.Book.findAll();
+  const page = ctx.request.query.page || 1;
+  ctx.body = await ctx.orm.Book.findAll({ offset: (page - 1) * 10, limit: 10 });
 });
 
 router.get('books-show', '/:isbn', async (ctx) => {
