@@ -3,7 +3,7 @@ const genresJson = require('./genres.json');
 module.exports = {
   up: (queryInterface) => {
     const genresData = [];
-    genresJson.genres.forEach(({ name }) => {
+    genresJson.genres.forEach((name) => {
       genresData.push({
         name,
         createdAt: new Date(),
