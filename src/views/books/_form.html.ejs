@@ -36,6 +36,22 @@
             <input type="number" name="pages" value="<%= book.pages %>" />
         </div>
         <div>
+            <label for="image_url">Image URL</label>
+            <input type="text" name="image_url" value="<%= book.image_url %>" />
+        </div>
+        <div>
+            <label for="publisher">Publisher</label>
+            <input type="text" name="publisher" value="<%= book.publisher %>" />
+        </div>
+        <div>
+            <label for="date_published">Date Published</label>
+            <input type="date" name="date_published" value="<%= book.date_published %>" />
+        </div>
+        <div>
+            <label for="format">Format</label>
+            <input type="text" name="format" value="<%= book.format %>" />
+        </div>
+        <div>
             <label for="description">Description</label>
             <textarea type="text" name="description"><%= book.description %></textarea>
         </div>
