@@ -9,11 +9,11 @@ module.exports = {
     comment: {
       type: Sequelize.TEXT,
     },
-    isbn: {
-      type: Sequelize.STRING,
+    BookId: {
+      type: Sequelize.INTEGER,
       references: {
         model: 'Books',
-        key: 'isbn',
+        key: 'id',
       },
       onDelete: 'cascade',
     },
