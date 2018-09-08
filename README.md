@@ -2,6 +2,8 @@
 
 Web app built with [koa](http://koajs.com/) for IIC2513 - Tecnologías y Aplicaciones Web, Pontificia Universidad Católica de Chile.
 
+Available at [cambalache](https://cambalache.herokuapp.com) hosted by Heroku
+
 ## Team
 
 | Name             | Github                                           | Email             |
@@ -39,6 +41,11 @@ createdb cambalache_dev
 ### Run migrations
 ```sh
 npx sequelize db:migrate
+```
+
+## Run seeds (Optional)
+```sh
+npx sequelize db:seed:all
 ```
 
 ## Run the app!
