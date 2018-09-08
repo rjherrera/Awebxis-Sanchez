@@ -1,0 +1,52 @@
+<h1><%= book.title %></h1>
+
+<img src="<%= book.image_url %>" alt="<%= book.title %>" style="height: 300px;">
+
+<table>
+    <thead>
+        <tr>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Date Published</th>
+            <th>Description</th>
+            <th>Format</th>
+            <th>ISBN</th>
+            <th>Language</th>
+            <th>Pages</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><%= book.author %></td>
+            <td><%= book.publisher %></td>
+            <td><%= book.date_published %></td>
+            <td><%= book.description %></td>
+            <td><%= book.format %></td>
+            <td><%= book.isbn %></td>
+            <td><%= book.language %></td>
+            <td><%= book.pages %></td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="<%= booksPath %>">Back</a>
+<a href="<%= editBookPath %>">Edit</a>
+
+<h1>Reviews</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Comment</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% reviews.forEach(review => { %>
+            <tr>
+                <td><%= review.comment %></td>
+                <td><%= review.rating %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>

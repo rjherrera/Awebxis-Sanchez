@@ -1,0 +1,14 @@
+<h1>Libros</h1>
+
+<ul>
+  <% books.forEach((book) => { %>
+    <li><a href="<%= buildBookPath(book) %>"><%= book.title %></a></li>
+  <% }) %>
+</ul>
+
+<% if (page > 1) { %>
+<a href="<%= previousPagePath %>">Previous</a>
+<% } %>
+<p>Page <%= page %></p>
+<a href="<%= nextPagePath %>">Next</a>
+
