@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   Genre.associate = (models) => {
+    Genre.belongsToMany(models.Book, { through: 'BookId' });
   };
 
   return Genre;

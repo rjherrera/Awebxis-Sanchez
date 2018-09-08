@@ -1,6 +1,7 @@
 const KoaRouter = require('koa-router');
 
 const books = require('./routes/books');
+const genres = require('./routes/genres');
 const hello = require('./routes/hello');
 const index = require('./routes/index');
 
@@ -15,6 +16,7 @@ router.use(async (ctx, next) => {
 
 router.use('/', index.routes());
 router.use('/books', books.routes());
+router.use('/genres', genres.routes());
 router.use('/hello', hello.routes());
 
 module.exports = router;
