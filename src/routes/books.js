@@ -67,6 +67,7 @@ router.get('books-show', '/:isbn', loadBook, async (ctx) => {
   ctx.assert(book, 404);
   await ctx.render('books/show', {
     book,
+    editBookPath: ctx.router.url('books-edit', book.isbn),
   });
 });
 
