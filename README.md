@@ -33,7 +33,7 @@ Web app built with [koa](http://koajs.com/) for IIC2513 - Tecnologías y Aplicac
 ### Create development database
 
 ```sh
-createdb cambalache
+createdb cambalache_dev
 ```
 
 ### Run migrations
