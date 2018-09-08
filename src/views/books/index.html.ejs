@@ -1,0 +1,7 @@
+<h1>Libros</h1>
+
+<ul>
+  <% books.forEach((book) => { %>
+    <li><a href="<%= buildBookPath(book) %>"><%= book.title %></a></li>
+  <% }) %>
+</ul>

@@ -9,7 +9,11 @@ const loadBook = async (ctx, next) => {
 
 router.get('books', '/', async (ctx) => {
   const page = ctx.query.page || 1;
-  ctx.body = await ctx.orm.Book.findAll({ offset: (page - 1) * 10, limit: 10 });
+  const books = await ctx.orm.Book.findAll({ offset: (page - 1) * 10, limit: 10 });
+  await ctx.render('books/index', {
+    books,
+    buildBookPath: book => ctx.router.url('books-show', { isbn: book.isbn }),
+  });
 });
 
 router.get('books-show', '/:isbn', loadBook, async (ctx) => {
