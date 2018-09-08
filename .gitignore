@@ -65,3 +65,6 @@ typings/
 
 .idea
 .envrc
+
+# Big JSON seed files
+src/seeds/*.json
