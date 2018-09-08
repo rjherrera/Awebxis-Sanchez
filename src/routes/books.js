@@ -22,7 +22,10 @@ router.get('books', '/', async (ctx) => {
 router.get('books-show', '/:isbn', loadBook, async (ctx) => {
   const { book } = ctx.state;
   ctx.assert(book, 404);
-  ctx.body = book;
+  await ctx.render('books/show', {
+    book,
+    booksPath: ctx.router.url('books'),
+  });
 });
 
 router.post('books-create', '/', async (ctx) => {
