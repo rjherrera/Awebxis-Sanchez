@@ -64,9 +64,11 @@ router.patch('books-update', '/:isbn', loadBook, async (ctx) => {
 
 router.get('books-show', '/:isbn', loadBook, async (ctx) => {
   const { book } = ctx.state;
+  const reviews = await book.getReviews({ limit: 10, order: [['createdAt', 'DESC']] });
   ctx.assert(book, 404);
   await ctx.render('books/show', {
     book,
+    reviews,
     editBookPath: ctx.router.url('books-edit', book.isbn),
   });
 });

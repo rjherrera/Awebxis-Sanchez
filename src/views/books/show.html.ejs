@@ -32,3 +32,21 @@
 <a href="<%= booksPath %>">Back</a>
 <a href="<%= editBookPath %>">Edit</a>
 
+<h1>Reviews</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Comment</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% reviews.forEach(review => { %>
+            <tr>
+                <td><%= review.comment %></td>
+                <td><%= review.rating %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
