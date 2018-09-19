@@ -10,7 +10,7 @@ router.param('id', async (id, ctx, next) => {
 });
 
 router.get('genres', '/', async (ctx) => {
-  const genres = await ctx.orm.Genre.findAll();
+  const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('genres/index', {
     genres,
   });
