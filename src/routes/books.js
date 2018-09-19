@@ -2,11 +2,12 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-const loadBook = async (ctx, next) => {
-  ctx.state.book = await ctx.orm.Book.findOne({ where: { isbn: ctx.params.isbn } });
-  ctx.assert(ctx.state.book, 404);
+router.param('isbn', async (isbn, ctx, next) => {
+  const book = await ctx.orm.Book.findOne({ where: { isbn: ctx.params.isbn } });
+  ctx.assert(book, 404);
+  ctx.state.book = book;
   return next();
-};
+});
 
 router.get('books', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
@@ -28,7 +29,7 @@ router.get('books-new', '/new', async (ctx) => {
   });
 });
 
-router.get('books-edit', '/:isbn/edit', loadBook, async (ctx) => {
+router.get('books-edit', '/:isbn/edit', async (ctx) => {
   const { book } = ctx.state;
   await ctx.render('books/edit', {
     book,
@@ -49,7 +50,7 @@ router.post('books-create', '/', async (ctx) => {
   }
 });
 
-router.patch('books-update', '/:isbn', loadBook, async (ctx) => {
+router.patch('books-update', '/:isbn', async (ctx) => {
   const { book } = ctx.state;
   try {
     await book.update(ctx.request.body);
@@ -63,7 +64,7 @@ router.patch('books-update', '/:isbn', loadBook, async (ctx) => {
   }
 });
 
-router.get('books-show', '/:isbn', loadBook, async (ctx) => {
+router.get('books-show', '/:isbn', async (ctx) => {
   const { book } = ctx.state;
   const reviews = await book.getReviews({ limit: 10, order: [['createdAt', 'DESC']] });
   await ctx.render('books/show', {
@@ -73,7 +74,7 @@ router.get('books-show', '/:isbn', loadBook, async (ctx) => {
   });
 });
 
-router.delete('books-destroy', '/:isbn', loadBook, async (ctx) => {
+router.delete('books-destroy', '/:isbn', async (ctx) => {
   const { book } = ctx.state;
   await book.destroy();
   ctx.redirect(ctx.router.url('books'));
