@@ -71,6 +71,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     book,
     reviews,
     editBookPath: ctx.router.url('books-edit', book.isbn),
+    destroyBookPath: ctx.router.url('books-destroy', book.isbn),
   });
 });
 
