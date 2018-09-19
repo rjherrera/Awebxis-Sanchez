@@ -64,6 +64,7 @@ router.get('genres-show', '/:id', async (ctx) => {
   await ctx.render('genres/show', {
     genre,
     editGenrePath: ctx.router.url('genres-edit', genre.id),
+    destroyGenrePath: ctx.router.url('genres-destroy', genre.id),
   });
 });
 
