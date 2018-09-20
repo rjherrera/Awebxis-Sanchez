@@ -34,7 +34,7 @@ router.get('genres-new', '/new', async (ctx) => {
   });
 });
 
-router.get('genres-edit', '/:id/edit', async (ctx) => {
+router.get('genres-edit', '/:kebab/edit', async (ctx) => {
   const { genre } = ctx.state;
   await ctx.render('genres/edit', {
     genre,
