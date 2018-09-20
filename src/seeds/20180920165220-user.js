@@ -20,4 +20,3 @@ const usersJson = require('./users.json');
 
    down: queryInterface => queryInterface.bulkDelete("Users", null, {}),
  };
- 

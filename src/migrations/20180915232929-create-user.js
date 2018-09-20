@@ -36,4 +36,3 @@
      return queryInterface.dropTable('Users');
    }
  }; 
- 
