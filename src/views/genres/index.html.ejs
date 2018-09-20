@@ -2,7 +2,7 @@
 
 <ul>
   <% genres.forEach((genre) => { %>
-    <li><%= genre.name %></li>
+    <li><a href="<%= buildGenrePath(genre) %>"><%= genre.name %></a></li>
   <% }) %>
 </ul>
 

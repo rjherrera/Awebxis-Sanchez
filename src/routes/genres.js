@@ -13,6 +13,7 @@ router.get('genres', '/', async (ctx) => {
   const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('genres/index', {
     genres,
+    buildGenrePath: genre => ctx.router.url('genres-show', genre.id),
   });
 });
 
