@@ -1,9 +1,18 @@
 const KoaRouter = require('koa-router');
+const _ = require('lodash');
 
 const router = new KoaRouter();
 
+router.param('kebab', async (kebab, ctx, next) => {
+  const name = _.startCase(_.camelCase(kebab));
+  const genre = await ctx.orm.Genre.findOne({ where: { name: { $iLike: `${name}%` } } });
+  ctx.assert(genre, 404);
+  ctx.state.genre = genre;
+  return next();
+});
+
 router.param('id', async (id, ctx, next) => {
-  const genre = await ctx.orm.Genre.findOne({ where: { id: ctx.params.id } });
+  const genre = await ctx.orm.Genre.findOne({ where: { id } });
   ctx.assert(genre, 404);
   ctx.state.genre = genre;
   return next();
@@ -13,7 +22,7 @@ router.get('genres', '/', async (ctx) => {
   const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('genres/index', {
     genres,
-    buildGenrePath: genre => ctx.router.url('genres-show', genre.id),
+    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
   });
 });
 
@@ -36,7 +45,7 @@ router.get('genres-edit', '/:id/edit', async (ctx) => {
 router.post('genres-create', '/', async (ctx) => {
   try {
     const genre = await ctx.orm.Genre.create(ctx.request.body);
-    ctx.redirect(ctx.router.url('genres-show', { id: genre.id }));
+    ctx.redirect(ctx.router.url('genres-show', _.kebabCase(genre.name)));
   } catch (validationError) {
     await ctx.render('genres/new', {
       genre: ctx.orm.Genre.build(ctx.request.body),
@@ -50,7 +59,7 @@ router.patch('genres-update', '/:id', async (ctx) => {
   const { genre } = ctx.state;
   try {
     await genre.update(ctx.request.body);
-    ctx.redirect(ctx.router.url('genres-show', { id: genre.id }));
+    ctx.redirect(ctx.router.url('genres-show', _.kebabCase(genre.name)));
   } catch (validationError) {
     await ctx.render('genres/edit', {
       genre,
@@ -60,7 +69,7 @@ router.patch('genres-update', '/:id', async (ctx) => {
   }
 });
 
-router.get('genres-show', '/:id', async (ctx) => {
+router.get('genres-show', '/:kebab', async (ctx) => {
   const { genre } = ctx.state;
   const page = parseInt(ctx.query.page, 10) || 1;
   const books = await genre.getBooks({ offset: (page - 1) * 10, limit: 10 });
@@ -71,8 +80,8 @@ router.get('genres-show', '/:id', async (ctx) => {
     destroyGenrePath: ctx.router.url('genres-destroy', genre.id),
     buildBookPath: book => ctx.router.url('books-show', book.isbn),
     page,
-    previousPagePath: ctx.router.url('genres-show', genre.id, { query: { page: page - 1 } }),
-    nextPagePath: ctx.router.url('genres-show', genre.id, { query: { page: page + 1 } }),
+    previousPagePath: ctx.router.url('genres-show', _.kebabCase(genre.name), { query: { page: page - 1 } }),
+    nextPagePath: ctx.router.url('genres-show', _.kebabCase(genre.name), { query: { page: page + 1 } }),
   });
 });
 
