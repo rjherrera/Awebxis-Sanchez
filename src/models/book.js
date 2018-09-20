@@ -4,7 +4,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: {
+          msg: 'required',
+        },
       },
     },
     format: DataTypes.STRING,
@@ -20,19 +22,29 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        notEmpty: {
+          msg: 'required',
+        },
       },
     },
     pages: {
       allowNull: false,
       type: DataTypes.INTEGER,
+      validate: {
+        min: {
+          args: [0],
+          msg: 'must be a non-negative number',
+        },
+      },
     },
     publisher: DataTypes.STRING,
     title: {
       allowNull: false,
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        notEmpty: {
+          msg: 'required',
+        },
       },
     },
   }, {});
