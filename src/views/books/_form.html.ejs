@@ -1,17 +1,13 @@
 <div>
-    <% if (locals.errors) { %>
-    <div>
-        You need to fix the following errors:
-        <ul>
-            <% errors.forEach(error => { %>
-            <li>
-                <%= error.message %>
-            </li>
-            <% }); %>
-        </ul>
-    </div>
-    <% } %>
     <form action="<%= submitBookPath %>" method="post">
+        <% if (locals.errors) { %>
+            <p class="errors">Check the following errors:</p>
+            <ul>
+                <% Object.keys(errors).forEach(prop => { %>
+                    <li><%= prop %>: <%= errors[prop].message %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <% if (!book.isNewRecord) { %>
         <input type="hidden" name="_method" value="patch" />
         <% } %>

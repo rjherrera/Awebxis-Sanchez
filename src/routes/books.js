@@ -1,9 +1,10 @@
 const KoaRouter = require('koa-router');
+const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 
 const router = new KoaRouter();
 
 router.param('isbn', async (isbn, ctx, next) => {
-  const book = await ctx.orm.Book.findOne({ where: { isbn: ctx.params.isbn } });
+  const book = await ctx.orm.Book.findOne({ where: { isbn } });
   ctx.assert(book, 404);
   ctx.state.book = book;
   return next();
@@ -38,13 +39,15 @@ router.get('books-edit', '/:isbn/edit', async (ctx) => {
 });
 
 router.post('books-create', '/', async (ctx) => {
+  const book = await ctx.orm.Book.build(ctx.request.body);
   try {
-    const book = await ctx.orm.Book.create(ctx.request.body);
+    await book.save(ctx.request.body);
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
-  } catch (validationError) {
+  } catch (error) {
+    if (!isValidationError(error)) throw error;
     await ctx.render('books/new', {
-      book: ctx.orm.Book.build(ctx.request.body),
-      errors: validationError.errors,
+      book,
+      errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-create'),
     });
   }
