@@ -74,11 +74,14 @@ router.patch('books-update', '/:isbn', async (ctx) => {
 router.get('books-show', '/:isbn', async (ctx) => {
   const { book } = ctx.state;
   const reviews = await book.getReviews({ limit: 10, order: [['createdAt', 'DESC']] });
+  const genres = await book.getGenres({ order: [['name', 'ASC']] });
   await ctx.render('books/show', {
     book,
+    genres,
     reviews,
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
+    buildGenrePath: genre => ctx.router.url('genres-show', genre.id),
   });
 });
 

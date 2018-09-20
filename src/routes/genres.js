@@ -61,10 +61,17 @@ router.patch('genres-update', '/:id', async (ctx) => {
 
 router.get('genres-show', '/:id', async (ctx) => {
   const { genre } = ctx.state;
+  const page = parseInt(ctx.query.page, 10) || 1;
+  const books = await genre.getBooks({ offset: (page - 1) * 10, limit: 10 });
   await ctx.render('genres/show', {
+    books,
     genre,
     editGenrePath: ctx.router.url('genres-edit', genre.id),
     destroyGenrePath: ctx.router.url('genres-destroy', genre.id),
+    buildBookPath: book => ctx.router.url('books-show', book.isbn),
+    page,
+    previousPagePath: ctx.router.url('genres-show', genre.id, { query: { page: page - 1 } }),
+    nextPagePath: ctx.router.url('genres-show', genre.id, { query: { page: page + 1 } }),
   });
 });
 
