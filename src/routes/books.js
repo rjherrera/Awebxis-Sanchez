@@ -58,7 +58,7 @@ router.patch('books-update', '/:isbn', async (ctx) => {
   try {
     await book.update(
       ctx.request.body,
-      { fields: ['title', 'author'] },
+      { fields: ['title', 'author', 'language', 'pages', 'image_url', 'publisher', 'date_published', 'format', 'description'] },
     );
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {

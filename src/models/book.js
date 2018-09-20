@@ -1,3 +1,5 @@
+const validateISBN = require('../lib/models/isbn-validation');
+
 module.exports = (sequelize, DataTypes) => {
   const Book = sequelize.define('Book', {
     author: {
@@ -12,11 +14,25 @@ module.exports = (sequelize, DataTypes) => {
     format: DataTypes.STRING,
     date_published: DataTypes.DATE,
     description: DataTypes.TEXT,
-    image_url: DataTypes.STRING,
+    image_url: {
+      type: DataTypes.STRING,
+      validate: {
+        isUrl: {
+          msg: 'must be a valid url',
+        },
+      },
+    },
     isbn: {
       allowNull: false,
       type: DataTypes.STRING,
       unique: true,
+      validate: {
+        isISBN(value) {
+          if (!validateISBN(value)) {
+            throw new Error('must be a valid ISBN');
+          }
+        },
+      },
     },
     language: {
       type: DataTypes.STRING,
