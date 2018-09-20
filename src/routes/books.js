@@ -56,12 +56,16 @@ router.post('books-create', '/', async (ctx) => {
 router.patch('books-update', '/:isbn', async (ctx) => {
   const { book } = ctx.state;
   try {
-    await book.update(ctx.request.body);
+    await book.update(
+      ctx.request.body,
+      { fields: ['title', 'author'] },
+    );
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
-  } catch (validationError) {
+  } catch (error) {
+    if (!isValidationError(error)) throw error;
     await ctx.render('books/edit', {
       book,
-      errors: validationError.errors,
+      errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-update', book.isbn),
     });
   }
