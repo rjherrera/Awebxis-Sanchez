@@ -17,4 +17,3 @@
      queryInterface.removeColumn('Users', 'profile_pic_url')
    }
  };
- 

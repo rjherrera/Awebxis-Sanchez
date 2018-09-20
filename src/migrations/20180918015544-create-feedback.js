@@ -35,4 +35,3 @@
      return queryInterface.dropTable('Feedbacks');
    }
  }; 
- 

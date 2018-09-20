@@ -19,4 +19,3 @@ module.exports = {
 
   down: queryInterface => queryInterface.bulkDelete("Feedbacks", null, {}),
 };
- 

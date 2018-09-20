@@ -28,4 +28,3 @@
      return queryInterface.dropTable('Follows');
    }
  }; 
- 

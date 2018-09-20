@@ -17,4 +17,3 @@ module.exports = {
 
   down: queryInterface => queryInterface.bulkDelete("Interests", null, {}),
 };
- 

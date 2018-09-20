@@ -17,4 +17,3 @@ const followsJson = require('./follows.json');
 
    down: queryInterface => queryInterface.bulkDelete("Follows", null, {}),
  };
- 
