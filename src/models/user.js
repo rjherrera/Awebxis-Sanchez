@@ -1,12 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
-  const user = sequelize.define('User', {
-    name: {
+  const User = sequelize.define('User', {
+    username: {
       allowNull: false,
       type: DataTypes.STRING,
       validate: {
         notEmpty: true,
       },
       unique: true,
+    },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
+      type: DataTypes.STRING,
     },
     password: {
       allowNull: false,
@@ -27,12 +34,15 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       type: DataTypes.BOOLEAN,
     },
+    profile_pic_url: {
+      allowNull: true,
+      type: DataTypes.STRING,
+    },
   }, {});
 
-  user.associate = (models) => {
-    models.User.hasMany(models.Interest);
-    models.User.hasMany(models.Feedback, { as: 'feedbackers', foreignKey: 'feedbackeeId' });
+  User.associate = (models) => {
+    models.User.hasMany(models.Feedback, { as: 'feedbacks', foreignKey: 'feedbackeeId' });
   };
 
-  return user;
+  return User;
 };

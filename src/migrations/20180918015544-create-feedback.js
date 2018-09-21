@@ -9,11 +9,19 @@ module.exports = {
       },
       feedbackerId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
       },
       feedbackeeId: {
         type: Sequelize.INTEGER,
-      }, 
-      stars: {
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+      },
+      rating: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },

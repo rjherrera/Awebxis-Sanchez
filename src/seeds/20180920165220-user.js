@@ -6,7 +6,8 @@ module.exports = {
     usersJson.forEach((user) => {
       usersData.push({
         id: user.id,
-        name: user.name,
+        username: user.name,
+        firstName: user.name,
         email: user.email,
         password: user.password,
         admin: user.admin,

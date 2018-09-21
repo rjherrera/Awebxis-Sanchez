@@ -12,10 +12,6 @@ router.use(async (ctx, next) => {
   Object.assign(ctx.state, {
     booksPath: ctx.router.url('books'),
   });
-  return next();
-});
-
-router.use(async (ctx, next) => {
   Object.assign(ctx.state, {
     usersPath: ctx.router.url('users'),
   });

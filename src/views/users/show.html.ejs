@@ -1,4 +1,4 @@
-<h1><%= user.name %></h1>
+<h1><%= user.firstName %></h1>
 
 <table>
     <tr>
@@ -9,7 +9,7 @@
     </thead>
     <tbody>
         <tr>
-            <td><%= user.name %></td>
+            <td><%= user.username %></td>
             <td><%= user.email %></td>
         </tr>
     </tbody>
@@ -46,7 +46,7 @@
     <tbody>
         <% followers.forEach(follower => { %>
             <tr>
-                <td><%= follower.name %></td>
+                <td><%= follower.username %></td>
             </tr>
         <% }) %>
     </tbody>
@@ -63,7 +63,7 @@
     <tbody>
         <% following.forEach(follow => { %>
             <tr>
-                <td><%= follow.name %></td>
+                <td><%= follow.username %></td>
             </tr>
         <% }) %>
     </tbody>
@@ -79,7 +79,7 @@
         </tr>
     </thead>
     <tbody>
-        <% feedbackers.forEach(feedback => { %>
+        <% feedbacks.forEach(feedback => { %>
             <tr>
                 <td><%= feedback.stars %></td>
                 <td><%= feedback.comment %></td>
