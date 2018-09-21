@@ -14,8 +14,8 @@ module.exports = {
         updatedAt: new Date(),
       });
     });
-    return queryInterface.bulkInsert("Feedbacks", feedbacksData);
+    return queryInterface.bulkInsert('Feedbacks', feedbacksData);
   },
 
-  down: queryInterface => queryInterface.bulkDelete("Feedbacks", null, {}),
+  down: queryInterface => queryInterface.bulkDelete('Feedbacks', null, {}),
 };

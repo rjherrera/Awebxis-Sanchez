@@ -12,8 +12,8 @@ module.exports = {
         updatedAt: new Date(),
       });
     });
-    return queryInterface.bulkInsert("Interests", interestsData);
+    return queryInterface.bulkInsert('Interests', interestsData);
   },
 
-  down: queryInterface => queryInterface.bulkDelete("Interests", null, {}),
+  down: queryInterface => queryInterface.bulkDelete('Interests', null, {}),
 };
