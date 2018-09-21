@@ -3,8 +3,8 @@ const _ = require('lodash');
 
 const router = new KoaRouter();
 
-router.param('kebab', async (kebab, ctx, next) => {
-  const name = _.startCase(_.camelCase(kebab));
+router.param('kebabName', async (kebabName, ctx, next) => {
+  const name = _.startCase(_.camelCase(kebabName));
   const genre = await ctx.orm.Genre.findOne({
     order: [['name', 'ASC']],
     where: { name: { $iLike: `${name}%` } },
@@ -37,7 +37,7 @@ router.get('genres-new', '/new', async (ctx) => {
   });
 });
 
-router.get('genres-edit', '/:kebab/edit', async (ctx) => {
+router.get('genres-edit', '/:kebabName/edit', async (ctx) => {
   const { genre } = ctx.state;
   await ctx.render('genres/edit', {
     genre,
@@ -72,7 +72,7 @@ router.patch('genres-update', '/:id', async (ctx) => {
   }
 });
 
-router.get('genres-show', '/:kebab', async (ctx) => {
+router.get('genres-show', '/:kebabName', async (ctx) => {
   const { genre } = ctx.state;
   const page = parseInt(ctx.query.page, 10) || 1;
   const books = await genre.getBooks({ offset: (page - 1) * 10, limit: 10 });
