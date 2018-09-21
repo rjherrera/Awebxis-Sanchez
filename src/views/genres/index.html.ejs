@@ -1,5 +1,7 @@
 <h1>Genres</h1>
 
+<a href="<%= newGenrePath %>">New Genre</a>
+
 <ul>
   <% genres.forEach((genre) => { %>
     <li><a href="<%= buildGenrePath(genre) %>"><%= genre.name %></a></li>
