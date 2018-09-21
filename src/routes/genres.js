@@ -79,7 +79,8 @@ router.get('genres-show', '/:kebabName', async (ctx) => {
   await ctx.render('genres/show', {
     books,
     genre,
-    editGenrePath: ctx.router.url('genres-edit', genre.id),
+    genresPath: ctx.router.url('genres'),
+    editGenrePath: ctx.router.url('genres-edit', _.kebabCase(genre.name)),
     destroyGenrePath: ctx.router.url('genres-destroy', genre.id),
     buildBookPath: book => ctx.router.url('books-show', book.isbn),
     page,
