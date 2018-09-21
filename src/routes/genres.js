@@ -5,7 +5,10 @@ const router = new KoaRouter();
 
 router.param('kebab', async (kebab, ctx, next) => {
   const name = _.startCase(_.camelCase(kebab));
-  const genre = await ctx.orm.Genre.findOne({ where: { name: { $iLike: `${name}%` } } });
+  const genre = await ctx.orm.Genre.findOne({
+    order: [['name', 'ASC']],
+    where: { name: { $iLike: `${name}%` } },
+  });
   ctx.assert(genre, 404);
   ctx.state.genre = genre;
   return next();
