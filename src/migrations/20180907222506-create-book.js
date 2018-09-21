@@ -18,9 +18,6 @@ module.exports = {
     format: {
       type: Sequelize.STRING,
     },
-    genres: {
-      type: Sequelize.ARRAY(Sequelize.STRING),
-    },
     image_url: {
       type: Sequelize.STRING,
     },
