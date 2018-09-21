@@ -1,0 +1,94 @@
+<h1><%= user.firstName %></h1>
+
+<table>
+    <tr>
+        <thead>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+        </tr>
+    </tbody>
+</table>
+
+<h1>Interests</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Author</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% interests.forEach(interest => { %>
+            <tr>
+                <td><%= interest.author %></td>
+                <td><%= interest.title %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+
+<h1>Followers: <%= followers.length %></h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Follower</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% followers.forEach(follower => { %>
+            <tr>
+                <td><%= follower.username %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<h1>Following: <%= following.length %></h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Following</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% following.forEach(follow => { %>
+            <tr>
+                <td><%= follow.username %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<h1>Feedbacks</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Stars</th>
+            <th>Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% feedbacks.forEach(feedback => { %>
+            <tr>
+                <td><%= feedback.stars %></td>
+                <td><%= feedback.comment %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<hr>
+
+<a href="<%= usersPath %>">Back</a>
+<a href="<%= editUserPath %>">Edit</a>
