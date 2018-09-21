@@ -18,6 +18,7 @@ router.get('books', '/', async (ctx) => {
   await ctx.render('books/index', {
     books,
     buildBookPath: book => ctx.router.url('books-show', { isbn: book.isbn }),
+    newBookPath: ctx.router.url('books-new'),
     page,
     previousPagePath: ctx.router.url('books', { query: { page: page - 1 } }),
     nextPagePath: ctx.router.url('books', { query: { page: page + 1 } }),

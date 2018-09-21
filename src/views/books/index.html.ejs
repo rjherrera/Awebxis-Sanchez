@@ -1,5 +1,7 @@
 <h1>Libros</h1>
 
+<a href="<%= newBookPath %>">New Book</a>
+
 <ul>
   <% books.forEach((book) => { %>
     <li><a href="<%= buildBookPath(book) %>"><%= book.title %></a></li>
