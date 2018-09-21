@@ -9,8 +9,5 @@ module.exports = {
       },
     );
   },
-
-  down: (queryInterface, Sequelize) => {
-    queryInterface.removeColumn('Users', 'profile_pic_url');
-  },
+  down: queryInterface => queryInterface.removeColumn('Users', 'profile_pic_url'),
 };
