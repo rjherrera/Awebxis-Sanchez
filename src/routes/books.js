@@ -1,5 +1,7 @@
 const KoaRouter = require('koa-router');
+const _ = require('lodash');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
+
 
 const router = new KoaRouter();
 
@@ -81,7 +83,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     reviews,
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
-    buildGenrePath: genre => ctx.router.url('genres-show', genre.id),
+    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
   });
 });
 
