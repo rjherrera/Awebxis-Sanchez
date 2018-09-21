@@ -1,0 +1,26 @@
+<div>
+    <form action="<%= submitGenrePath %>" method="post">
+        <% if (locals.errors) { %>
+            <p class="errors">Check the following errors:</p>
+            <ul>
+                <% Object.keys(errors).forEach(prop => { %>
+                    <li><%= prop %>: <%= errors[prop].message %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <% if (!genre.isNewRecord) { %>
+        <input type="hidden" name="_method" value="patch" />
+        <% } %>
+        <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" value="<%= genre.name %>" />
+        </div>
+        <div>
+            <% if (genre.isNewRecord) { %>
+            <input type="submit" name="create" value="Create" />
+            <% } else { %>
+            <input type="submit" name="update" value="Save" />
+            <% } %>
+        </div>
+    </form>
+</div>
