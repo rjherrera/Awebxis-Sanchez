@@ -1,5 +1,13 @@
 <div>
     <form action="<%= submitReviewPath %>" method="post">
+        <% if (locals.reviewErrors) { %>
+            <p class="errors">Check the following errors:</p>
+            <ul>
+                <% Object.keys(reviewErrors).forEach(prop => { %>
+                    <li><%= prop %>: <%= reviewErrors[prop].message %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <!-- TODO: remove when session is implemented -->
         <input type="number" hidden="true" name="userId" value="1" />
         <div>
@@ -11,7 +19,7 @@
             <textarea type="text" name="comment"></textarea>
         </div>
         <div>
-            <input type="submit" name="post" value="Post" />
+            <input type="submit" name="create" value="Create" />
         </div>
     </form>
 </div>
