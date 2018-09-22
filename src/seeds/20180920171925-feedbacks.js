@@ -8,7 +8,7 @@ module.exports = {
         id: feedback.id,
         feedbackerId: feedback.feedbackerId,
         feedbackeeId: feedback.feedbackeeId,
-        stars: feedback.stars,
+        rating: feedback.stars,
         comment: feedback.comment,
         createdAt: new Date(),
         updatedAt: new Date(),
