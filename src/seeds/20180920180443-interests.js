@@ -6,7 +6,6 @@ module.exports = {
     const interestsData = [];
     interestsJson.forEach((interest) => {
       interestsData.push({
-        id: interest.id,
         userId: interest.UserId,
         bookId: interest.BookId,
         createdAt: new Date(),
