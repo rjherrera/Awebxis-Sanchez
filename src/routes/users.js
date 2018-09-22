@@ -2,8 +2,8 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-router.param('name', async (name, ctx, next) => {
-  ctx.state.user = await ctx.orm.User.findOne({ where: { username: ctx.params.name } });
+router.param('username', async (username, ctx, next) => {
+  ctx.state.user = await ctx.orm.User.findOne({ where: { username: ctx.params.username } });
   ctx.assert(ctx.state.user, 404);
   return next();
 });
@@ -12,7 +12,7 @@ router.get('users', '/', async (ctx) => {
   const users = await ctx.orm.User.findAll();
   await ctx.render('users/index', {
     users,
-    buildUserPath: user => ctx.router.url('users-show', { name: user.username }),
+    buildUserPath: user => ctx.router.url('users-show', { username: user.username }),
   });
 });
 
@@ -24,7 +24,7 @@ router.get('users-new', '/new', async (ctx) => {
   });
 });
 
-router.get('users-edit', '/:name/edit', async (ctx) => {
+router.get('users-edit', '/:username/edit', async (ctx) => {
   const { user } = ctx.state;
   await ctx.render('users/edit', {
     user,
@@ -35,7 +35,7 @@ router.get('users-edit', '/:name/edit', async (ctx) => {
 router.post('users-create', '/', async (ctx) => {
   try {
     const user = await ctx.orm.User.create(ctx.request.body);
-    ctx.redirect(ctx.router.url('users-show', { name: user.username }));
+    ctx.redirect(ctx.router.url('users-show', { username: user.username }));
   } catch (validationError) {
     await ctx.render('users/new', {
       user: ctx.orm.User.create(ctx.request.body),
@@ -45,11 +45,11 @@ router.post('users-create', '/', async (ctx) => {
   }
 });
 
-router.patch('users-update', '/:name', async (ctx) => {
+router.patch('users-update', '/:username', async (ctx) => {
   const { user } = ctx.state;
   try {
     await user.update(ctx.request.body);
-    ctx.redirect(ctx.router.url('users-show', { name: user.username }));
+    ctx.redirect(ctx.router.url('users-show', { username: user.username }));
   } catch (validationError) {
     await ctx.render('names/edit', {
       user,
@@ -59,7 +59,7 @@ router.patch('users-update', '/:name', async (ctx) => {
   }
 });
 
-router.get('users-show', '/:name', async (ctx) => {
+router.get('users-show', '/:username', async (ctx) => {
   const { user } = ctx.state;
   const interests = await user.getInterests();
   const followers = await user.getFollowers();
@@ -75,7 +75,7 @@ router.get('users-show', '/:name', async (ctx) => {
   });
 });
 
-router.delete('users-destroy', '/:name', async (ctx) => {
+router.delete('users-destroy', '/:username', async (ctx) => {
   const { user } = ctx.state;
   await user.destroy();
   ctx.redirect(ctx.router.url('users'));
