@@ -6,8 +6,9 @@ module.exports = {
     const usersData = [];
     usersJson.forEach((user) => {
       usersData.push({
-        username: user.name,
-        firstName: user.name,
+        username: user.username,
+        firstName: user.first_name,
+        lastName: user.last_name,
         email: user.email,
         password: user.password,
         admin: user.admin,
