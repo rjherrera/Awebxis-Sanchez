@@ -16,15 +16,23 @@
          <input type="hidden" name="_method" value="patch" />
          <% } %>
          <div>
-             <label for="title">Name</label>
-             <input type="text" name="name" value="<%= user.username %>" />
+             <label for="username">Username</label>
+             <input type="text" name="username" value="<%= user.username %>" />
          </div>
          <div>
-             <label for="author">Email</label>
+            <label for="firstName">First Name</label>
+            <input type="text" name="firstName" value="<%= user.firstName %>" />
+        </div>
+        <div>
+            <label for="lastName">Last Name</label>
+            <input type="text" name="lastName" value="<%= user.lastName %>" />
+        </div>
+         <div>
+             <label for="email">Email</label>
              <input type="text" name="email" value="<%= user.email %>" />
          </div>
          <div>
-             <label for="isbn">Password</label>
+             <label for="password">Password</label>
              <input type="password" name="password" value="<%= user.password %>" />
          </div>
          <div>

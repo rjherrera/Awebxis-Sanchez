@@ -38,8 +38,8 @@ router.post('users-create', '/', async (ctx) => {
     ctx.redirect(ctx.router.url('users-show', { name: user.username }));
   } catch (validationError) {
     await ctx.render('users/new', {
-      user: ctx.orm.User.build(ctx.request.body),
-      // errors: validationError.errors,
+      user: ctx.orm.User.create(ctx.request.body),
+      errors: validationError.errors,
       submitUserPath: ctx.router.url('users-create'),
     });
   }
