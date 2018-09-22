@@ -1,10 +1,11 @@
 const Promise = require('bluebird');
+const getJSON = require('../lib/seeds/get-json');
 
 const { Book, Genre } = require('../models');
-const booksJson = require('./books.json');
 
 module.exports = {
   async up(queryInterface) {
+    const booksJson = await getJSON('books.json');
     const genresIds = {};
     const genresObj = (await Genre.findAll({ attributes: ['id', 'name'] }));
     genresObj.forEach((g) => { genresIds[g.name] = g.id; });

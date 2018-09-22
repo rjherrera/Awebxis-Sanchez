@@ -1,12 +1,13 @@
 const Promise = require('bluebird');
+const getJSON = require('../lib/seeds/get-json');
 
 const { Book, User } = require('../models');
-const booksJson = require('./books.json');
 
 const Randint = n => Math.floor(Math.random() * n) + 1;
 
 module.exports = {
   async up(queryInterface) {
+    const booksJson = await getJSON('books.json');
     const maxUserId = await User.max('id');
     const reviewsBulkInsertPromises = Promise.map(booksJson.books, async ({ isbn, reviews }) => {
       const reviewsData = [];

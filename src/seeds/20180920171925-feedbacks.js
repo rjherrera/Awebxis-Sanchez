@@ -1,7 +1,8 @@
-const feedbacksJson = require('./feedbacks.json');
+const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
-  up: (queryInterface) => {
+  up: async (queryInterface) => {
+    const feedbacksJson = await getJSON('feedbacks.json');
     const feedbacksData = [];
     feedbacksJson.forEach((feedback) => {
       feedbacksData.push({
