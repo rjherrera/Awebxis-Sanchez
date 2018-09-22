@@ -2,3 +2,56 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+body, a, p, span {
+  color: $cambalache-white;
+}
+
+body {
+  background: $cambalache-orange;
+  background: linear-gradient(90deg, $cambalache-orange 0%, $cambalache-yellow 100%);
+  font-family: Raleway;
+  padding: 30px 10px 10px;
+}
+
+a {
+  transition: all 50ms ease-in;
+  &:hover {
+    color: $cambalache-grey;
+  }
+}
+
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 20px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  nav {
+    display: flex;
+    height: 100%;
+
+    a {
+      text-decoration: none;
+      height: 100%;
+      line-height: 20px;
+      padding: 0 10px;
+      transition: background 50ms ease-in;
+    }
+  }
+}
+
+#logo {
+  padding-left: 10px;
+  height: 100%;
+  img {
+    height: 100%;
+  }
+}
