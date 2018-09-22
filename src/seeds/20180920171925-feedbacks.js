@@ -6,7 +6,6 @@ module.exports = {
     const feedbacksData = [];
     feedbacksJson.forEach((feedback) => {
       feedbacksData.push({
-        id: feedback.id,
         feedbackerId: feedback.feedbackerId,
         feedbackeeId: feedback.feedbackeeId,
         rating: feedback.stars,

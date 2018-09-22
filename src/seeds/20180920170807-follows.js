@@ -6,7 +6,6 @@ module.exports = {
     const followsData = [];
     followsJson.forEach((follow) => {
       followsData.push({
-        id: follow.id,
         followerId: follow.followerId,
         followeeId: follow.followeeId,
         createdAt: new Date(),
