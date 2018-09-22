@@ -1,8 +1,9 @@
 const chrono = require('chrono-node');
-const booksJson = require('./books.json');
+const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
-  up: (queryInterface) => {
+  up: async (queryInterface) => {
+    const booksJson = await getJSON('books.json');
     const booksData = [];
     booksJson.books.forEach((book) => {
       booksData.push({

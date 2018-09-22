@@ -1,7 +1,8 @@
-const followsJson = require('./follows.json');
+const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
-  up: (queryInterface) => {
+  up: async (queryInterface) => {
+    const followsJson = await getJSON('follows.json');
     const followsData = [];
     followsJson.forEach((follow) => {
       followsData.push({

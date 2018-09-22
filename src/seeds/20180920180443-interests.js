@@ -1,7 +1,8 @@
-const interestsJson = require('./interests.json');
+const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
-  up: (queryInterface) => {
+  up: async (queryInterface) => {
+    const interestsJson = await getJSON('interests.json');
     const interestsData = [];
     interestsJson.forEach((interest) => {
       interestsData.push({

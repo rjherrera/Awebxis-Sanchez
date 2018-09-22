@@ -1,7 +1,8 @@
-const genresJson = require('./genres.json');
+const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
-  up: (queryInterface) => {
+  up: async (queryInterface) => {
+    const genresJson = await getJSON('genres.json');
     const genresData = [];
     genresJson.genres.forEach((name) => {
       genresData.push({
