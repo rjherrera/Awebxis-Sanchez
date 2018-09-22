@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       type: DataTypes.BOOLEAN,
     },
-    profile_pic_url: {
+    profilePicUrl: {
       allowNull: true,
       type: DataTypes.STRING,
     },
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = (models) => {
     models.User.hasMany(models.Feedback, { as: 'feedbacks', foreignKey: 'feedbackeeId' });
-    models.User.hasMany(models.Review);
+    models.User.hasMany(models.Review, { foreignKey: 'userId' });
   };
 
   return User;

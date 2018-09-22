@@ -9,9 +9,9 @@ module.exports = {
       booksData.push({
         author: book.author,
         format: book.book_format,
-        date_published: chrono.parseDate(book.date_published),
+        datePublished: chrono.parseDate(book.date_published),
         description: book.description,
-        image_url: book.img_url,
+        imageUrl: book.img_url,
         isbn: book.isbn,
         language: book.language,
         pages: book.pages,

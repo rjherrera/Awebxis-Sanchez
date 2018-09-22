@@ -11,11 +11,11 @@ module.exports = {
     genresObj.forEach((g) => { genresIds[g.name] = g.id; });
     const bookGenresBulkInsertPromises = Promise.map(booksJson.books, async ({ isbn, genres }) => {
       const bookGenresData = [];
-      const BookId = (await Book.findOne({ where: { isbn } })).id;
+      const bookId = (await Book.findOne({ where: { isbn } })).id;
       genres.forEach((name) => {
         bookGenresData.push({
-          BookId,
-          GenreId: genresIds[name],
+          bookId,
+          genreId: genresIds[name],
           createdAt: new Date(),
           updatedAt: new Date(),
         });

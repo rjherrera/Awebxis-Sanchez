@@ -12,7 +12,7 @@ module.exports = {
         email: user.email,
         password: user.password,
         admin: user.admin,
-        profile_pic_url: null,
+        profilePicUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       });

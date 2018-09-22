@@ -11,10 +11,10 @@ module.exports = {
     const maxUserId = await User.max('id');
     const reviewsBulkInsertPromises = Promise.map(booksJson.books, async ({ isbn, reviews }) => {
       const reviewsData = [];
-      const BookId = (await Book.findOne({ where: { isbn } })).id;
+      const bookId = (await Book.findOne({ where: { isbn } })).id;
       reviews.forEach((review) => {
         reviewsData.push({
-          BookId,
+          bookId,
           userId: Randint(maxUserId),
           comment: review,
           rating: Randint(5),
