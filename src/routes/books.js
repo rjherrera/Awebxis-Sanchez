@@ -85,6 +85,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
+    submitReviewPath: ctx.router.url('reviews-create', book.isbn),
   });
 });
 
