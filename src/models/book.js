@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     format: DataTypes.STRING,
-    date_published: DataTypes.DATE,
+    datePublished: DataTypes.DATE,
     description: DataTypes.TEXT,
-    image_url: {
+    imageUrl: {
       type: DataTypes.STRING,
       validate: {
         isUrl: {
@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   Book.associate = (models) => {
-    Book.hasMany(models.Review, { as: 'reviews' });
+    Book.hasMany(models.Review, { foreignKey: 'bookId' });
   };
 
   return Book;

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       referencesKey: 'id',
       allowNull: false,
     },
-    stars: {
+    rating: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
     },
   }, {});
-  Feedback.associate = function (models) {
+  Feedback.associate = (models) => {
     Feedback.belongsTo(models.User, { foreignKey: 'feedbackeeId' });
   };
   return Feedback;

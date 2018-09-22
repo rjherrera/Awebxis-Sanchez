@@ -3,8 +3,8 @@ module.exports = (sequelize) => {
   }, {});
 
   BookGenre.associate = (models) => {
-    models.Book.belongsToMany(models.Genre, { through: BookGenre });
-    models.Genre.belongsToMany(models.Book, { through: BookGenre });
+    models.Book.belongsToMany(models.Genre, { through: BookGenre, foreignKey: 'bookId' });
+    models.Genre.belongsToMany(models.Book, { through: BookGenre, foreignKey: 'genreId' });
   };
 
   return BookGenre;
