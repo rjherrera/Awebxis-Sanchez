@@ -44,6 +44,11 @@ module.exports = (sequelize, DataTypes) => {
     profilePicUrl: {
       allowNull: true,
       type: DataTypes.STRING,
+      validate: {
+        isUrl: {
+          msg: 'must be a valid url',
+        },
+      },
     },
   }, {});
 
