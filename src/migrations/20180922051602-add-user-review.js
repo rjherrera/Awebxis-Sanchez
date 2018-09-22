@@ -3,6 +3,7 @@ module.exports = {
     'Reviews',
     'UserId',
     {
+      allowNull: false,
       type: Sequelize.INTEGER,
       references: {
         model: 'Users',
