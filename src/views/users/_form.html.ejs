@@ -17,11 +17,11 @@
          <% } %>
          <div>
              <label for="username">Username</label>
-             <input type="text" name="username" value="<%= user.username %>" />
+             <input type="text" name="username" required="required" value="<%= user.username %>" />
          </div>
          <div>
             <label for="firstName">First Name</label>
-            <input type="text" name="firstName" value="<%= user.firstName %>" />
+            <input type="text" name="firstName" required="required" value="<%= user.firstName %>" />
         </div>
         <div>
             <label for="lastName">Last Name</label>
@@ -29,11 +29,11 @@
         </div>
          <div>
              <label for="email">Email</label>
-             <input type="text" name="email" value="<%= user.email %>" />
+             <input type="email" name="email" value="<%= user.email %>" />
          </div>
          <div>
              <label for="password">Password</label>
-             <input type="password" name="password" value="<%= user.password %>" />
+             <input type="password" minlength=6 name="password" value="<%= user.password %>" />
          </div>
          <div>
              <% if (user.isNewRecord) { %>
