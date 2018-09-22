@@ -33,7 +33,7 @@
         </div>
         <div>
             <label for="image_url">Image URL</label>
-            <input type="text" name="image_url" value="<%= book.image_url %>" />
+            <input type="text" name="imageUrl" value="<%= book.imageUrl %>" />
         </div>
         <div>
             <label for="publisher">Publisher</label>
@@ -41,7 +41,7 @@
         </div>
         <div>
             <label for="date_published">Date Published</label>
-            <input type="date" name="date_published" value="<%= book.date_published %>" />
+            <input type="date" name="datePublished" value="<%= formatDate(book.datePublished) %>" />
         </div>
         <div>
             <label for="format">Format</label>

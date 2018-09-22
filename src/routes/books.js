@@ -31,6 +31,7 @@ router.get('books-new', '/new', async (ctx) => {
   await ctx.render('books/new', {
     book,
     submitBookPath: ctx.router.url('books-create'),
+    formatDate: date => moment(date).format('YYYY-MM-DD'),
   });
 });
 
@@ -39,6 +40,7 @@ router.get('books-edit', '/:isbn/edit', async (ctx) => {
   await ctx.render('books/edit', {
     book,
     submitBookPath: ctx.router.url('books-update', book.isbn),
+    formatDate: date => moment(date).format('YYYY-MM-DD'),
   });
 });
 
@@ -53,6 +55,7 @@ router.post('books-create', '/', async (ctx) => {
       book,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-create'),
+      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
@@ -62,7 +65,7 @@ router.patch('books-update', '/:isbn', async (ctx) => {
   try {
     await book.update(
       ctx.request.body,
-      { fields: ['title', 'author', 'language', 'pages', 'image_url', 'publisher', 'date_published', 'format', 'description'] },
+      { fields: ['title', 'author', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description'] },
     );
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
@@ -71,6 +74,7 @@ router.patch('books-update', '/:isbn', async (ctx) => {
       book,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-update', book.isbn),
+      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
@@ -87,7 +91,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
-    formatDate: date => moment(date).format('MMMM Do YYYY'),
+    formatDate: (date, format) => moment(date).tz('GMT').format(format),
   });
 });
 
