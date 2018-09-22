@@ -5,8 +5,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        min: 0,
-        max: 5,
+        min: {
+          args: [0],
+          msg: 'must be a non-negative rating',
+        },
+        max: {
+          args: [5],
+          msg: 'must be less than or equal to 5',
+        },
       },
     },
   }, {});
