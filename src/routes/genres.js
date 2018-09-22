@@ -22,11 +22,19 @@ router.param('id', async (id, ctx, next) => {
 });
 
 router.get('genres', '/', async (ctx) => {
-  const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
+  const page = parseInt(ctx.query.page, 10) || 1;
+  const genres = await ctx.orm.Genre.findAll({
+    order: [['name', 'ASC']],
+    offset: (page - 1) * 10,
+    limit: 10,
+  });
   await ctx.render('genres/index', {
     genres,
     newGenrePath: ctx.router.url('genres-new'),
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
+    page,
+    previousPagePath: ctx.router.url('genres', { query: { page: page - 1 } }),
+    nextPagePath: ctx.router.url('genres', { query: { page: page + 1 } }),
   });
 });
 
