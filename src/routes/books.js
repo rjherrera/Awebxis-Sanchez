@@ -55,7 +55,6 @@ router.post('books-create', '/', async (ctx) => {
       book,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-create'),
-      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
@@ -74,7 +73,6 @@ router.patch('books-update', '/:isbn', async (ctx) => {
       book,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-update', book.isbn),
-      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
