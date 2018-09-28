@@ -15,8 +15,8 @@ router.use(async (ctx, next) => {
     usersPath: ctx.router.url('users'),
     genresPath: ctx.router.url('genres'),
     currentUser: ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId),
-    newSessionPath: ctx.router.url('sessionNew'),
-    destroySessionPath: ctx.router.url('sessionDestroy'),
+    newSessionPath: ctx.router.url('session-new'),
+    destroySessionPath: ctx.router.url('session-destroy'),
   });
   return next();
 });
