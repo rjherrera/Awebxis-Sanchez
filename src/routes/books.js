@@ -15,7 +15,10 @@ router.param('isbn', async (isbn, ctx, next) => {
 
 router.get('books', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
-  const books = await ctx.orm.Book.findAll({ offset: (page - 1) * 24, limit: 24 });
+  const books = await ctx.orm.Book.findAll({
+    offset: (page - 1) * ctx.state.pageSize,
+    limit: ctx.state.pageSize,
+  });
   await ctx.render('books/index', {
     books,
     buildBookPath: book => ctx.router.url('books-show', { isbn: book.isbn }),
