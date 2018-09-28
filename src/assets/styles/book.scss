@@ -1,3 +1,8 @@
+.section {
+    font-weight: normal;
+}
+
+// Book description container
 .book-container {
     display: flex;
     flex-flow: row wrap;
@@ -6,7 +11,7 @@
     img {
         max-height: 350px;
     }
-    .col-right {
+    .info {
         width: 70%;
         margin-left: 20px;
         h1 {
@@ -25,20 +30,29 @@
     }
 }
 
-.section {
-    font-weight: normal;
+// Bottom container
+.bottom-container {
+    display: flex;
 }
 
+// Genres list container
 .genres-container {
     display: flex;
-    flex-flow: column wrap;
-    align-content: flex-start;
-    height: 100px;
+    flex-flow: column nowrap;
+    width: 15%;
     a {
-        width: 20%;
         text-decoration: none;
+        margin-bottom: 10px;
     }
     a:hover {
         text-decoration: underline;
     }
+}
+
+// Reviews container
+.reviews-container {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-left: 50px;
+    width: 85%;
 }
