@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
     authorsJson.authors.forEach((name) => {
       authorsData.push({
         name,
+        kebabName: _.kebabCase(name),
         createdAt: new Date(),
         updatedAt: new Date(),
       });

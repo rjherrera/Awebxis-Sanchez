@@ -1,7 +1,7 @@
 <div class="info-container">
     <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
     <div class="info">
-        <h1><%= book.title %> - <span id="author"><a href="<%= authorPath %> "><%= author.name %></a></span></h1>
+        <h1><%= book.title %> - <span id="author"><a href="<%= authorPath %> "><%= book.author.name %></a></span></h1>
         <p><%= book.description %></p>
         <p>
             <span class="label">Published:</span> <%= formatDate(book.datePublished, 'MMMM Do, YYYY') %>

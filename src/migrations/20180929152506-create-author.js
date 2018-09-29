@@ -9,6 +9,12 @@ module.exports = {
     name: {
       allowNull: false,
       type: Sequelize.STRING,
+      unique: true,
+    },
+    kebabName: {
+      allowNull: false,
+      type: Sequelize.STRING,
+      unique: true,
     },
     createdAt: {
       allowNull: false,

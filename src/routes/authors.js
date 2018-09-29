@@ -4,10 +4,9 @@ const _ = require('lodash');
 const router = new KoaRouter();
 
 router.param('kebabName', async (kebabName, ctx, next) => {
-  const name = _.startCase(_.camelCase(kebabName));
   const author = await ctx.orm.Author.findOne({
     order: [['name', 'ASC']],
-    where: { name: { $iLike: `${name}%` } },
+    where: { kebabName },
   });
   ctx.assert(author, 404);
   ctx.state.author = author;
