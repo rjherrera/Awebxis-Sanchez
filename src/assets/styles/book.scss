@@ -1,0 +1,57 @@
+.section {
+    font-weight: normal;
+}
+
+// Book description container
+.info-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    margin-top: 50px;
+    img {
+        max-height: 350px;
+    }
+    .info {
+        width: 70%;
+        margin-left: 20px;
+        h1 {
+            font-weight: normal;
+            margin-top: 0;
+            #author {
+                font-style: italic;
+            }
+        }
+        p {
+            text-align: justify;
+            .label {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.flex-container {
+    display: flex;
+}
+
+// Genres list container
+.genres-container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 15%;
+    a {
+        text-decoration: none;
+        margin-bottom: 10px;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+}
+
+// Reviews container
+.reviews-container {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-left: 50px;
+    width: 85%;
+}

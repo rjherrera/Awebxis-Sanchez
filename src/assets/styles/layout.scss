@@ -11,7 +11,7 @@ body {
   background: $cambalache-orange;
   background: linear-gradient(90deg, $cambalache-orange 0%, $cambalache-yellow 100%);
   font-family: Raleway;
-  padding: 30px 10px 10px;
+  padding: 40px 40px;
 }
 
 a {
@@ -50,7 +50,8 @@ header {
 
 #logo {
   padding-left: 10px;
-  height: 100%;
+  margin: 12.5% 0;
+  height: 75%;
   img {
     height: 100%;
   }

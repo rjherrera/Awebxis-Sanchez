@@ -18,6 +18,7 @@ router.use(async (ctx, next) => {
     newSessionPath: ctx.router.url('session-new'),
     destroySessionPath: ctx.router.url('session-destroy'),
     newUserPath: ctx.router.url('users-new'),
+    pageSize: 24,
   });
   return next();
 });
