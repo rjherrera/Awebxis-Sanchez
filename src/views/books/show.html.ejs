@@ -1,4 +1,4 @@
-<div class="book-container">
+<div class="info-container">
     <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
     <div class="info">
         <h1><%= book.title %> - <span id="author"><%= book.author %></span></h1>
@@ -19,7 +19,7 @@
     <input type="submit" value="Destroy" />
 </form>
 
-<div class="bottom-container">
+<div class="flex-container">
     <div class="genres-container">
         <h1 class="section">Genres</h1>
         <% genres.forEach(genre => { %>
