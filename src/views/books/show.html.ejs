@@ -1,68 +1,50 @@
-<h1><%= book.title %></h1>
+<div class="info-container">
+    <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
+    <div class="info">
+        <h1><%= book.title %> - <span id="author"><%= book.author %></span></h1>
+        <p><%= book.description %></p>
+        <p>
+            <span class="label">Published:</span> <%= formatDate(book.datePublished, 'MMMM Do, YYYY') %>
+            (<%= book.publisher %>)
+        </p>
+        <p><span class="label">ISBN:</span>  <%= book.isbn %></p>
+        <p><span class="label">Language:</span>  <%= book.language %></p>
+        <p><span class="label">Format:</span>  <%= book.format %>, <%= book.pages %> pages</p>
+    </div>
+</div>
 
-<img src="<%= book.imageUrl %>" alt="<%= book.title %>" style="height: 300px;">
-
-<table>
-    <thead>
-        <tr>
-            <th>Author</th>
-            <th>Publisher</th>
-            <th>Date Published</th>
-            <th>Description</th>
-            <th>Format</th>
-            <th>ISBN</th>
-            <th>Language</th>
-            <th>Pages</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><%= book.author %></td>
-            <td><%= book.publisher %></td>
-            <td><%= formatDate(book.datePublished, 'MMMM Do YYYY') %></td>
-            <td><%= book.description %></td>
-            <td><%= book.format %></td>
-            <td><%= book.isbn %></td>
-            <td><%= book.language %></td>
-            <td><%= book.pages %></td>
-        </tr>
-    </tbody>
-</table>
-
-<a href="<%= booksPath %>">Back to all books</a>
 <a href="<%= editBookPath %>">Edit</a>
 <form action="<%= destroyBookPath %>" method="post">
     <input type="hidden" name="_method" value="delete" />
     <input type="submit" value="Destroy" />
 </form>
 
-
-<h1>Genres</h1>
-
-<ul>
-    <% genres.forEach(genre => { %>
-        <li><a href="<%= buildGenrePath(genre) %>"> <%= genre.name %></a></li>
-    <% }) %>
-</ul>
-
-
-<h1>Reviews</h1>
-
-<%- include('_review-form') %>
-
-<table>
-    <thead>
-        <tr>
-            <th>Comment</th>
-            <th>Rating</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% reviews.forEach(review => { %>
-            <tr>
-                <td><%= review.comment %></td>
-                <td><%= review.rating %></td>
-            </tr>
+<div class="flex-container">
+    <div class="genres-container">
+        <h1 class="section">Genres</h1>
+        <% genres.forEach(genre => { %>
+           <a href="<%= buildGenrePath(genre) %>"><%= genre.name %></a>
         <% }) %>
-    </tbody>
-</table>
+    </div>
+
+    <div class="reviews-container">
+        <h1 class="section">Reviews</h1>
+        <%- include('_review-form') %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Comment</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% reviews.forEach(review => { %>
+                <tr>
+                    <td><%= review.comment %></td>
+                    <td><%= review.rating %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
