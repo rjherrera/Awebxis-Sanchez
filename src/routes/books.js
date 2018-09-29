@@ -53,8 +53,12 @@ router.get('books-edit', '/:isbn/edit', async (ctx) => {
 
 router.post('books-create', '/', async (ctx) => {
   const book = await ctx.orm.Book.build(ctx.request.body);
+  const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
   try {
-    await book.save(ctx.request.body);
+    await book.setAuthor(author, { save: false });
+    await book.save(
+      { fields: ['title', 'isbn', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
+    );
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
@@ -69,10 +73,12 @@ router.post('books-create', '/', async (ctx) => {
 
 router.patch('books-update', '/:isbn', async (ctx) => {
   const { book } = ctx.state;
+  const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
   try {
+    await book.setAuthor(author);
     await book.update(
       ctx.request.body,
-      { fields: ['title', 'author', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description'] },
+      { fields: ['title', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description'] },
     );
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
