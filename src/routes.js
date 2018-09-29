@@ -13,6 +13,7 @@ router.use(async (ctx, next) => {
     booksPath: ctx.router.url('books'),
     usersPath: ctx.router.url('users'),
     genresPath: ctx.router.url('genres'),
+    pageSize: 24,
   });
   return next();
 });
