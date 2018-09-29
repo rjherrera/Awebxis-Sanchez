@@ -10,7 +10,6 @@ router.param('kebabName', async (kebabName, ctx, next) => {
     where: { name: { $iLike: `${name}%` } },
   });
   ctx.assert(author, 404);
-  console.log(author);
   ctx.state.author = author;
   return next();
 });
