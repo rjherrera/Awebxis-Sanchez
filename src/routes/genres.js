@@ -84,7 +84,10 @@ router.patch('genres-update', '/:id', async (ctx) => {
 router.get('genres-show', '/:kebabName', async (ctx) => {
   const { genre } = ctx.state;
   const page = parseInt(ctx.query.page, 10) || 1;
-  const books = await genre.getBooks({ offset: (page - 1) * 10, limit: 10 });
+  const books = await genre.getBooks({
+    offset: (page - 1) * ctx.state.pageSize,
+    limit: ctx.state.pageSize,
+  });
   await ctx.render('genres/show', {
     books,
     genre,
