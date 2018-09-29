@@ -1,0 +1,17 @@
+<h1>Authors</h1>
+
+<a href="<%= newAuthorPath %>">New Author</a>
+
+<ul>
+  <% authors.forEach((author) => { %>
+    <li><a href="<%= buildAuthorPath(author) %>"><%= author.name %></a></li>
+  <% }) %>
+</ul>
+
+<% if (page > 1) { %>
+<a href="<%= previousPagePath %>">Previous</a>
+<% } %>
+<p>Page
+  <%= page %>
+</p>
+<a href="<%= nextPagePath %>">Next</a>

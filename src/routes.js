@@ -11,9 +11,10 @@ const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
   Object.assign(ctx.state, {
+    authorsPath: ctx.router.url('authors'),
     booksPath: ctx.router.url('books'),
-    usersPath: ctx.router.url('users'),
     genresPath: ctx.router.url('genres'),
+    usersPath: ctx.router.url('users'),
     pageSize: 24,
   });
   return next();

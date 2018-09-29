@@ -2,11 +2,15 @@ module.exports = (sequelize, DataTypes) => {
   const Author = sequelize.define('Author', {
     name: {
       type: DataTypes.STRING,
-      unique: true,
+      validate: {
+        notEmpty: {
+          msg: 'required',
+        },
+      },
     },
     kebabName: {
       type: DataTypes.STRING,
-      unique: true,
+      notEmpty: true,
     },
   }, {});
 

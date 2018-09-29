@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
+const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 
 const router = new KoaRouter();
 
@@ -13,20 +14,93 @@ router.param('kebabName', async (kebabName, ctx, next) => {
   return next();
 });
 
+router.get('authors', '/', async (ctx) => {
+  const page = parseInt(ctx.query.page, 10) || 1;
+  const authors = await ctx.orm.Author.findAll({
+    offset: (page - 1) * ctx.state.pageSize,
+    limit: ctx.state.pageSize,
+    order: [['name', 'ASC']],
+  });
+  await ctx.render('authors/index', {
+    authors,
+    buildAuthorPath: author => ctx.router.url('authors-show', author.kebabName),
+    newAuthorPath: ctx.router.url('authors-new'),
+    page,
+    previousPagePath: ctx.router.url('authors', { query: { page: page - 1 } }),
+    nextPagePath: ctx.router.url('authors', { query: { page: page + 1 } }),
+  });
+});
+
+router.get('authors-new', '/new', async (ctx) => {
+  const author = ctx.orm.Author.build();
+  await ctx.render('authors/new', {
+    author,
+    submitAuthorPath: ctx.router.url('authors-create'),
+  });
+});
+
+router.get('authors-edit', '/:kebabName/edit', async (ctx) => {
+  const { author } = ctx.state;
+  await ctx.render('authors/edit', {
+    author,
+    submitAuthorPath: ctx.router.url('authors-update', author.kebabName),
+  });
+});
+
+router.post('authors-create', '/', async (ctx) => {
+  const { name } = ctx.request.body;
+  const author = await ctx.orm.Author.build({ name, kebabName: _.kebabCase(name) });
+  try {
+    await author.save(ctx.request.body);
+    ctx.redirect(ctx.router.url('authors-show', author.kebabName));
+  } catch (error) {
+    if (!isValidationError(error)) throw error;
+    await ctx.render('authors/new', {
+      author,
+      errors: getFirstErrors(error),
+      submitAuthorPath: ctx.router.url('authors-create'),
+    });
+  }
+});
+
+router.patch('authors-update', '/:kebabName', async (ctx) => {
+  const { author } = ctx.state;
+  const { name } = ctx.request.body;
+  try {
+    await author.update({ name, kebabName: _.kebabCase(name) });
+    ctx.redirect(ctx.router.url('authors-show', author.kebabName));
+  } catch (error) {
+    if (!isValidationError(error)) throw error;
+    await ctx.render('authors/edit', {
+      author,
+      errors: getFirstErrors(error),
+      submitAuthorPath: ctx.router.url('authors-update', author.kebabName),
+    });
+  }
+});
+
 router.get('authors-show', '/:kebabName', async (ctx) => {
   const { author } = ctx.state;
   const page = parseInt(ctx.query.page, 10) || 1;
   const books = await author.getBooks({
-    offset: (page - 1) * 10,
-    limit: 10,
+    offset: (page - 1) * ctx.state.pageSize,
+    limit: ctx.state.pageSize,
   });
   await ctx.render('authors/show', {
     books,
-    buildBookPath: book => ctx.router.url('books-show', _.kebabCase(book.isbn)),
+    buildBookPath: book => ctx.router.url('books-show', book.isbn),
+    editAuthorPath: ctx.router.url('authors-edit', author.kebabName),
+    destroyAuthorPath: ctx.router.url('authors-destroy', author.kebabName),
     page,
-    previousPagePath: ctx.router.url('authors-show', _.kebabCase(author.name), { query: { page: page - 1 } }),
-    nextPagePath: ctx.router.url('authors-show', _.kebabCase(author.name), { query: { page: page + 1 } }),
+    previousPagePath: ctx.router.url('authors-show', author.kebabName, { query: { page: page - 1 } }),
+    nextPagePath: ctx.router.url('authors-show', author.kebabName, { query: { page: page + 1 } }),
   });
+});
+
+router.delete('authors-destroy', '/:kebabName', async (ctx) => {
+  const { author } = ctx.state;
+  await author.destroy();
+  ctx.redirect(ctx.state.authorsPath);
 });
 
 module.exports = router;
