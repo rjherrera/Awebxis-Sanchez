@@ -1,5 +1,11 @@
 <h1><%= author.name %> </h1>
 
+<a href="<%= editAuthorPath %>">Edit</a>
+<form action="<%= destroyAuthorPath %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <input type="submit" value="Destroy" />
+</form>
+
 <div class="cards-container">
   <% books.forEach((book) => { %>
     <a class="card-book" href="<%= buildBookPath(book) %>">

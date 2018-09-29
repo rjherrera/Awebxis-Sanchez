@@ -1,62 +1,79 @@
 <div>
-    <form action="<%= submitBookPath %>" method="post">
-        <% if (locals.errors) { %>
-            <p class="errors">Check the following errors:</p>
-            <ul>
-                <% Object.keys(errors).forEach(prop => { %>
-                    <li><%= prop %>: <%= errors[prop].message %></li>
-                <% }) %>
-            </ul>
-        <% } %>
-        <% if (!book.isNewRecord) { %>
-        <input type="hidden" name="_method" value="patch" />
-        <% } %>
-        <div>
-            <label for="title">Title</label>
-            <input type="text" name="title" value="<%= book.title %>" required/>
-        </div>
-        <div>
-            <label for="author">Author</label>
-            <input type="text" name="author" value="<%= book.author %>" required/>
-        </div>
-        <div>
-            <label for="isbn">ISBN</label>
-            <input type="text" name="isbn" value="<%= book.isbn %>" required/>
-        </div>
-        <div>
-            <label for="language">Language</label>
-            <input type="text" name="language" value="<%= book.language %>" required/>
-        </div>
-        <div>
-            <label for="pages">Pages</label>
-            <input type="number" name="pages" value="<%= book.pages %>" min="0"/>
-        </div>
-        <div>
-            <label for="imageUrl">Image URL</label>
-            <input type="text" name="imageUrl" value="<%= book.imageUrl %>" />
-        </div>
-        <div>
-            <label for="publisher">Publisher</label>
-            <input type="text" name="publisher" value="<%= book.publisher %>" />
-        </div>
-        <div>
-            <label for="datePublished">Date Published</label>
-            <input type="date" name="datePublished" value="<%= formatDate(book.datePublished) %>" />
-        </div>
-        <div>
-            <label for="format">Format</label>
-            <input type="text" name="format" value="<%= book.format %>" />
-        </div>
-        <div>
-            <label for="description">Description</label>
-            <textarea type="text" name="description"><%= book.description %></textarea>
-        </div>
-        <div>
-            <% if (book.isNewRecord) { %>
-            <input type="submit" name="create" value="Create" />
-            <% } else { %>
-            <input type="submit" name="update" value="Save" />
-            <% } %>
-        </div>
-    </form>
+  <form action="<%= submitBookPath %>" method="post">
+    <% if (locals.errors) { %>
+    <p class="errors">Check the following errors:</p>
+    <ul>
+      <% Object.keys(errors).forEach(prop => { %>
+      <li>
+        <%= prop %>:
+        <%= errors[prop].message %>
+      </li>
+      <% }) %>
+    </ul>
+    <% } %>
+    <% if (!book.isNewRecord) { %>
+    <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div>
+      <label for="title">Title</label>
+      <!-- <input type="text" name="title" value="<%= book.title %>" required /> -->
+      <input type="text" name="title" value="Las Cronicas de Narnia IX" required />
+    </div>
+    <div>
+      <label for="author">Author</label>
+      <% if (book.isNewRecord) { %>
+      <!-- <input type="text" name="author" required /> -->
+      <input type="text" name="author" value="Javier Lopez Achondo" required />
+      <% } else { %>
+      <input type="text" name="author" value="<%= book.author.name %>" required />
+      <% } %>
+    </div>
+    <div>
+      <label for="isbn">ISBN</label>
+      <!-- <input type="text" name="isbn" value="<%= book.isbn %>" required /> -->
+      <input type="text" name="isbn" value="9781594130007" required />
+    </div>
+    <div>
+      <label for="language">Language</label>
+      <!-- <input type="text" name="language" value="<%= book.language %>" required /> -->
+      <input type="text" name="language" value="Spanish" required />
+    </div>
+    <div>
+      <label for="pages">Pages</label>
+      <!-- <input type="number" name="pages" value="<%= book.pages %>" min="0" /> -->
+      <input type="number" name="pages" value="320" min="0" />
+    </div>
+    <div>
+      <label for="imageUrl">Image URL</label>
+      <!-- <input type="text" name="imageUrl" value="<%= book.imageUrl %>" /> -->
+      <input type="text" name="imageUrl" value="https://images-na.ssl-images-amazon.com/images/I/51xl%2BT6QUcL._SX332_BO1,204,203,200_.jpg" />
+    </div>
+    <div>
+      <label for="publisher">Publisher</label>
+      <!-- <input type="text" name="publisher" value="<%= book.publisher %>" /> -->
+      <input type="text" name="publisher" value="Amazon Studios" />
+    </div>
+    <div>
+      <label for="datePublished">Date Published</label>
+      <!-- <input type="date" name="datePublished" value="<%= formatDate(book.datePublished) %>" /> -->
+      <input type="date" name="datePublished" value="1995-07-19" />
+    </div>
+    <div>
+      <label for="format">Format</label>
+      <!-- <input type="text" name="format" value="<%= book.format %>" /> -->
+      <input type="text" name="format" value="Hardcover" />
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <!-- <textarea type="text" name="description"><%= book.description %></textarea> -->
+      <textarea type="text" name="description">The Chronicles of Narnia is a series of seven fantasy novels by C. S. Lewis. It is considered a classic of children's literature and is the author's best-known work, having sold over 100 million copies in 47 languages.</textarea>
+    </div>
+    <div>
+      <% if (book.isNewRecord) { %>
+      <input type="submit" name="create" value="Create" />
+      <% } else { %>
+      <input type="submit" name="update" value="Save" />
+      <% } %>
+    </div>
+  </form>
 </div>
