@@ -83,12 +83,14 @@ router.get('books-show', '/:isbn', async (ctx) => {
   const { book } = ctx.state;
   const reviews = await book.getReviews({ limit: 10, order: [['createdAt', 'DESC']] });
   const genres = await book.getGenres({ order: [['name', 'ASC']] });
+  const author = await book.getAuthor();
   await ctx.render('books/show', {
-    book,
+    author,
     genres,
     reviews,
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
+    authorPath: ctx.router.url('authors-show', _.kebabCase(author.name)),
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
     formatDate: (date, format) => moment(date).tz('GMT').format(format),

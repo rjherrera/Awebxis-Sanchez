@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 
+const authors = require('./routes/authors');
 const books = require('./routes/books');
 const genres = require('./routes/genres');
 const index = require('./routes/index');
@@ -18,6 +19,7 @@ router.use(async (ctx, next) => {
 });
 
 router.use('/', index.routes());
+router.use('/authors', authors.routes());
 router.use('/books', books.routes());
 router.use('/genres', genres.routes());
 router.use('/reviews', reviews.routes());

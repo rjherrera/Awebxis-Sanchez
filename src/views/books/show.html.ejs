@@ -17,7 +17,7 @@
     </thead>
     <tbody>
         <tr>
-            <td><%= book.author %></td>
+            <td><a href="<%= authorPath %> "><%= author.name %></a></td>
             <td><%= book.publisher %></td>
             <td><%= formatDate(book.datePublished, 'MMMM Do YYYY') %></td>
             <td><%= book.description %></td>
