@@ -1,13 +1,19 @@
 const chrono = require('chrono-node');
 const getJSON = require('../lib/seeds/get-json');
 
+const { Author } = require('../models');
+
 module.exports = {
   up: async (queryInterface) => {
     const booksJson = await getJSON('books.json');
     const booksData = [];
+    const authors = await Author.findAll();
+    const authorsIds = {};
+    authors.forEach((a) => { authorsIds[a.name] = a.id; });
     booksJson.books.forEach((book) => {
+      const authorId = authorsIds[book.author];
       booksData.push({
-        author: book.author,
+        authorId,
         format: book.book_format,
         datePublished: chrono.parseDate(book.date_published),
         description: book.description,
