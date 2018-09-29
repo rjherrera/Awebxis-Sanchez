@@ -23,6 +23,19 @@
         <a href="<%= usersPath %>">Users</a>
       </nav>
     </header>
+
+    <% if (currentUser) { %>
+      <span class="name">Hello, <%= currentUser.firstName %></span>
+      <form action="<%= destroySessionPath %>" method="post">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="submit" value="Salir" />
+      </form>
+    <% } else { %>
+      <span class="name">Hello, Guest</span>
+      <a href="<%= newUserPath %>">Sign up</a>
+      <a href="<%= newSessionPath %>">Sign in</a>
+    <% } %>
+    
     <%- body %>
     <script src="<%= assetPath('app.js') %>"></script>
   </body>
