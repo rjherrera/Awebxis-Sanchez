@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     isbn: {
       allowNull: false,
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         isISBN(value) {
           if (!validateISBN(value)) {
