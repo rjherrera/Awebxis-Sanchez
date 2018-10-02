@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 
+const authors = require('./routes/authors');
 const books = require('./routes/books');
 const genres = require('./routes/genres');
 const index = require('./routes/index');
@@ -11,9 +12,10 @@ const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
   Object.assign(ctx.state, {
+    authorsPath: ctx.router.url('authors'),
     booksPath: ctx.router.url('books'),
-    usersPath: ctx.router.url('users'),
     genresPath: ctx.router.url('genres'),
+    usersPath: ctx.router.url('users'),
     currentUser: ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId),
     newSessionPath: ctx.router.url('session-new'),
     destroySessionPath: ctx.router.url('session-destroy'),
@@ -25,6 +27,7 @@ router.use(async (ctx, next) => {
 
 
 router.use('/', index.routes());
+router.use('/authors', authors.routes());
 router.use('/books', books.routes());
 router.use('/genres', genres.routes());
 router.use('/reviews', reviews.routes());

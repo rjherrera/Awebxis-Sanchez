@@ -1,4 +1,5 @@
 const KoaRouter = require('koa-router');
+const { Author } = require('../models');
 
 const router = new KoaRouter();
 
@@ -61,7 +62,7 @@ router.patch('users-update', '/:username', async (ctx) => {
 
 router.get('users-show', '/:username', async (ctx) => {
   const { user } = ctx.state;
-  const interests = await user.getInterests();
+  const interests = await user.getInterests({ include: [{ model: Author, as: 'author' }] });
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();

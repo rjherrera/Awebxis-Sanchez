@@ -2,15 +2,6 @@ const validateISBN = require('../lib/models/isbn-validation');
 
 module.exports = (sequelize, DataTypes) => {
   const Book = sequelize.define('Book', {
-    author: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          msg: 'required',
-        },
-      },
-    },
     format: DataTypes.STRING,
     datePublished: DataTypes.DATE,
     description: DataTypes.TEXT,
@@ -63,10 +54,15 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
+    authorId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
   }, {});
 
   Book.associate = (models) => {
     Book.hasMany(models.Review, { foreignKey: 'bookId' });
+    Book.belongsTo(models.Author, { as: 'author', foreignKey: 'authorId' });
   };
 
   return Book;

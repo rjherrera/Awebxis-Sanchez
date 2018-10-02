@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
+const { Author } = require('../models');
 
 const router = new KoaRouter();
 
@@ -87,6 +88,7 @@ router.get('genres-show', '/:kebabName', async (ctx) => {
   const books = await genre.getBooks({
     offset: (page - 1) * ctx.state.pageSize,
     limit: ctx.state.pageSize,
+    include: [{ model: Author, as: 'author' }],
   });
   await ctx.render('genres/show', {
     books,

@@ -1,34 +1,25 @@
-<h1>
-    <%= genre.name %>
-</h1>
+<h1><%= author.name %> </h1>
 
-<a href="<%= genresPath %>">Back to all genres</a>
-<a href="<%= editGenrePath %>">Edit</a>
-<form action="<%= destroyGenrePath %>" method="post">
+<a href="<%= editAuthorPath %>">Edit</a>
+<form action="<%= destroyAuthorPath %>" method="post">
     <input type="hidden" name="_method" value="delete" />
     <input type="submit" value="Destroy" />
 </form>
 
 <div class="cards-container">
-    <% books.forEach((book) => { %>
+  <% books.forEach((book) => { %>
     <a class="card-book" href="<%= buildBookPath(book) %>">
         <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
         <div class="shadow">
-            <p class="title">
-                <%= book.title %>
-            </p>
-            <p class="author">
-                <%= book.author.name %>
-            </p>
+          <p class="title"><%= book.title %></p>
+          <p class="author"><%= author.name %></p>
         </div>
     </a>
-    <% }) %>
+  <% }) %>
 </div>
 
 <% if (page > 1) { %>
 <a href="<%= previousPagePath %>">Previous</a>
 <% } %>
-<p>Page
-    <%= page %>
-</p>
+<p>Page <%= page %></p>
 <a href="<%= nextPagePath %>">Next</a>
