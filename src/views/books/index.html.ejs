@@ -4,20 +4,21 @@
 
 <div class="cards-container">
   <% books.forEach((book) => { %>
-    <a class="card-book" href="<%= buildBookPath(book) %>">
-        <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
-        <div class="shadow">
-          <p class="title"><%= book.title %></p>
-          <p class="author"><%= book.author.name %></p>
-        </div>
-    </a>
+  <a class="card-book" href="<%= buildBookPath(book) %>">
+    <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
+    <div class="shadow">
+      <p class="title"><%= book.title %></p>
+      <p class="author"><%= book.author.name %></p>
+    </div>
+  </a>
   <% }) %>
 </div>
 
-<% if (page > 1) { %>
-<a href="<%= previousPagePath %>">Previous</a>
-<% } %>
-<p>Page
-  <%= page %>
-</p>
-<a href="<%= nextPagePath %>">Next</a>
+<div class="page-selector">
+  <% if (page > 1) { %>
+  <a class="page-arrow" href="<%= previousPagePath %>">&lt;</a>
+  <% } %>
+  <span class="page-number"><%= page %></span>
+  <a class="page-arrow" href="<%= nextPagePath %>">&gt;</a>
+</div>
+
