@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
-const { Author } = require('../models');
+const { Author, Book } = require('../models');
 
 const router = new KoaRouter();
 
@@ -26,8 +26,14 @@ router.get('genres', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
   const genres = await ctx.orm.Genre.findAll({
     order: [['name', 'ASC']],
-    offset: (page - 1) * 10,
-    limit: 10,
+    offset: (page - 1) * ctx.state.pageSize,
+    limit: ctx.state.pageSize,
+    include: [{
+      model: Book,
+      as: 'books',
+      limit: 1,
+      separate: false,
+    }],
   });
   await ctx.render('genres/index', {
     genres,

@@ -2,11 +2,16 @@
 
 <a href="<%= newGenrePath %>">New Genre</a>
 
-<ul>
+<div class="cards-container">
   <% genres.forEach((genre) => { %>
-    <li><a href="<%= buildGenrePath(genre) %>"><%= genre.name %></a></li>
+  <a class="card-label" href="<%= buildGenrePath(genre) %>">
+    <img src="<%= genre.books[0].imageUrl %>" alt="<%= genre.name %>">
+    <div class="shadow">
+      <p class="label"><%= genre.name %></p>
+    </div>
+  </a>
   <% }) %>
-</ul>
+</div>
 
 <% if (page > 1) { %>
 <a href="<%= previousPagePath %>">Previous</a>
