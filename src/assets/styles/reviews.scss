@@ -1,0 +1,56 @@
+.reviews-section {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 80%;
+}
+
+.reviews-container {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.review {
+    margin-bottom: 30px;
+    .username {
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .comment {
+        position: relative;
+        text-align: justify;
+        .text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        label {
+            font-style: italic;
+            cursor: pointer;
+            position: absolute;
+            top: 100%;
+        }
+        input {
+            display: none;
+        }
+        label:after {
+            content: "... show more";
+        }
+        input:checked + label:after {
+            content: "(show less)";
+        }
+        input:checked ~ .text {
+            overflow: initial;
+            text-overflow: initial;
+            white-space: initial;
+        }
+    }
+    .rating {
+        .filled {
+            color: $cambalache-yellow;
+        }
+        .empty {
+            color: $cambalache-darkgrey;
+            opacity: 0.7;
+        }
+    }
+}

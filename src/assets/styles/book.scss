@@ -1,8 +1,7 @@
-.section {
+.section-title {
     font-weight: normal;
 }
 
-// Book description container
 .info-container {
     display: flex;
     flex-flow: row wrap;
@@ -33,15 +32,15 @@
     }
 }
 
-.flex-container {
+.bottom-container {
     display: flex;
+    margin: 0 4%;
 }
 
-// Genres list container
-.genres-container {
+.genres-section {
     display: flex;
     flex-flow: column nowrap;
-    width: 15%;
+    width: 20%;
     a {
         text-decoration: none;
         margin-bottom: 10px;
@@ -49,12 +48,4 @@
     a:hover {
         text-decoration: underline;
     }
-}
-
-// Reviews container
-.reviews-container {
-    display: flex;
-    flex-flow: column nowrap;
-    margin-left: 50px;
-    width: 85%;
 }
