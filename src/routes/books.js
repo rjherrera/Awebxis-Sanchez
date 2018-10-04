@@ -2,7 +2,7 @@ const KoaRouter = require('koa-router');
 const _ = require('lodash');
 const moment = require('moment');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
-const { Author } = require('../models');
+const { Author, User } = require('../models');
 
 const router = new KoaRouter();
 
@@ -94,7 +94,10 @@ router.patch('books-update', '/:isbn', async (ctx) => {
 
 router.get('books-show', '/:isbn', async (ctx) => {
   const { book } = ctx.state;
-  const reviews = await book.getReviews({ limit: 10, order: [['createdAt', 'DESC']] });
+  const reviews = await book.getReviews({
+    order: [['createdAt', 'DESC']],
+    include: [{ model: User, as: 'user' }],
+  });
   const genres = await book.getGenres({ order: [['name', 'ASC']] });
   await ctx.render('books/show', {
     genres,
@@ -103,6 +106,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
+    buildUserPath: user => ctx.router.url('users-show', user.username),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
     formatDate: (date, format) => moment(date).tz('GMT').format(format),
   });
