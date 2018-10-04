@@ -23,7 +23,6 @@ router.get('authors', '/', async (ctx) => {
   });
   await ctx.render('authors/index', {
     authors,
-    buildAuthorPath: author => ctx.router.url('authors-show', author.kebabName),
     newAuthorPath: ctx.router.url('authors-new'),
     page,
     previousPagePath: ctx.router.url('authors', { query: { page: page - 1 } }),
@@ -88,7 +87,6 @@ router.get('authors-show', '/:kebabName', async (ctx) => {
   });
   await ctx.render('authors/show', {
     books,
-    buildBookPath: book => ctx.router.url('books-show', book.isbn),
     editAuthorPath: ctx.router.url('authors-edit', author.kebabName),
     destroyAuthorPath: ctx.router.url('authors-destroy', author.kebabName),
     page,

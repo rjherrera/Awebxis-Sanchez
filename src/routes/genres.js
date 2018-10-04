@@ -32,7 +32,6 @@ router.get('genres', '/', async (ctx) => {
   await ctx.render('genres/index', {
     genres,
     newGenrePath: ctx.router.url('genres-new'),
-    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
     page,
     previousPagePath: ctx.router.url('genres', { query: { page: page - 1 } }),
     nextPagePath: ctx.router.url('genres', { query: { page: page + 1 } }),
@@ -93,10 +92,8 @@ router.get('genres-show', '/:kebabName', async (ctx) => {
   await ctx.render('genres/show', {
     books,
     genre,
-    genresPath: ctx.router.url('genres'),
     editGenrePath: ctx.router.url('genres-edit', _.kebabCase(genre.name)),
     destroyGenrePath: ctx.router.url('genres-destroy', genre.id),
-    buildBookPath: book => ctx.router.url('books-show', book.isbn),
     page,
     previousPagePath: ctx.router.url('genres-show', _.kebabCase(genre.name), { query: { page: page - 1 } }),
     nextPagePath: ctx.router.url('genres-show', _.kebabCase(genre.name), { query: { page: page + 1 } }),
@@ -106,7 +103,7 @@ router.get('genres-show', '/:kebabName', async (ctx) => {
 router.delete('genres-destroy', '/:id', async (ctx) => {
   const { genre } = ctx.state;
   await genre.destroy();
-  ctx.redirect(ctx.router.url('genres'));
+  ctx.redirect(ctx.state.genresPath);
 });
 
 module.exports = router;
