@@ -11,6 +11,8 @@ const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 const session = require('./routes/session');
 
+const defaults = require('./defaults');
+
 const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
@@ -28,6 +30,7 @@ router.use(async (ctx, next) => {
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
     buildUserPath: user => ctx.router.url('users-show', user.username),
     pageSize: 24,
+    defaults,
     ...utils,
   });
   return next();

@@ -2,11 +2,16 @@
 
 <a href="<%= newAuthorPath %>">New Author</a>
 
-<ul>
+<div class="cards-container">
   <% authors.forEach((author) => { %>
-    <li><a href="<%= buildAuthorPath(author) %>"><%= author.name %></a></li>
+  <a class="card-label" href="<%= buildAuthorPath(author) %>">
+    <img src="<%= author.books.length ? author.books[0].imageUrl : defaults.bookImageUrl %>" alt="<%= author.name %>">
+    <div class="shadow">
+      <p class="label"><%= author.name %></p>
+    </div>
+  </a>
   <% }) %>
-</ul>
+</div>
 
 <div class="page-selector">
   <% if (page > 1) { %>
