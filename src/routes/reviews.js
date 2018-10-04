@@ -1,5 +1,4 @@
 const KoaRouter = require('koa-router');
-const _ = require('lodash');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 
 const router = new KoaRouter();

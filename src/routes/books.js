@@ -1,5 +1,4 @@
 const KoaRouter = require('koa-router');
-const moment = require('moment');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 const { Author, User } = require('../models');
 
