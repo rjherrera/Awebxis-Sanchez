@@ -8,8 +8,10 @@
   <% }) %>
 </ul>
 
-<% if (page > 1) { %>
-<a href="<%= previousPagePath %>">Previous</a>
-<% } %>
-<p>Page <%= page %></p>
-<a href="<%= nextPagePath %>">Next</a>
+<div class="page-selector">
+  <% if (page > 1) { %>
+  <a class="page-arrow" href="<%= previousPagePath %>">&lt;</a>
+  <% } %>
+  <span class="page-number"><%= page %></span>
+  <a class="page-arrow" href="<%= nextPagePath %>">&gt;</a>
+</div>
