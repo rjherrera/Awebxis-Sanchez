@@ -1,6 +1,7 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
+const { Book } = require('../models');
 
 const router = new KoaRouter();
 
@@ -20,6 +21,7 @@ router.get('authors', '/', async (ctx) => {
     offset: (page - 1) * ctx.state.pageSize,
     limit: ctx.state.pageSize,
     order: [['name', 'ASC']],
+    include: [{ model: Book, as: 'books', limit: 1 }],
   });
   await ctx.render('authors/index', {
     authors,
