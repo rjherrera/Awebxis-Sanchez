@@ -8,6 +8,8 @@ const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 const session = require('./routes/session');
 
+const defaults = require('./defaults');
+
 const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
@@ -21,10 +23,10 @@ router.use(async (ctx, next) => {
     destroySessionPath: ctx.router.url('session-destroy'),
     newUserPath: ctx.router.url('users-new'),
     pageSize: 24,
+    defaults,
   });
   return next();
 });
-
 
 router.use('/', index.routes());
 router.use('/authors', authors.routes());
