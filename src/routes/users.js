@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const { Author } = require('../models');
+const { Book } = require('../models');
 
 const router = new KoaRouter();
 
@@ -66,12 +67,24 @@ router.get('users-show', '/:username', async (ctx) => {
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();
+  const userBooks = await user.getUserBooks({ include: [{ model: Book, as: 'book' }] });
+  // const booksWithTitle = [];
+  // let aux;
+  // let titler;
+  // for (let i = 0; i < userBooks.length; i += 1) {
+  //   titler = await userBooks[i].getBook();
+  //   aux = userBooks[i];
+  //   aux.title = titler.title;
+  //   booksWithTitle.push(aux);
+  // }
+  // userBooks = booksWithTitle;
   await ctx.render('users/show', {
     user,
     interests,
     followers,
     following,
     feedbacks,
+    userBooks,
     editUserPath: ctx.router.url('users-edit', user.username),
   });
 });

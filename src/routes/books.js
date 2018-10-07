@@ -109,6 +109,8 @@ router.get('books-show', '/:isbn', async (ctx) => {
     buildUserPath: user => ctx.router.url('users-show', user.username),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
     formatDate: (date, format) => moment(date).tz('GMT').format(format),
+    newBookInstancePath: ctx.router.url('bookInstance-create', book.isbn),
+    newInterestPath: ctx.router.url('interest-create', book.isbn),
   });
 });
 
