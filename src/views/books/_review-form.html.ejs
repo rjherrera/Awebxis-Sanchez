@@ -9,7 +9,7 @@
             </ul>
         <% } %>
         <!-- TODO: remove when session is implemented -->
-        <input type="number" hidden="true" name="userId" value="1" />
+        <input type="number" hidden="true" name="userId" value="<%= currentUser.id%>" />
         <div>
             <label for="rating">Rating</label>
             <input type="number" min="1" max="5" required="true" name="rating"/>

@@ -28,6 +28,7 @@
 
     <% if (currentUser) { %>
       <span class="name">Hello, <%= currentUser.firstName %></span>
+      <a href="/users/<%= currentUser.username %>">Profile</a>
       <form action="<%= destroySessionPath %>" method="post">
         <input type="hidden" name="_method" value="delete" />
         <input type="submit" value="Salir" />

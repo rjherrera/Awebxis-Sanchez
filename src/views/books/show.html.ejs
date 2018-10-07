@@ -18,6 +18,19 @@
   <input type="submit" value="Destroy" />
 </form>
 
+<br>
+<% if (currentUser) { %>
+  <%- include('_have-it-form') %>
+<% } %>
+<br>
+
+<br>
+<% if (currentUser) { %>
+  <%- include('_want-it-form') %>
+<% } %>
+<br>
+
+
 <div class="bottom-container">
   <div class="genres-section">
     <h1 class="section-title">Genres</h1>

@@ -34,6 +34,28 @@
     </tbody>
 </table>
 
+<h1>Books owned: <%= userBooks.length %> </h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>State</th>
+            <th>Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% userBooks.forEach(instance => { %>
+            <tr>
+                <td><%= instance.book.title %></td>
+                <td><%= instance.state %></td>
+                <td><%= instance.comment %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+
 
 <h1>Followers: <%= followers.length %></h1>
 
