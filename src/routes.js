@@ -7,6 +7,8 @@ const index = require('./routes/index');
 const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 const session = require('./routes/session');
+const bookInstances = require('./routes/bookInstances');
+const interests = require('./routes/interests');
 
 const defaults = require('./defaults');
 
@@ -35,5 +37,7 @@ router.use('/genres', genres.routes());
 router.use('/reviews', reviews.routes());
 router.use('/users', users.routes());
 router.use('/session', session.routes());
+router.use('/bookInstances', bookInstances.routes());
+router.use('/interests', interests.routes());
 
 module.exports = router;
