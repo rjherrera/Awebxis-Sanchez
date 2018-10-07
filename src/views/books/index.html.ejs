@@ -1,6 +1,16 @@
-<h1>Libros</h1>
+<h1>Books</h1>
 
 <a href="<%= newBookPath %>">New Book</a>
+
+<div class="search-container">
+  <form action="/books" method="get">
+    <input class="field" type="text" name="q" value="<%= q %>" placeholder="Harry Potter">
+    <input class="button" type="submit" value="Search">
+  </form>
+  <% if (q.length) { %>
+    <p>Results for '<span class="q"><%= q %></span>'</p>
+  <% } %>
+</div>
 
 <div class="cards-container">
   <% books.forEach((book) => { %>

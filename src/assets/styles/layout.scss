@@ -10,8 +10,11 @@ body, a, p, span {
 body {
   background: $cambalache-orange;
   background: linear-gradient(90deg, $cambalache-orange 0%, $cambalache-yellow 100%);
-  font-family: Raleway;
   padding: 40px 40px;
+}
+
+* {
+  font-family: Raleway;
 }
 
 a {
