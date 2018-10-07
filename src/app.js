@@ -87,16 +87,7 @@ app.use(routes.routes());
 app.use(async (ctx, next) => {
   await next();
   if (ctx.status === 404) {
-    await ctx.render('errors/404', {
-      authorsPath: ctx.router.url('authors'),
-      booksPath: ctx.router.url('books'),
-      genresPath: ctx.router.url('genres'),
-      usersPath: ctx.router.url('users'),
-      currentUser: ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId),
-      newSessionPath: ctx.router.url('session-new'),
-      destroySessionPath: ctx.router.url('session-destroy'),
-      newUserPath: ctx.router.url('users-new'),
-    });
+    await ctx.render('errors/404', { layout: 'base' });
   }
 });
 

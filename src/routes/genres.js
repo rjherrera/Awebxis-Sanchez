@@ -10,7 +10,7 @@ router.param('kebabName', async (kebabName, ctx, next) => {
     order: [['name', 'ASC']],
     where: { name: { $iLike: `${name}%` } },
   });
-  ctx.assert(genre, 404);
+  if (!genre) return ctx.render('errors/404');
   ctx.state.genre = genre;
   return next();
 });

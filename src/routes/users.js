@@ -5,7 +5,7 @@ const router = new KoaRouter();
 
 router.param('username', async (username, ctx, next) => {
   ctx.state.user = await ctx.orm.User.findOne({ where: { username: ctx.params.username } });
-  ctx.assert(ctx.state.user, 404);
+  if (!ctx.state.user) return ctx.render('errors/404');
   return next();
 });
 
