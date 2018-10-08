@@ -18,11 +18,15 @@
   <input type="submit" value="Destroy" />
 </form>
 
-<br>
+<br> 
+
 <% if (currentUser) { %>
-  <%- include('_have-it-form') %>
+  <% if (userHasIt) { %>
+    <%- include('_dont-have-it-form') %>  
+  <% } else {%>
+    <%- include('_have-it-form') %>
+  <%}%>
 <% } %>
-<br>
 
 <br>
 <% if (currentUser) { %>
