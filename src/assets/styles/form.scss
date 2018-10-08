@@ -13,6 +13,9 @@
     padding: 25px;
     border-radius: 15px;
     background: $cambalache-white;
+    .errors, ul {
+        color: $cambalache-orange;
+    }
     div {
         display: flex;
         align-items: stretch;
@@ -33,6 +36,9 @@
         outline: none;
         font-size: 14px;
         color: $cambalache-black;
+    }
+    input::placeholder, textarea::placeholder {
+        font-style: italic;
     }
     .button {
         border-block-end: none;

@@ -18,27 +18,27 @@
          <% } %>
          <div>
              <label for="username">Username</label>
-             <input type="text" name="username" value="<%= user.username %>" required/>
+             <input type="text" name="username" value="<%= user.username %>" placeholder="willywonka" required/>
          </div>
          <div>
             <label for="firstName">First Name</label>
-            <input type="text" name="firstName" value="<%= user.firstName %>" required/>
+            <input type="text" name="firstName" value="<%= user.firstName %>" placeholder="Willy" required/>
         </div>
         <div>
             <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" value="<%= user.lastName %>" />
+            <input type="text" name="lastName" value="<%= user.lastName %>" placeholder="Wonka" />
         </div>
          <div>
              <label for="email">Email</label>
-             <input type="email" name="email" value="<%= user.email %>" required/>
+             <input type="email" name="email" value="<%= user.email %>" placeholder="willy@wonka.com" required/>
          </div>
          <div>
              <label for="password">Password</label>
-             <input type="password" minlength=6 maxlength=20 name="password" value="<%= user.password %>" required/>
+             <input type="password" minlength=6 maxlength=20 name="password" value="<%= user.password %>" placeholder="•••••••••" required/>
          </div>
          <div class="button">
              <% if (user.isNewRecord) { %>
-             <input type="submit" name="create" value="Create" />
+             <input type="submit" name="create" value="Register" />
              <% } else { %>
              <input type="submit" name="update" value="Save" />
              <% } %>
