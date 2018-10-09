@@ -24,6 +24,7 @@
         <tr>
             <th>Author</th>
             <th>Title</th>
+            <th>Delete interest</th>
         </tr>
     </thead>
     <tbody>
@@ -31,6 +32,12 @@
             <tr>
                 <td><%= interest.author.name %></td>
                 <td><%= interest.title %></td>
+                <td>
+                    <form action="<%= destroyInterestPath(interest) %>" method="post">
+                        <input type="hidden" name="_method" value="delete" />
+                        <input type="submit" value="X" />
+                    </form>
+                </td>
             </tr>
         <% }) %>
     </tbody>
@@ -76,6 +83,7 @@
             <th>Book's state</th>
             <th>Book's comment</th>
             <th>Approve</th>
+            <th>Refuse</th>
         </thead>
         
         <tbody>
@@ -92,6 +100,12 @@
                             <input type="hidden" name="_method" value="patch" />
                             <input type="hidden" name="id" value="<%= pendingMatches[i].id %>"/>
                             <input type="submit" value="Approve it" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="<%= destroyMatchPath(pendingMatches[i]) %>" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            <input type="submit" value="Refuse it" />
                         </form>
                     </td>
                 </tr>

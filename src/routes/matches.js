@@ -2,6 +2,13 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
+router.param('id', async (id, ctx, next) => {
+  const match = await ctx.orm.Match.findById(id);
+  ctx.assert(match, 404);
+  ctx.state.match = match;
+  return next();
+});
+
 router.post('match-create', '/new', async (ctx) => {
   const match = await ctx.orm.Match.build(ctx.request.body);
   try {
@@ -51,5 +58,11 @@ router.patch('match-accept', '/', async (ctx) => {
   }
 });
 
+router.delete('match-destroy', '/:id', async (ctx) => {
+  const { match } = ctx.state;
+  console.log(match);
+  await match.destroy();
+  ctx.redirect(ctx.router.url('books'));
+});
 
 module.exports = router;

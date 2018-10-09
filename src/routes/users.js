@@ -149,6 +149,8 @@ router.get('users-show', '/:username', async (ctx) => {
     editUserPath: ctx.router.url('users-edit', user.username),
     createMatchPath: ctx.router.url('match-create', user.username),
     acceptMatchPath: ctx.router.url('match-accept', user.username),
+    destroyMatchPath: match => ctx.router.url('match-destroy', { id: match.id }),
+    destroyInterestPath: interest => ctx.router.url('interest-destroy', { id: interest.id }),
   });
 });
 

@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     comment: {
       type: DataTypes.TEXT,
     },
+    expired: {
+      type: DataTypes.BOOLEAN,
+    },
   }, {});
   BookInstance.associate = (models) => {
     BookInstance.belongsTo(models.User, { as: 'user', foreignKey: 'UserId' });

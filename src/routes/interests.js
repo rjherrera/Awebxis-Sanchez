@@ -2,10 +2,10 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-router.param('isbn', async (isbn, ctx, next) => {
-  const book = await ctx.orm.Book.findOne({ where: { isbn } });
-  ctx.assert(book, 404);
-  ctx.state.book = book;
+router.param('id', async (id, ctx, next) => {
+  const interest = await ctx.orm.Interest.findById(id);
+  ctx.assert(interest, 404);
+  ctx.state.interest = interest;
   return next();
 });
 
@@ -19,6 +19,13 @@ router.post('interest-create', '/', async (ctx) => {
     console.log(e.name);
     console.log(e.message);
   }
+});
+
+router.delete('interest-destroy', '/:id', async (ctx) => {
+  const { interest } = ctx.state;
+  console.log(interest);
+  await interest.destroy();
+  ctx.redirect(ctx.router.url('books'));
 });
 
 module.exports = router;
