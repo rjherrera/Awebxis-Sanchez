@@ -23,8 +23,7 @@ router.post('match-create', '/new', async (ctx) => {
 
 
 router.patch('match-accept', '/', async (ctx) => {
-//   const { match } = ctx.state;
-  const match = await ctx.orm.Match.findById(ctx.request.body.id);
+  const { match } = ctx.state;
   try {
     await match.update({ accepted: true });
 

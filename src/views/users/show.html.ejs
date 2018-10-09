@@ -96,9 +96,8 @@
                     <td><%= pendingMatches[i].instance1.state %></td>
                     <td><%= pendingMatches[i].instance1.comment %></td>
                     <td>
-                        <form action="<%= acceptMatchPath %>" method="post">
+                        <form action="<%= acceptMatchPath(pendingMatches[i]) %>" method="post">
                             <input type="hidden" name="_method" value="patch" />
-                            <input type="hidden" name="id" value="<%= pendingMatches[i].id %>"/>
                             <input type="submit" value="Approve it" />
                         </form>
                     </td>

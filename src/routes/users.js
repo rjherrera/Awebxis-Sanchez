@@ -123,13 +123,11 @@ router.get('users-show', '/:username', async (ctx) => {
   }
   bookTitlesPending = await Promise.all(bookTitlesPending);
 
-
   let userNames = [];
   for (let i = 0; i < pendingMatches.length; i += 1) {
     userNames.push(ctx.orm.User.findById(pendingMatches[i].instance1.UserId));
   }
   userNames = await Promise.all(userNames);
-
 
   await ctx.render('users/show', {
     user,
@@ -147,7 +145,7 @@ router.get('users-show', '/:username', async (ctx) => {
     usersContact,
     editUserPath: ctx.router.url('users-edit', user.username),
     createMatchPath: ctx.router.url('match-create', user.username),
-    acceptMatchPath: ctx.router.url('match-accept', user.username),
+    acceptMatchPath: match => ctx.router.url('match-accept', { id: match.id }),
     destroyMatchPath: match => ctx.router.url('match-destroy', { id: match.id }),
     destroyInterestPath: interest => ctx.router.url('interest-destroy', { id: interest.id }),
   });
