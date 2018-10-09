@@ -9,6 +9,7 @@ const users = require('./routes/users');
 const session = require('./routes/session');
 const bookInstances = require('./routes/bookInstances');
 const interests = require('./routes/interests');
+const matches = require('./routes/matches');
 
 const defaults = require('./defaults');
 
@@ -39,5 +40,6 @@ router.use('/users', users.routes());
 router.use('/session', session.routes());
 router.use('/bookInstances', bookInstances.routes());
 router.use('/interests', interests.routes());
+router.use('/matches', matches.routes());
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const KoaRouter = require('koa-router');
 const { Author } = require('../models');
 const { Book } = require('../models');
+const { BookInstance } = require('../models');
 
 const router = new KoaRouter();
 
@@ -68,16 +69,31 @@ router.get('users-show', '/:username', async (ctx) => {
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();
   const userBooks = await user.getUserBooks({ include: [{ model: Book, as: 'book' }] });
-  // const booksWithTitle = [];
-  // let aux;
-  // let titler;
-  // for (let i = 0; i < userBooks.length; i += 1) {
-  //   titler = await userBooks[i].getBook();
-  //   aux = userBooks[i];
-  //   aux.title = titler.title;
-  //   booksWithTitle.push(aux);
-  // }
-  // userBooks = booksWithTitle;
+  const currentUserBooks = await ctx.state.currentUser.getUserBooks({ include: [{ model: Book, as: 'book' }] });
+  const pendingMatches = await ctx.orm.Match.findAll({
+    include: [{ model: BookInstance, as: 'instance1' },
+      { model: BookInstance, as: 'instance2' }],
+    where: {
+      accepted: false,
+    },
+  });
+
+  let bookTitles = [];
+  for (let i = 0; i < pendingMatches.length; i += 1) {
+    let aux = [ctx.orm.Book.findById(pendingMatches[i].instance1.BookId),
+      ctx.orm.Book.findById(pendingMatches[i].instance2.BookId)];
+    aux = Promise.all(aux);
+    bookTitles.push(aux);
+  }
+  bookTitles = await Promise.all(bookTitles);
+
+  let userNames = [];
+  for (let i = 0; i < pendingMatches.length; i += 1) {
+    userNames.push(ctx.orm.User.findById(pendingMatches[i].instance1.UserId));
+  }
+  userNames = await Promise.all(userNames);
+
+
   await ctx.render('users/show', {
     user,
     interests,
@@ -85,7 +101,13 @@ router.get('users-show', '/:username', async (ctx) => {
     following,
     feedbacks,
     userBooks,
+    currentUserBooks,
+    pendingMatches,
+    bookTitles,
+    userNames,
     editUserPath: ctx.router.url('users-edit', user.username),
+    createMatchPath: ctx.router.url('match-create', user.username),
+    acceptMatchPath: ctx.router.url('match-accept', user.username),
   });
 });
 

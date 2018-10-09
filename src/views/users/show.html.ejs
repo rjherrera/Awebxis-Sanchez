@@ -15,6 +15,8 @@
     </tbody>
 </table>
 
+
+
 <h1>Interests</h1>
 
 <table>
@@ -34,6 +36,40 @@
     </tbody>
 </table>
 
+<% if (currentUser.username === user.username) { %>
+    <h2>Pending matches:</h2>
+    <table>
+        <thead>
+            <th>Proposing user</th>
+            <th>Proposed book</th>
+            <th>Your book</th>
+            <th>Book's state</th>
+            <th>Book's comment</th>
+            <th>Approve</th>
+        </thead>
+        
+        <tbody>
+            <% for (let i = 0; i < pendingMatches.length; i += 1) { %>
+                <tr>
+                    <td><%= userNames[i].username %></td>
+                    <td><%= bookTitles[i][0].title %></td>
+                    <td><%= bookTitles[i][1].title %></td>
+                    <td><%= pendingMatches[i].instance1.state %></td>
+                    <td><%= pendingMatches[i].instance1.comment %></td>
+                    <td>
+                        <form action="<%= acceptMatchPath %>" method="post">
+                            <input type="hidden" name="_method" value="patch" />
+                            <input type="hidden" name="id" value="<%= pendingMatches[i].id %>"/>
+                            <input type="submit" value="Approve it" />
+                        </form>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+<% } %>
+
+
 <h1>Books owned: <%= userBooks.length %> </h1>
 
 <table>
@@ -42,6 +78,9 @@
             <th>Title</th>
             <th>State</th>
             <th>Comment</th>
+            <% if (currentUser.username !== user.username) { %>
+                <th>Propose exchange</th>
+            <% } %>
         </tr>
     </thead>
     <tbody>
@@ -50,6 +89,21 @@
                 <td><%= instance.book.title %></td>
                 <td><%= instance.state %></td>
                 <td><%= instance.comment %></td>
+                <% if (currentUser.username !== user.username) { %>
+                    <td>
+                        <form action="<%= createMatchPath %>" method="post">
+                            <input type="hidden" name="MatchId2" value="<%= instance.id %>"/>
+                            <select name="MatchId1">
+                                <%= console.log(currentUserBooks.length) %>
+                                <% currentUserBooks.forEach(instance => { %>
+                                    <%= console.log(instance) %>
+                                    <option value="<%= instance.id %>"><%= instance.book.title %></option>
+                                <% }) %>
+                            </select>
+                            <input type="submit" value="Propose exchange" />
+                        </form>
+                    </td>
+                <% } %>
             </tr>
         <% }) %>
     </tbody>

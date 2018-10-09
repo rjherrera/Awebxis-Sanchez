@@ -8,6 +8,7 @@ module.exports = {
     },
     MatchId1: {
       type: Sequelize.INTEGER,
+      allowNull: false,
       references: {
         model: 'BookInstances',
         key: 'id',
@@ -15,6 +16,7 @@ module.exports = {
     },
     MatchId2: {
       type: Sequelize.INTEGER,
+      allowNull: false,
       references: {
         model: 'BookInstances',
         key: 'id',
