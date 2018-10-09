@@ -16,14 +16,12 @@ router.post('interest-create', '/', async (ctx) => {
     await interest.save();
     ctx.redirect(ctx.router.url('books'));
   } catch (e) {
-    console.log(e.name);
-    console.log(e.message);
+    ctx.redirect(ctx.router.url('books'));
   }
 });
 
 router.delete('interest-destroy', '/:id', async (ctx) => {
   const { interest } = ctx.state;
-  console.log(interest);
   await interest.destroy();
   ctx.redirect(ctx.router.url('books'));
 });

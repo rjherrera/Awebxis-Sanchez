@@ -1,13 +1,5 @@
 <div>
     <form action="<%= newInterestPath %>" method="post">
-        <% if (locals.interestErrors) { %>
-            <p class="errors">Check the following errors:</p>
-            <ul>
-                <% Object.keys(reviewErrors).forEach(prop => { %>
-                    <li><%= prop %>: <%= interestErrors[prop].message %></li>
-                <% }) %>
-            </ul>
-        <% } %>
         <form action="<%= newBookInstancePath %>" method="post">
             <input type="hidden" name="userId" value="<%= currentUser.id %>"/>
             <input type="hidden" name="bookId" value="<%= book.id %>"/>

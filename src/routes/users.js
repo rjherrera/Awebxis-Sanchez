@@ -96,10 +96,10 @@ router.get('users-show', '/:username', async (ctx) => {
 
   let usersContact = [];
   for (let i = 0; i < settledMatches.length; i += 1) {
-    if (settledMatches[i].instance1.UserId !== ctx.state.currentUser.id) {
-      usersContact.push(ctx.orm.User.findById(settledMatches[i].instance1.UserId));
+    if (settledMatches[i].instance1.userId !== ctx.state.currentUser.id) {
+      usersContact.push(ctx.orm.User.findById(settledMatches[i].instance1.userId));
     } else {
-      usersContact.push(ctx.orm.User.findById(settledMatches[i].instance2.UserId));
+      usersContact.push(ctx.orm.User.findById(settledMatches[i].instance2.userId));
     }
   }
   usersContact = await Promise.all(usersContact);
@@ -107,8 +107,8 @@ router.get('users-show', '/:username', async (ctx) => {
 
   let bookTitlesSettled = [];
   for (let i = 0; i < settledMatches.length; i += 1) {
-    let aux = [ctx.orm.Book.findById(settledMatches[i].instance1.BookId),
-      ctx.orm.Book.findById(settledMatches[i].instance2.BookId)];
+    let aux = [ctx.orm.Book.findById(settledMatches[i].instance1.bookId),
+      ctx.orm.Book.findById(settledMatches[i].instance2.bookId)];
     aux = Promise.all(aux);
     bookTitlesSettled.push(aux);
   }
@@ -116,8 +116,8 @@ router.get('users-show', '/:username', async (ctx) => {
 
   let bookTitlesPending = [];
   for (let i = 0; i < pendingMatches.length; i += 1) {
-    let aux = [ctx.orm.Book.findById(pendingMatches[i].instance1.BookId),
-      ctx.orm.Book.findById(pendingMatches[i].instance2.BookId)];
+    let aux = [ctx.orm.Book.findById(pendingMatches[i].instance1.bookId),
+      ctx.orm.Book.findById(pendingMatches[i].instance2.bookId)];
     aux = Promise.all(aux);
     bookTitlesPending.push(aux);
   }
@@ -125,7 +125,7 @@ router.get('users-show', '/:username', async (ctx) => {
 
   let userNames = [];
   for (let i = 0; i < pendingMatches.length; i += 1) {
-    userNames.push(ctx.orm.User.findById(pendingMatches[i].instance1.UserId));
+    userNames.push(ctx.orm.User.findById(pendingMatches[i].instance1.userId));
   }
   userNames = await Promise.all(userNames);
 

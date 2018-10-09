@@ -6,7 +6,6 @@ module.exports = {
     const instancesData = [];
     instancesJson.forEach((instance) => {
       instancesData.push({
-        id: instance.id,
         UserId: instance.UserId,
         BookId: instance.BookId,
         state: instance.state,

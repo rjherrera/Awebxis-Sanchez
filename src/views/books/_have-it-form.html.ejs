@@ -9,8 +9,8 @@
             </ul>
         <% } %>
         <form action="<%= newBookInstancePath %>" method="post">
-            <input type="hidden" name="UserId" value="<%= currentUser.id %>"/>
-            <input type="hidden" name="BookId" value="<%= book.id %>"/>
+            <input type="hidden" name="userId" value="<%= currentUser.id %>"/>
+            <input type="hidden" name="bookId" value="<%= book.id %>"/>
             <input type="hidden" name="state" value="2"/>
             <input type="hidden" name="comment" value="test"/>
             <input type="submit" value="Have it" />

@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
   BookInstance.associate = (models) => {
-    BookInstance.belongsTo(models.User, { as: 'user', foreignKey: 'UserId' });
-    BookInstance.belongsTo(models.Book, { as: 'book', foreignKey: 'BookId' });
+    BookInstance.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
+    BookInstance.belongsTo(models.Book, { as: 'book', foreignKey: 'bookId' });
   };
   return BookInstance;
 };

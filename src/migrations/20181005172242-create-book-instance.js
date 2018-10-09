@@ -6,14 +6,14 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    BookId: {
+    bookId: {
       type: Sequelize.INTEGER,
       references: {
         model: 'Books',
         key: 'id',
       },
     },
-    UserId: {
+    userId: {
       type: Sequelize.INTEGER,
       references: {
         model: 'Users',

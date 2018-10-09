@@ -2,37 +2,38 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
+router.param('id', async (userId, bookId, ctx, next) => {
+  ctx.state.bookId = bookId;
+  ctx.state.userId = userId;
+  return next();
+});
+
+
 router.post('bookInstance-create', '/', async (ctx) => {
-  // const { book } = ctx.state;
-  if (ctx.state.currentUser.username !== ctx.request.body.UserId) {
-    ctx.redirect(ctx.router.url('books'));
-  }
   const instance = await ctx.orm.BookInstance.build(ctx.request.body);
   try {
     await instance.save();
     ctx.redirect(ctx.router.url('books'));
   } catch (e) {
-    console.log(e.name);
-    console.log(e.message);
+    ctx.redirect(ctx.router.url('books'));
   }
 });
 
 router.delete('bookInstances-destroy', '/', async (ctx) => {
   // const { instance } = ctx.state;
-  const UserId = ctx.request.body.UserId;
-  if (ctx.state.currentUser.username !== UserId) {
-    ctx.redirect(ctx.router.url('books'));
-  }
-  const BookId = ctx.request.body.BookId;
-  const state = ctx.request.body.state;
-  const comment = ctx.request.body.comment;
+  const userId = ctx.state.currentUser.id;
+  const bookId = ctx.state.bookId;
   const instance = await ctx.orm.BookInstance.findOne({
     where: {
-      UserId, BookId, state, comment,
+      userId, bookId,
     },
   });
   if (instance) {
-    await instance.destroy();
+    try {
+      await instance.destroy();
+    } catch (e) {
+      ctx.redirect(ctx.router.url('books'));
+    }
   }
   ctx.redirect(ctx.router.url('books'));
 });
