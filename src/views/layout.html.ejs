@@ -31,7 +31,7 @@
       <a href="/users/<%= currentUser.username %>">Profile</a>
       <form action="<%= destroySessionPath %>" method="post">
         <input type="hidden" name="_method" value="delete" />
-        <input type="submit" value="Salir" />
+        <input type="submit" value="Log out" />
       </form>
     <% } else { %>
       <span class="name">Hello, Guest</span>

@@ -37,8 +37,8 @@ router.get('users-edit', '/:username/edit', async (ctx) => {
 
 router.post('users-create', '/', async (ctx) => {
   try {
-    const user = await ctx.orm.User.create(ctx.request.body);
-    ctx.redirect(ctx.router.url('users-show', { username: user.username }));
+    await ctx.orm.User.create(ctx.request.body);
+    ctx.redirect('/users');
   } catch (validationError) {
     await ctx.render('users/new', {
       user: ctx.orm.User.create(ctx.request.body),
@@ -68,8 +68,18 @@ router.get('users-show', '/:username', async (ctx) => {
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();
-  const userBooks = await user.getUserBooks({ include: [{ model: Book, as: 'book' }] });
-  const currentUserBooks = await ctx.state.currentUser.getUserBooks({ include: [{ model: Book, as: 'book' }] });
+  const userBooks = await user.getUserBooks({
+    include: [{ model: Book, as: 'book' }],
+    where: {
+      expired: false,
+    },
+  });
+  const currentUserBooks = await ctx.state.currentUser.getUserBooks({
+    include: [{ model: Book, as: 'book' }],
+    where: {
+      expired: false,
+    },
+  });
   const pendingMatches = await ctx.orm.Match.findAll({
     include: [{ model: BookInstance, as: 'instance1' },
       { model: BookInstance, as: 'instance2' }],
@@ -77,15 +87,43 @@ router.get('users-show', '/:username', async (ctx) => {
       accepted: false,
     },
   });
+  const settledMatches = await ctx.orm.Match.findAll({
+    include: [{ model: BookInstance, as: 'instance1' },
+      { model: BookInstance, as: 'instance2' }],
+    where: {
+      accepted: true,
+    },
+  });
 
-  let bookTitles = [];
+  let usersContact = [];
+  for (let i = 0; i < settledMatches.length; i += 1) {
+    if (settledMatches[i].instance1.UserId !== ctx.state.currentUser.id) {
+      usersContact.push(ctx.orm.User.findById(settledMatches[i].instance1.UserId));
+    } else {
+      usersContact.push(ctx.orm.User.findById(settledMatches[i].instance2.UserId));
+    }
+  }
+  usersContact = await Promise.all(usersContact);
+
+
+  let bookTitlesSettled = [];
+  for (let i = 0; i < settledMatches.length; i += 1) {
+    let aux = [ctx.orm.Book.findById(settledMatches[i].instance1.BookId),
+      ctx.orm.Book.findById(settledMatches[i].instance2.BookId)];
+    aux = Promise.all(aux);
+    bookTitlesSettled.push(aux);
+  }
+  bookTitlesSettled = await Promise.all(bookTitlesSettled);
+
+  let bookTitlesPending = [];
   for (let i = 0; i < pendingMatches.length; i += 1) {
     let aux = [ctx.orm.Book.findById(pendingMatches[i].instance1.BookId),
       ctx.orm.Book.findById(pendingMatches[i].instance2.BookId)];
     aux = Promise.all(aux);
-    bookTitles.push(aux);
+    bookTitlesPending.push(aux);
   }
-  bookTitles = await Promise.all(bookTitles);
+  bookTitlesPending = await Promise.all(bookTitlesPending);
+
 
   let userNames = [];
   for (let i = 0; i < pendingMatches.length; i += 1) {
@@ -103,8 +141,11 @@ router.get('users-show', '/:username', async (ctx) => {
     userBooks,
     currentUserBooks,
     pendingMatches,
-    bookTitles,
+    bookTitlesSettled,
+    bookTitlesPending,
     userNames,
+    settledMatches,
+    usersContact,
     editUserPath: ctx.router.url('users-edit', user.username),
     createMatchPath: ctx.router.url('match-create', user.username),
     acceptMatchPath: ctx.router.url('match-accept', user.username),
