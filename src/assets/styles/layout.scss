@@ -20,7 +20,7 @@ body {
 a {
   transition: all 50ms ease-in;
   &:hover {
-    color: $cambalache-grey;
+    font-weight: bold;
   }
 }
 
@@ -46,7 +46,6 @@ header {
       height: 100%;
       line-height: 20px;
       padding: 0 10px;
-      transition: background 50ms ease-in;
     }
   }
 }
@@ -57,5 +56,16 @@ header {
   height: 75%;
   img {
     height: 100%;
+  }
+}
+
+.icon-button {
+  cursor: pointer;
+  font-size: 18px;
+  background: none;
+  border: none;
+  color: $cambalache-white;
+  &:hover {
+    color: white;
   }
 }
