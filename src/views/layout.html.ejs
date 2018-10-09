@@ -19,26 +19,21 @@
         <img src="<%= assetPath('logo.svg') %>" alt="Logo" />
       </a>
       <nav>
-        <a href="/">Home</a>
         <a href="<%= booksPath %>">Books</a>
         <a href="<%= genresPath %>">Genres</a>
         <a href="<%= authorsPath %>">Authors</a>
-        <a href="<%= usersPath %>">Users</a>
+        <% if (currentUser) { %>
+          <a href="<%= buildUserPath(currentUser) %>"><%= currentUser.username %></a>
+          <form action="<%= destroySessionPath %>" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" class="icon-button"><i class="fa fa-sign-out-alt"></i></button>
+          </form>
+        <% } else { %>
+          <a href="<%= newUserPath %>">Sign up</a>
+          <a href="<%= newSessionPath %>">Sign in</a>
+        <% } %>
       </nav>
     </header>
-
-    <% if (currentUser) { %>
-      <span class="name">Hello, <%= currentUser.firstName %></span>
-      <form action="<%= destroySessionPath %>" method="post">
-        <input type="hidden" name="_method" value="delete" />
-        <input type="submit" value="Salir" />
-      </form>
-    <% } else { %>
-      <span class="name">Hello, Guest</span>
-      <a href="<%= newUserPath %>">Sign up</a>
-      <a href="<%= newSessionPath %>">Sign in</a>
-    <% } %>
-    
     <%- body %>
     <script src="<%= assetPath('app.js') %>"></script>
   </body>
