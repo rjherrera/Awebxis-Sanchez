@@ -1,6 +1,4 @@
 const KoaRouter = require('koa-router');
-const _ = require('lodash');
-const moment = require('moment');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 const { Author, User } = require('../models');
 
@@ -18,18 +16,20 @@ router.param('isbn', async (isbn, ctx, next) => {
 
 router.get('books', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
+  const q = ctx.query.q || '';
   const books = await ctx.orm.Book.findAll({
     offset: (page - 1) * ctx.state.pageSize,
     limit: ctx.state.pageSize,
     include: [{ model: Author, as: 'author' }],
+    where: { title: { $iLike: `%${q}%` } },
   });
   await ctx.render('books/index', {
     books,
-    buildBookPath: book => ctx.router.url('books-show', { isbn: book.isbn }),
     newBookPath: ctx.router.url('books-new'),
     page,
-    previousPagePath: ctx.router.url('books', { query: { page: page - 1 } }),
-    nextPagePath: ctx.router.url('books', { query: { page: page + 1 } }),
+    q,
+    previousPagePath: ctx.router.url('books', { query: { page: page - 1, q } }),
+    nextPagePath: ctx.router.url('books', { query: { page: page + 1, q } }),
   });
 });
 
@@ -38,7 +38,6 @@ router.get('books-new', '/new', async (ctx) => {
   await ctx.render('books/new', {
     book,
     submitBookPath: ctx.router.url('books-create'),
-    formatDate: date => moment(date).format('YYYY-MM-DD'),
   });
 });
 
@@ -47,7 +46,6 @@ router.get('books-edit', '/:isbn/edit', async (ctx) => {
   await ctx.render('books/edit', {
     book,
     submitBookPath: ctx.router.url('books-update', book.isbn),
-    formatDate: date => moment(date).format('YYYY-MM-DD'),
   });
 });
 
@@ -66,7 +64,6 @@ router.post('books-create', '/', async (ctx) => {
       book,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-create'),
-      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
@@ -87,7 +84,6 @@ router.patch('books-update', '/:isbn', async (ctx) => {
       book,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-update', book.isbn),
-      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
@@ -114,10 +110,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
-    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
-    buildUserPath: user => ctx.router.url('users-show', user.username),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
-    formatDate: (date, format) => moment(date).tz('GMT').format(format),
     newBookInstancePath: ctx.router.url('bookInstance-create', book.isbn),
     newInterestPath: ctx.router.url('interest-create', book.isbn),
     destroyBookInstancePath: ctx.router.url('bookInstances-destroy', book.isbn),

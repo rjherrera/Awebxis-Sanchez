@@ -10,6 +10,7 @@
     <link rel="shortcut icon" type="image/png" href="<%= assetPath('favicon.png') %>">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -18,27 +19,22 @@
         <img src="<%= assetPath('logo.svg') %>" alt="Logo" />
       </a>
       <nav>
-        <a href="/">Home</a>
         <a href="<%= booksPath %>">Books</a>
         <a href="<%= genresPath %>">Genres</a>
         <a href="<%= authorsPath %>">Authors</a>
-        <a href="<%= usersPath %>">Users</a>
+        <% if (currentUser) { %>
+          <a href="<%= buildUserPath(currentUser) %>"><%= currentUser.username %></a>
+          <form action="<%= destroySessionPath %>" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" class="icon-button"><i class="fa fa-sign-out-alt"></i></button>
+          </form>
+        <% } else { %>
+          <a href="<%= newUserPath %>">Sign up</a>
+          <a href="<%= newSessionPath %>">Sign in</a>
+        <% } %>
       </nav>
     </header>
 
-    <% if (currentUser) { %>
-      <span class="name">Hello, <%= currentUser.firstName %></span>
-      <a href="/users/<%= currentUser.username %>">Profile</a>
-      <form action="<%= destroySessionPath %>" method="post">
-        <input type="hidden" name="_method" value="delete" />
-        <input type="submit" value="Log out" />
-      </form>
-    <% } else { %>
-      <span class="name">Hello, Guest</span>
-      <a href="<%= newUserPath %>">Sign up</a>
-      <a href="<%= newSessionPath %>">Sign in</a>
-    <% } %>
-    
     <%- body %>
     <script src="<%= assetPath('app.js') %>"></script>
   </body>

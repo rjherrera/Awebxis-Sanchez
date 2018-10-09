@@ -1,5 +1,6 @@
-<div>
-  <form action="<%= submitAuthorPath %>" method="post">
+<div class="form-container">
+  <form action="<%= submitAuthorPath %>" method="post" class="form-card">
+    <h1 class="form-title"><%= title %></h1>
     <% if (locals.errors) { %>
     <p class="errors">Check the following errors:</p>
     <ul>
@@ -16,9 +17,9 @@
     <% } %>
     <div>
       <label for="name">Name</label>
-      <input type="text" name="name" value="<%= author.name %>" required />
+      <input type="text" name="name" value="<%= author.name %>" placeholder="Roald Dahl" required />
     </div>
-    <div>
+    <div class="button">
       <% if (author.isNewRecord) { %>
       <input type="submit" name="create" value="Create" />
       <% } else { %>

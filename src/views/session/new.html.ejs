@@ -1,25 +1,25 @@
-<div>
-  <% if (locals.notice) { %>
-    <div className="notice"><%= notice %></div>
-  <% } %>
-  <h1>Inicia sesión</h1>
-  <% if (locals.error) { %>
-    <div class="error">
+<div class="form-container">
+  <form action="<%= createSessionPath %>" method="post" class="form-card">
+    <h1 class="form-title">Sign in</h1>
+    <% if (locals.notice) { %>
+    <p className="errors"><%= notice %></p>
+    <% } %>
+    <% if (locals.error) { %>
+    <p class="errors">
       <%= error %>
-    </div>
-  <% } %>
-  <form action="<%= createSessionPath %>" method="post">
+    </p>
+    <% } %>
     <input type="hidden" name="_method" value="put" />
     <div>
       <label for="email">e-mail</label>
-      <input type="email" name="email" value="<%= locals.email %>" />
+      <input type="email" name="email" value="<%= locals.email %>" placeholder="willy@wonka.com" required/>
     </div>
     <div>
-      <label for="password">contraseña</label>
-      <input type="password" name="password" value="<%= locals.password %>" required/>
+      <label for="password">password</label>
+      <input type="password" name="password" value="<%= locals.password %>" placeholder="••••••••" required/>
     </div>
-    <div>
-      <input type="submit" name="sign-in" value="Iniciar sesión" />
+    <div class="button">
+      <input type="submit" name="sign-in" value="Sign in" />
     </div>
   </form>
 </div>

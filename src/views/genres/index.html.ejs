@@ -2,6 +2,16 @@
 
 <a href="<%= newGenrePath %>">New Genre</a>
 
+<div class="search-container">
+  <form action="/genres" method="get">
+    <input class="field" type="text" name="q" value="<%= q %>" placeholder="Drama">
+    <input class="button" type="submit" value="Search">
+  </form>
+  <% if (q.length) { %>
+    <p>Results for '<span class="q"><%= q %></span>'</p>
+  <% } %>
+</div>
+
 <div class="cards-container">
   <% genres.forEach((genre) => { %>
   <a class="card-label" href="<%= buildGenrePath(genre) %>">

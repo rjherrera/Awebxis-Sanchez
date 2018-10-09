@@ -1,0 +1,43 @@
+.search-container {
+    display: flex;
+    align-items: center;
+    flex-flow: column nowrap;
+    form {
+        display: flex;
+        align-items: stretch;
+        margin: 20px 0;
+        border: 1px solid $cambalache-white;
+        border-radius: 20px;
+        height: 30px;
+        width: 350px;
+        input {
+            outline: none;
+            font-size: 14px;
+            border: 0;
+        }
+    }
+    .field {
+        flex: 3;
+        background: none;
+        color: $cambalache-white;
+        padding: 0px 15px;
+    }
+    .field::placeholder {
+        font-style: italic;
+        color: $cambalache-white;
+        opacity: 0.5;
+    }
+    .button {
+        flex: 1;
+        border-radius: 20px;
+        color: $cambalache-black;
+        background: $cambalache-white;
+        cursor: pointer;
+    }
+    .button:hover {
+        opacity: 0.95;
+    }
+    .q {
+        font-weight: bold;
+    }
+}
