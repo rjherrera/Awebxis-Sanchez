@@ -13,7 +13,6 @@ router.get('users', '/', async (ctx) => {
   const users = await ctx.orm.User.findAll();
   await ctx.render('users/index', {
     users,
-    buildUserPath: user => ctx.router.url('users-show', { username: user.username }),
   });
 });
 
@@ -79,7 +78,7 @@ router.get('users-show', '/:username', async (ctx) => {
 router.delete('users-destroy', '/:username', async (ctx) => {
   const { user } = ctx.state;
   await user.destroy();
-  ctx.redirect(ctx.router.url('users'));
+  ctx.redirect(ctx.state.usersPath);
 });
 
 module.exports = router;

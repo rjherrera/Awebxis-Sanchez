@@ -1,4 +1,7 @@
 const KoaRouter = require('koa-router');
+const _ = require('lodash');
+
+const utils = require('./lib/utils');
 
 const authors = require('./routes/authors');
 const books = require('./routes/books');
@@ -22,8 +25,13 @@ router.use(async (ctx, next) => {
     newSessionPath: ctx.router.url('session-new'),
     destroySessionPath: ctx.router.url('session-destroy'),
     newUserPath: ctx.router.url('users-new'),
+    buildAuthorPath: author => ctx.router.url('authors-show', author.kebabName),
+    buildBookPath: book => ctx.router.url('books-show', book.isbn),
+    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
+    buildUserPath: user => ctx.router.url('users-show', user.username),
     pageSize: 24,
     defaults,
+    ...utils,
   });
   return next();
 });

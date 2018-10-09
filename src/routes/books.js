@@ -1,6 +1,4 @@
 const KoaRouter = require('koa-router');
-const _ = require('lodash');
-const moment = require('moment');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 const { Author, User } = require('../models');
 
@@ -25,7 +23,6 @@ router.get('books', '/', async (ctx) => {
   });
   await ctx.render('books/index', {
     books,
-    buildBookPath: book => ctx.router.url('books-show', { isbn: book.isbn }),
     newBookPath: ctx.router.url('books-new'),
     page,
     previousPagePath: ctx.router.url('books', { query: { page: page - 1 } }),
@@ -38,7 +35,6 @@ router.get('books-new', '/new', async (ctx) => {
   await ctx.render('books/new', {
     book,
     submitBookPath: ctx.router.url('books-create'),
-    formatDate: date => moment(date).format('YYYY-MM-DD'),
   });
 });
 
@@ -47,7 +43,6 @@ router.get('books-edit', '/:isbn/edit', async (ctx) => {
   await ctx.render('books/edit', {
     book,
     submitBookPath: ctx.router.url('books-update', book.isbn),
-    formatDate: date => moment(date).format('YYYY-MM-DD'),
   });
 });
 
@@ -66,7 +61,6 @@ router.post('books-create', '/', async (ctx) => {
       book,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-create'),
-      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
@@ -87,7 +81,6 @@ router.patch('books-update', '/:isbn', async (ctx) => {
       book,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-update', book.isbn),
-      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
@@ -105,10 +98,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
-    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
-    buildUserPath: user => ctx.router.url('users-show', user.username),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
-    formatDate: (date, format) => moment(date).tz('GMT').format(format),
   });
 });
 
