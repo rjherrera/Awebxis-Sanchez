@@ -2,6 +2,16 @@
 
 <a href="<%= newAuthorPath %>">New Author</a>
 
+<div class="search-container">
+  <form action="/authors" method="get">
+    <input class="field" type="text" name="q" value="<%= q %>" placeholder="Albert Einstein">
+    <input class="button" type="submit" value="Search">
+  </form>
+  <% if (q.length) { %>
+    <p>Results for '<span class="q"><%= q %></span>'</p>
+  <% } %>
+</div>
+
 <div class="cards-container">
   <% authors.forEach((author) => { %>
   <a class="card-label" href="<%= buildAuthorPath(author) %>">

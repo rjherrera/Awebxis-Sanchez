@@ -24,6 +24,7 @@ router.param('id', async (id, ctx, next) => {
 
 router.get('genres', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
+  const q = ctx.query.q || '';
   const genres = await ctx.orm.Genre.findAll({
     order: [['name', 'ASC']],
     offset: (page - 1) * ctx.state.pageSize,
@@ -34,13 +35,15 @@ router.get('genres', '/', async (ctx) => {
       limit: 1,
       separate: false,
     }],
+    where: { name: { $iLike: `%${q}%` } },
   });
   await ctx.render('genres/index', {
     genres,
     newGenrePath: ctx.router.url('genres-new'),
     page,
-    previousPagePath: ctx.router.url('genres', { query: { page: page - 1 } }),
-    nextPagePath: ctx.router.url('genres', { query: { page: page + 1 } }),
+    q,
+    previousPagePath: ctx.router.url('genres', { query: { page: page - 1, q } }),
+    nextPagePath: ctx.router.url('genres', { query: { page: page + 1, q } }),
   });
 });
 
