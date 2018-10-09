@@ -2,6 +2,13 @@
     display: flex;
     flex-flow: column nowrap;
     width: 80%;
+    .filled {
+        color: $cambalache-yellow;
+    }
+    .empty {
+        color: $cambalache-darkgrey;
+        opacity: 0.7;
+    }
 }
 
 .reviews-container {
@@ -44,13 +51,50 @@
             white-space: initial;
         }
     }
-    .rating {
-        .filled {
-            color: $cambalache-yellow;
-        }
-        .empty {
-            color: $cambalache-darkgrey;
-            opacity: 0.7;
-        }
+}
+
+form.review {
+    .review-area {
+        display: flex;
+        flex-flow: column wrap;
+        align-items: flex-end;
+        background: $cambalache-white;
+        border-radius: 10px;
+        padding: 15px;
     }
+    textarea {
+        width: 100%;
+        resize: vertical;
+        min-height: 50px;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        background: $cambalache-white;
+        font-size: 16px;
+    }
+    input[type=submit] {
+        cursor: pointer;
+        width: 200px;
+        height: 30px;
+        margin: 15px 0 0 15px;
+        padding: 0;
+        background: $cambalache-white;
+        border: 1px solid $cambalache-orange;
+        border-radius: 15px;
+        font-size: 14px;
+        outline: none;
+    }
+    input[type=submit]:hover {
+        opacity: 0.75;
+    }
+    .select {
+        cursor: pointer;
+        font-size: 20px;
+        padding: 4px;
+        margin: 0 -4px;
+    }
+    .select-hover {
+        color: $cambalache-yellow;
+        text-shadow: -1px 0 $cambalache-orange, 0 1px $cambalache-orange, 1px 0 $cambalache-orange, 0 -1px $cambalache-orange;
+    }   
 }

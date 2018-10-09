@@ -25,7 +25,7 @@ router.put('session-create', '/', async (ctx) => {
 
 router.delete('session-destroy', '/', (ctx) => {
   ctx.session = null;
-  ctx.redirect(ctx.router.url('session-new'));
+  ctx.redirect(ctx.state.newSessionPath);
 });
 
 module.exports = router;

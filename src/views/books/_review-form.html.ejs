@@ -1,5 +1,5 @@
 <div>
-    <form action="<%= submitReviewPath %>" method="post">
+    <form action="<%= submitReviewPath %>" method="post" class="review">
         <% if (locals.reviewErrors) { %>
             <p class="errors">Check the following errors:</p>
             <ul>
@@ -9,17 +9,44 @@
             </ul>
         <% } %>
         <!-- TODO: remove when session is implemented -->
-        <input type="number" hidden="true" name="userId" value="<%= currentUser.id%>" />
-        <div>
-            <label for="rating">Rating</label>
-            <input type="number" min="1" max="5" required="true" name="rating"/>
-        </div>
-        <div>
-            <label for="comment">Comment</label>
-            <textarea type="text" name="comment"></textarea>
-        </div>
-        <div>
-            <input type="submit" name="create" value="Create" />
+
+        <input type="number" hidden="true" name="userId" value="1" />
+        <div class="review-area">
+            <textarea type="text" name="comment" placeholder="Write something..."></textarea>
+            <input type="number" hidden="true" min="1" max="5" required="true" name="rating" value="3"/>
+            <div>
+                <i class="fa fa-star filled select" id="1"></i>
+                <i class="fa fa-star filled select" id="2"></i>
+                <i class="fa fa-star filled select" id="3"></i>
+                <i class="fa fa-star empty select" id="4"></i>
+                <i class="fa fa-star empty select" id="5"></i>
+                <input type="submit" name="create" value="Submit" />
+            </div>
         </div>
     </form>
 </div>
+
+<script>
+$('i').click((e) => {
+    let ratingStar = parseInt(e.target.id, 10);
+    $('input[name=rating]').val(ratingStar);
+    for (let i = 1; i <= ratingStar; i++) {
+        $(`i#${i}`).removeClass('empty').addClass('filled');
+    }
+    for (let i = ratingStar + 1; i <= 5; i++) {
+        $(`i#${i}`).removeClass('filled').addClass('empty');  
+    }
+});
+$('i').mouseover((e) => {
+    let ratingStar = parseInt(e.target.id, 10);
+    for (let i = 1; i <= ratingStar; i++) {
+        $(`i#${i}`).addClass('select-hover');
+    }
+});
+$('i').mouseout((e) => {
+    let ratingStar = parseInt(e.target.id, 10);
+    for (let i = 1; i <= ratingStar; i++) {
+        $(`i#${i}`).removeClass('select-hover');
+    }
+});
+</script>

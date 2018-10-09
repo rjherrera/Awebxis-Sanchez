@@ -10,14 +10,17 @@ body, a, p, span {
 body {
   background: $cambalache-orange;
   background: linear-gradient(90deg, $cambalache-orange 0%, $cambalache-yellow 100%);
-  font-family: Raleway;
   padding: 40px 40px;
+}
+
+* {
+  font-family: Raleway;
 }
 
 a {
   transition: all 50ms ease-in;
   &:hover {
-    color: $cambalache-grey;
+    font-weight: bold;
   }
 }
 
@@ -43,7 +46,6 @@ header {
       height: 100%;
       line-height: 20px;
       padding: 0 10px;
-      transition: background 50ms ease-in;
     }
   }
 }
@@ -54,5 +56,16 @@ header {
   height: 75%;
   img {
     height: 100%;
+  }
+}
+
+.icon-button {
+  cursor: pointer;
+  font-size: 18px;
+  background: none;
+  border: none;
+  color: $cambalache-white;
+  &:hover {
+    color: white;
   }
 }
