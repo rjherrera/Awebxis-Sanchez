@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { storage } = require('pkgcloud');
-const amazonConfig = require('../config/amazon');
+const clientConfig = require('../config/minio');
 
 const CONTAINER_NAME = 'cambalache';
 
@@ -9,12 +9,7 @@ let client;
 try {
   client = storage.createClient({
     provider: 'amazon',
-    keyId: 'MINIOACCESSKEY',
-    key: 'MINIOSECRETKEY',
-    region: 'us-west-2',
-    forcePathBucket: true,
-    endpoint: 'http://127.0.0.1:9000',
-    // ...amazonConfig
+    ...clientConfig,
   });
 } catch (e) {
   console.error('Cloud storage failed to initialize. Upload/download operations will throw error. More details: ', e);

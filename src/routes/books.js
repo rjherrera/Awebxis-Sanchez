@@ -54,15 +54,17 @@ router.get('books-edit', '/:isbn/edit', isAdmin, async (ctx) => {
 router.post('books-create', '/', isAdmin, async (ctx) => {
   const book = await ctx.orm.Book.build(ctx.request.body);
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
-  const { path: localImagePath, name: localImageName } = ctx.request.files.imageUrl;
-  const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
   try {
     await book.setAuthor(author, { save: false });
     await book.save(
       { fields: ['title', 'isbn', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
     );
-    await cloudStorage.upload(localImagePath, remoteImagePath);
-    await book.update({ imageUrl: remoteImagePath });
+    if (ctx.request.files.imageUrl.size) {
+      const { path: localImagePath, name: localImageName } = ctx.request.files.imageUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await book.update({ imageUrl: remoteImagePath });
+    }
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
@@ -81,8 +83,14 @@ router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
     await book.setAuthor(author);
     await book.update(
       ctx.request.body,
-      { fields: ['title', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description'] },
+      { fields: ['title', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description'] },
     );
+    if (ctx.request.files.imageUrl.size) {
+      const { path: localImagePath, name: localImageName } = ctx.request.files.imageUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await book.update({ imageUrl: remoteImagePath });
+    }
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
