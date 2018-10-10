@@ -92,15 +92,15 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
     },
   });
   const pendingMatches = await ctx.orm.Match.findAll({
-    include: [{ model: BookInstance, as: 'instance1' },
-      { model: BookInstance, as: 'instance2' }],
+    include: [{ model: BookInstance, as: 'proposerBookInstance' },
+      { model: BookInstance, as: 'proposeeBookInstance' }],
     where: {
       accepted: false,
     },
   });
   const settledMatches = await ctx.orm.Match.findAll({
-    include: [{ model: BookInstance, as: 'instance1' },
-      { model: BookInstance, as: 'instance2' }],
+    include: [{ model: BookInstance, as: 'proposerBookInstance' },
+      { model: BookInstance, as: 'proposeeBookInstance' }],
     where: {
       accepted: true,
     },
@@ -108,10 +108,10 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
 
   let usersContact = [];
   for (let i = 0; i < settledMatches.length; i += 1) {
-    if (settledMatches[i].instance1.userId !== ctx.state.currentUser.id) {
-      usersContact.push(ctx.orm.User.findById(settledMatches[i].instance1.userId));
+    if (settledMatches[i].proposerBookInstance.userId !== ctx.state.currentUser.id) {
+      usersContact.push(ctx.orm.User.findById(settledMatches[i].proposerBookInstance.userId));
     } else {
-      usersContact.push(ctx.orm.User.findById(settledMatches[i].instance2.userId));
+      usersContact.push(ctx.orm.User.findById(settledMatches[i].proposeeBookInstance.userId));
     }
   }
   usersContact = await Promise.all(usersContact);
@@ -119,8 +119,8 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
 
   let bookTitlesSettled = [];
   for (let i = 0; i < settledMatches.length; i += 1) {
-    let aux = [ctx.orm.Book.findById(settledMatches[i].instance1.bookId),
-      ctx.orm.Book.findById(settledMatches[i].instance2.bookId)];
+    let aux = [ctx.orm.Book.findById(settledMatches[i].proposerBookInstance.bookId),
+      ctx.orm.Book.findById(settledMatches[i].proposeeBookInstance.bookId)];
     aux = Promise.all(aux);
     bookTitlesSettled.push(aux);
   }
@@ -128,8 +128,8 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
 
   let bookTitlesPending = [];
   for (let i = 0; i < pendingMatches.length; i += 1) {
-    let aux = [ctx.orm.Book.findById(pendingMatches[i].instance1.bookId),
-      ctx.orm.Book.findById(pendingMatches[i].instance2.bookId)];
+    let aux = [ctx.orm.Book.findById(pendingMatches[i].proposerBookInstance.bookId),
+      ctx.orm.Book.findById(pendingMatches[i].proposeeBookInstance.bookId)];
     aux = Promise.all(aux);
     bookTitlesPending.push(aux);
   }
@@ -137,7 +137,7 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
 
   let userNames = [];
   for (let i = 0; i < pendingMatches.length; i += 1) {
-    userNames.push(ctx.orm.User.findById(pendingMatches[i].instance1.userId));
+    userNames.push(ctx.orm.User.findById(pendingMatches[i].proposerBookInstance.userId));
   }
   userNames = await Promise.all(userNames);
 

@@ -55,13 +55,13 @@
             <th>Contact</th>
         </thead>
         <% for (let i = 0; i < settledMatches.length; i += 1) { %>
-            <% if (settledMatches[i].instance2.userId === currentUser.id) {%>
+            <% if (settledMatches[i].proposeeBookInstanceId.userId === currentUser.id) {%>
             <tr>
                 <td><%= bookTitlesSettled[i][1].title %></td>
                 <td><%= bookTitlesSettled[i][0].title %></td>
                 <td><%= usersContact[i].email %></td>
             </tr>
-        <% } else if (settledMatches[i].instance1.userId === currentUser.id) { %>
+        <% } else if (settledMatches[i].proposerBookInstance.userId === currentUser.id) { %>
             <tr>
                 <td><%= bookTitlesSettled[i][0].title %></td>
                 <td><%= bookTitlesSettled[i][1].title %></td>
@@ -88,13 +88,13 @@
 
         <tbody>
             <% for (let i = 0; i < pendingMatches.length; i += 1) { %>
-                <% if (pendingMatches[i].instance2.userId === currentUser.id) {%>
+                <% if (pendingMatches[i].proposeeBookInstance.userId === currentUser.id) {%>
                 <tr>
                     <td><%= userNames[i].username %></td>
                     <td><%= bookTitlesPending[i][0].title %></td>
                     <td><%= bookTitlesPending[i][1].title %></td>
-                    <td><%= pendingMatches[i].instance1.state %></td>
-                    <td><%= pendingMatches[i].instance1.comment %></td>
+                    <td><%= pendingMatches[i].proposerBookInstance.state %></td>
+                    <td><%= pendingMatches[i].proposerBookInstance.comment %></td>
                     <td>
                         <form action="<%= acceptMatchPath(pendingMatches[i]) %>" method="post">
                             <input type="hidden" name="_method" value="patch" />
@@ -136,8 +136,8 @@
                 <% if (currentUser.username !== user.username) { %>
                     <td>
                         <form action="<%= createMatchPath %>" method="post">
-                            <input type="hidden" name="matchId2" value="<%= instance.id %>"/>
-                            <select name="matchId1" required>
+                            <input type="hidden" name="proposeeBookInstanceId" value="<%= instance.id %>"/>
+                            <select name="proposerBookInstanceId" required>
                                 <% currentUserBooks.forEach(instance => { %>
                                     <option value="<%= instance.id %>"><%= instance.book.title %></option>
                                 <% }) %>
