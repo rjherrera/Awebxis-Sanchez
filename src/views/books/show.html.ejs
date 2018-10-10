@@ -22,7 +22,10 @@
 
 <% if (currentUser) { %>
   <% if (userHasIt) { %>
-    <%- include('_dont-have-it-form') %>  
+    <form action="<%= destroyBookInstancePath(book.id) %>" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <input type="submit" value="Don't have it" />
+    </form>
   <% } else {%>
     <%- include('_have-it-form') %>
   <%}%>

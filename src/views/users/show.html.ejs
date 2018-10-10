@@ -96,14 +96,13 @@
                     <td><%= pendingMatches[i].instance1.state %></td>
                     <td><%= pendingMatches[i].instance1.comment %></td>
                     <td>
-                        <form action="<%= acceptMatchPath(pendingMatches[i]) %>" method="post">
-                            <input type="hidden" name="id" value="<%= pendingMatches[i].id %>" />
+                        <form action="<%= acceptMatchPath(pendingMatches[i].id) %>" method="post">
                             <input type="hidden" name="_method" value="patch" />
                             <input type="submit" value="Approve it" />
                         </form>
                     </td>
                     <td>
-                        <form action="<%= destroyMatchPath(pendingMatches[i]) %>" method="post">
+                        <form action="<%= destroyMatchPath(pendingMatches[i].id) %>" method="post">
                             <input type="hidden" name="_method" value="delete" />
                             <input type="submit" value="Refuse it" />
                         </form>

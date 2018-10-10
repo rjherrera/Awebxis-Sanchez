@@ -2,9 +2,8 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-router.param('id', async (userId, bookId, ctx, next) => {
+router.param('bookId', async (bookId, ctx, next) => {
   ctx.state.bookId = bookId;
-  ctx.state.userId = userId;
   return next();
 });
 
@@ -19,8 +18,7 @@ router.post('bookInstance-create', '/', async (ctx) => {
   }
 });
 
-router.delete('bookInstances-destroy', '/', async (ctx) => {
-  // const { instance } = ctx.state;
+router.delete('bookInstances-destroy', '/:bookId', async (ctx) => {
   const userId = ctx.state.currentUser.id;
   const bookId = ctx.state.bookId;
   const instance = await ctx.orm.BookInstance.findOne({
@@ -32,6 +30,8 @@ router.delete('bookInstances-destroy', '/', async (ctx) => {
     try {
       await instance.destroy();
     } catch (e) {
+      console.log(e.name);
+      console.log(e.message);
       ctx.redirect(ctx.router.url('books'));
     }
   }

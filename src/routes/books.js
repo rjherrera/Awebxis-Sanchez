@@ -117,7 +117,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
     newBookInstancePath: ctx.router.url('bookInstance-create'),
     newInterestPath: ctx.router.url('interest-create', book.isbn),
-    destroyBookInstancePath: () => ctx.router.url('bookInstances-destroy', { bookId: book.id }),
+    destroyBookInstancePath: bookId => ctx.router.url('bookInstances-destroy', { bookId }),
   });
 });
 

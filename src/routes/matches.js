@@ -2,10 +2,10 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-router.param('id', async (id, ctx, next) => {
-  const match = await ctx.orm.Match.findById(id);
-  ctx.assert(match, 404);
-  ctx.state.match = match;
+router.param('matchId', async (matchId, ctx, next) => {
+  // const match = await ctx.orm.Match.findById(matchId);
+  // ctx.assert(match, 404);
+  ctx.state.matchId = matchId;
   return next();
 });
 
@@ -20,9 +20,9 @@ router.post('match-create', '/new', async (ctx) => {
 });
 
 
-router.patch('match-accept', '/', async (ctx) => {
+router.patch('match-accept', '/:matchId', async (ctx) => {
 //   const { match } = ctx.state;
-  const match = await ctx.orm.Match.findById(ctx.request.body.id);
+  const match = await ctx.orm.Match.findById(ctx.state.matchId);
   //   console.log(ctx.state);
   try {
     await match.update({ accepted: true });
@@ -56,8 +56,8 @@ router.patch('match-accept', '/', async (ctx) => {
   }
 });
 
-router.delete('match-destroy', '/:id', async (ctx) => {
-  const { match } = ctx.state;
+router.delete('match-destroy', '/:matchId', async (ctx) => {
+  const match = await ctx.orm.Match.findById(ctx.state.matchId);
   await match.destroy();
   ctx.redirect(ctx.router.url('books'));
 });
