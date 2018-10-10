@@ -1,6 +1,8 @@
 <h1>Authors</h1>
 
-<a href="<%= newAuthorPath %>">New Author</a>
+<% if (currentUserIsAdmin) { %>
+  <a href="<%= newAuthorPath %>">New Author</a>
+<% } %>
 
 <div class="search-container">
   <form action="/authors" method="get">

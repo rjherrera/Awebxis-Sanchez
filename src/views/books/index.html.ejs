@@ -1,6 +1,8 @@
 <h1>Books</h1>
 
-<a href="<%= newBookPath %>">New Book</a>
+<% if (currentUserIsAdmin) { %>
+  <a href="<%= newBookPath %>">New Book</a>
+<% } %>
 
 <div class="search-container">
   <form action="/books" method="get">

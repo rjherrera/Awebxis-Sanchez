@@ -19,15 +19,17 @@ const defaults = require('./defaults');
 const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
+  const currentUser = ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId);
   Object.assign(ctx.state, {
     authorsPath: ctx.router.url('authors'),
     booksPath: ctx.router.url('books'),
     genresPath: ctx.router.url('genres'),
     usersPath: ctx.router.url('users'),
-    currentUser: ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId),
+    newUserPath: ctx.router.url('users-new'),
     newSessionPath: ctx.router.url('session-new'),
     destroySessionPath: ctx.router.url('session-destroy'),
-    newUserPath: ctx.router.url('users-new'),
+    currentUser,
+    currentUserIsAdmin: currentUser && currentUser.admin,
     buildAuthorPath: author => ctx.router.url('authors-show', author.kebabName),
     buildBookPath: book => ctx.router.url('books-show', book.isbn),
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
