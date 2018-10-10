@@ -80,15 +80,24 @@ render(app, {
 
 mailer(app);
 
-// Routing middleware
-app.use(routes.routes());
-
-// 404
+// Error handling
 app.use(async (ctx, next) => {
-  await next();
-  if (ctx.status === 404) {
-    await ctx.render('errors/404', { layout: 'base' });
+  try {
+    await next();
+  } catch (err) {
+    ctx.status = err.status || 500;
+    switch (ctx.status) {
+      case 404:
+        await ctx.render('errors/404');
+        break;
+      default:
+        await ctx.render('errors/500');
+        break;
+    }
   }
 });
+
+// Routing middleware
+app.use(routes.routes());
 
 module.exports = app;

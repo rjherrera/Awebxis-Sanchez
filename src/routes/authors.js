@@ -10,7 +10,7 @@ router.param('kebabName', async (kebabName, ctx, next) => {
     order: [['name', 'ASC']],
     where: { kebabName },
   });
-  if (!author) return ctx.render('errors/404');
+  ctx.assert(author, 404);
   ctx.state.author = author;
   return next();
 });

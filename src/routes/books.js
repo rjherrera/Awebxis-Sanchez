@@ -11,7 +11,7 @@ router.param('isbn', async (isbn, ctx, next) => {
     where: { isbn },
     include: [{ model: Author, as: 'author' }],
   });
-  if (!book) return ctx.render('errors/404');
+  ctx.assert(book, 404);
   ctx.state.book = book;
   return next();
 });
