@@ -6,7 +6,7 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    matchId1: {
+    proposerBookInstanceId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
@@ -14,7 +14,7 @@ module.exports = {
         key: 'id',
       },
     },
-    matchId2: {
+    proposeeBookInstanceId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
