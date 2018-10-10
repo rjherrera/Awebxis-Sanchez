@@ -157,8 +157,8 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
     usersContact,
     editUserPath: ctx.router.url('users-edit', user.username),
     createMatchPath: ctx.router.url('match-create', user.username),
-    acceptMatchPath: matchId => ctx.router.url('match-accept', { matchId }),
-    destroyMatchPath: matchId => ctx.router.url('match-destroy', { matchId }),
+    acceptMatchPath: match => ctx.router.url('match-accept', { id: match.id }),
+    destroyMatchPath: match => ctx.router.url('match-destroy', { id: match.id }),
     destroyInterestPath: interest => ctx.router.url('interest-destroy', { id: interest.id }),
   });
 });
