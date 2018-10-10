@@ -1,11 +1,14 @@
 <h1><%= genre.name %></h1>
 
 <a href="<%= genresPath %>">Back to all genres</a>
-<a href="<%= editGenrePath %>">Edit</a>
-<form action="<%= destroyGenrePath %>" method="post">
-  <input type="hidden" name="_method" value="delete" />
-  <input type="submit" value="Destroy" />
-</form>
+
+<% if (currentUserIsAdmin) { %>
+  <a href="<%= editGenrePath %>">Edit</a>
+  <form action="<%= destroyGenrePath %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <input type="submit" value="Destroy" />
+  </form>
+<% } %>
 
 <div class="cards-container">
   <% books.forEach((book) => { %>

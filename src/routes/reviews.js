@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
+const { isLoggedIn } = require('../lib/routes/permissions');
 
 const router = new KoaRouter();
 
@@ -10,7 +11,7 @@ router.param('isbn', async (isbn, ctx, next) => {
   return next();
 });
 
-router.post('reviews-create', '/:isbn', async (ctx) => {
+router.post('reviews-create', '/:isbn', isLoggedIn, async (ctx) => {
   const { book } = ctx.state;
   const review = await ctx.orm.Review.build(ctx.request.body);
   try {

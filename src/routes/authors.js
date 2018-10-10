@@ -1,6 +1,7 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
+const { isAdmin } = require('../lib/routes/permissions');
 const { Book } = require('../models');
 
 const router = new KoaRouter();
@@ -35,7 +36,7 @@ router.get('authors', '/', async (ctx) => {
   });
 });
 
-router.get('authors-new', '/new', async (ctx) => {
+router.get('authors-new', '/new', isAdmin, async (ctx) => {
   const author = ctx.orm.Author.build();
   await ctx.render('authors/new', {
     author,
@@ -43,7 +44,7 @@ router.get('authors-new', '/new', async (ctx) => {
   });
 });
 
-router.get('authors-edit', '/:kebabName/edit', async (ctx) => {
+router.get('authors-edit', '/:kebabName/edit', isAdmin, async (ctx) => {
   const { author } = ctx.state;
   await ctx.render('authors/edit', {
     author,
@@ -51,7 +52,7 @@ router.get('authors-edit', '/:kebabName/edit', async (ctx) => {
   });
 });
 
-router.post('authors-create', '/', async (ctx) => {
+router.post('authors-create', '/', isAdmin, async (ctx) => {
   const { name } = ctx.request.body;
   const author = await ctx.orm.Author.build({ name, kebabName: _.kebabCase(name) });
   try {
@@ -67,7 +68,7 @@ router.post('authors-create', '/', async (ctx) => {
   }
 });
 
-router.patch('authors-update', '/:kebabName', async (ctx) => {
+router.patch('authors-update', '/:kebabName', isAdmin, async (ctx) => {
   const { author } = ctx.state;
   const { name } = ctx.request.body;
   try {
@@ -100,7 +101,7 @@ router.get('authors-show', '/:kebabName', async (ctx) => {
   });
 });
 
-router.delete('authors-destroy', '/:kebabName', async (ctx) => {
+router.delete('authors-destroy', '/:kebabName', isAdmin, async (ctx) => {
   const { author } = ctx.state;
   await author.destroy();
   ctx.redirect(ctx.state.authorsPath);
