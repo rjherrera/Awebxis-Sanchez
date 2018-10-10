@@ -13,7 +13,7 @@
 <div class="cards-container">
   <% books.forEach((book) => { %>
   <a class="card-book" href="<%= buildBookPath(book) %>">
-    <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
+    <img src="<%= getBookImagePath(book) %>" alt="<%= book.title %>">
     <div class="shadow">
       <p class="title"><%= book.title %></p>
       <p class="author"><%= book.author.name %></p>

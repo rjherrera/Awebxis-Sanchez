@@ -9,7 +9,12 @@ let client;
 try {
   client = storage.createClient({
     provider: 'amazon',
-    ...amazonConfig,
+    keyId: 'MINIOACCESSKEY',
+    key: 'MINIOSECRETKEY',
+    region: 'us-west-2',
+    forcePathBucket: true,
+    endpoint: 'http://127.0.0.1:9000',
+    // ...amazonConfig
   });
 } catch (e) {
   console.error('Cloud storage failed to initialize. Upload/download operations will throw error. More details: ', e);
@@ -46,7 +51,7 @@ function upload(localPath, remotePath) {
  */
 function download(remotePath) {
   assertClientInitialized();
-  return client.download({ container: CONTAINER_NAME, remote: encodeURIComponent(remotePath) });
+  return client.download({ container: CONTAINER_NAME, remote: remotePath });
 }
 
 function buildRemotePath(fileName, { directoryPath, namePrefix }) {

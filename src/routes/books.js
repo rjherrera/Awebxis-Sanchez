@@ -1,4 +1,5 @@
 const KoaRouter = require('koa-router');
+const cloudStorage = require('../lib/cloud-storage');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 const { isAdmin } = require('../lib/routes/permissions');
 const { Author, User } = require('../models');
@@ -53,11 +54,15 @@ router.get('books-edit', '/:isbn/edit', isAdmin, async (ctx) => {
 router.post('books-create', '/', isAdmin, async (ctx) => {
   const book = await ctx.orm.Book.build(ctx.request.body);
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
+  const { path: localImagePath, name: localImageName } = ctx.request.files.imageUrl;
+  const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
   try {
     await book.setAuthor(author, { save: false });
     await book.save(
-      { fields: ['title', 'isbn', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
+      { fields: ['title', 'isbn', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
     );
+    await cloudStorage.upload(localImagePath, remoteImagePath);
+    await book.update({ imageUrl: remoteImagePath });
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
@@ -99,11 +104,21 @@ router.get('books-show', '/:isbn', async (ctx) => {
   await ctx.render('books/show', {
     genres,
     reviews,
+    bookImagePath: ctx.router.url('books-show-image', book.isbn),
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
   });
+});
+
+router.get('books-show-image', '/:isbn/image', async (ctx) => {
+  const { imageUrl } = ctx.state.book;
+  if (/^https?:\/\//.test(imageUrl)) {
+    ctx.redirect(imageUrl);
+  } else {
+    ctx.body = cloudStorage.download(imageUrl);
+  }
 });
 
 router.delete('books-destroy', '/:isbn', isAdmin, async (ctx) => {

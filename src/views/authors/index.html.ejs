@@ -17,7 +17,7 @@
 <div class="cards-container">
   <% authors.forEach((author) => { %>
   <a class="card-label" href="<%= buildAuthorPath(author) %>">
-    <img src="<%= author.books.length ? author.books[0].imageUrl : defaults.bookImageUrl %>" alt="<%= author.name %>">
+    <img src="<%= author.books.length ? getBookImagePath(author.books[0]) : defaults.bookImageUrl %>" alt="<%= author.name %>">
     <div class="shadow">
       <p class="label"><%= author.name %></p>
     </div>
