@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
+const { isAdmin } = require('../lib/routes/permissions');
 const { Author, User } = require('../models');
 
 const router = new KoaRouter();
@@ -33,7 +34,7 @@ router.get('books', '/', async (ctx) => {
   });
 });
 
-router.get('books-new', '/new', async (ctx) => {
+router.get('books-new', '/new', isAdmin, async (ctx) => {
   const book = ctx.orm.Book.build();
   await ctx.render('books/new', {
     book,
@@ -41,7 +42,7 @@ router.get('books-new', '/new', async (ctx) => {
   });
 });
 
-router.get('books-edit', '/:isbn/edit', async (ctx) => {
+router.get('books-edit', '/:isbn/edit', isAdmin, async (ctx) => {
   const { book } = ctx.state;
   await ctx.render('books/edit', {
     book,
@@ -49,7 +50,7 @@ router.get('books-edit', '/:isbn/edit', async (ctx) => {
   });
 });
 
-router.post('books-create', '/', async (ctx) => {
+router.post('books-create', '/', isAdmin, async (ctx) => {
   const book = await ctx.orm.Book.build(ctx.request.body);
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
   try {
@@ -68,7 +69,7 @@ router.post('books-create', '/', async (ctx) => {
   }
 });
 
-router.patch('books-update', '/:isbn', async (ctx) => {
+router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
   const { book } = ctx.state;
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
   try {
@@ -105,7 +106,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
   });
 });
 
-router.delete('books-destroy', '/:isbn', async (ctx) => {
+router.delete('books-destroy', '/:isbn', isAdmin, async (ctx) => {
   const { book } = ctx.state;
   await book.destroy();
   ctx.redirect(ctx.router.url('books'));
