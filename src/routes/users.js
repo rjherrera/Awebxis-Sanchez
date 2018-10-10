@@ -1,4 +1,5 @@
 const KoaRouter = require('koa-router');
+const cloudStorage = require('../lib/cloud-storage');
 const { isLoggedIn, isAdmin } = require('../lib/routes/permissions');
 const { Author } = require('../models');
 
@@ -43,6 +44,13 @@ router.get('users-edit', '/:username/edit', isAdminOrSelf, async (ctx) => {
 router.post('users-create', '/', async (ctx) => {
   try {
     const user = await ctx.orm.User.create(ctx.request.body);
+    const { files } = ctx.request;
+    if (files.profilePicUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.profilePicUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'users', namePrefix: user.username });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await user.update({ profilePicUrl: remoteImagePath });
+    }
     ctx.redirect(ctx.router.url('users-show', { username: user.username }));
   } catch (validationError) {
     await ctx.render('users/new', {
@@ -61,6 +69,13 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
     await user.update(params, {
       fields: ['username', 'firstName', 'lastName', 'email', 'password'],
     });
+    const { files } = ctx.request;
+    if (files.profilePicUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.profilePicUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'users', namePrefix: user.username });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await user.update({ profilePicUrl: remoteImagePath });
+    }
     ctx.redirect(ctx.router.url('users-show', { username: user.username }));
   } catch (validationError) {
     await ctx.render('names/edit', {
@@ -85,6 +100,15 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
     feedbacks,
     editUserPath: ctx.router.url('users-edit', user.username),
   });
+});
+
+router.get('users-show-image', '/:username/image', async (ctx) => {
+  const { profilePicUrl } = ctx.state.user;
+  if (/^https?:\/\//.test(profilePicUrl)) {
+    ctx.redirect(profilePicUrl);
+  } else {
+    ctx.body = cloudStorage.download(profilePicUrl);
+  }
 });
 
 router.delete('users-destroy', '/:username', isAdmin, async (ctx) => {

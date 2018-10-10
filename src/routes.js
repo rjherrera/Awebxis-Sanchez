@@ -32,6 +32,7 @@ router.use(async (ctx, next) => {
     getBookImagePath: book => ctx.router.url('books-show-image', book.isbn),
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
     buildUserPath: user => ctx.router.url('users-show', user.username),
+    getUserProfilePicPath: user => ctx.router.url('users-show-image', user.username),
     pageSize: 24,
     defaults,
     ...utils,

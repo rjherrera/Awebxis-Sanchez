@@ -59,8 +59,9 @@ router.post('books-create', '/', isAdmin, async (ctx) => {
     await book.save(
       { fields: ['title', 'isbn', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
     );
-    if (ctx.request.files.imageUrl.size) {
-      const { path: localImagePath, name: localImageName } = ctx.request.files.imageUrl;
+    const { files } = ctx.request;
+    if (files.imageUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.imageUrl;
       const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
       await cloudStorage.upload(localImagePath, remoteImagePath);
       await book.update({ imageUrl: remoteImagePath });
@@ -85,8 +86,9 @@ router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
       ctx.request.body,
       { fields: ['title', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description'] },
     );
-    if (ctx.request.files.imageUrl.size) {
-      const { path: localImagePath, name: localImageName } = ctx.request.files.imageUrl;
+    const { files } = ctx.request;
+    if (files.imageUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.imageUrl;
       const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
       await cloudStorage.upload(localImagePath, remoteImagePath);
       await book.update({ imageUrl: remoteImagePath });
