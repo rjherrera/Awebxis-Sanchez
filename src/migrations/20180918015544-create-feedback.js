@@ -8,6 +8,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       feedbackerId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
@@ -15,6 +16,7 @@ module.exports = {
         },
       },
       feedbackeeId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
