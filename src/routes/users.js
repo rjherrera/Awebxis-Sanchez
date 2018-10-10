@@ -48,7 +48,11 @@ router.post('users-create', '/', async (ctx) => {
 router.patch('users-update', '/:username', async (ctx) => {
   const { user } = ctx.state;
   try {
-    await user.update(ctx.request.body);
+    const params = ctx.request.body;
+    if (!params.password) delete params.password;
+    await user.update(params, {
+      fields: ['username', 'firstName', 'lastName', 'email', 'password'],
+    });
     ctx.redirect(ctx.router.url('users-show', { username: user.username }));
   } catch (validationError) {
     await ctx.render('names/edit', {
