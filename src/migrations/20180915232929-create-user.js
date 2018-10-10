@@ -36,7 +36,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      profile_pic_url: {
+      profilePicUrl: {
         allowNull: true,
         type: Sequelize.STRING,
       },
