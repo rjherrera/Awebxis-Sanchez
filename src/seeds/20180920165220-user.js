@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const faker = require('faker');
 const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
         email: user.email,
         password: await bcrypt.hash(user.password, 10),
         admin: user.admin,
-        profilePicUrl: null,
+        profilePicUrl: faker.image.avatar(),
         createdAt: new Date(),
         updatedAt: new Date(),
       })),
