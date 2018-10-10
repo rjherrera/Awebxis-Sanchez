@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
+const { isAdmin } = require('../lib/routes/permissions');
 const { Author, Book } = require('../models');
 
 const router = new KoaRouter();
@@ -47,7 +48,7 @@ router.get('genres', '/', async (ctx) => {
   });
 });
 
-router.get('genres-new', '/new', async (ctx) => {
+router.get('genres-new', '/new', isAdmin, async (ctx) => {
   const genre = ctx.orm.Genre.build();
   await ctx.render('genres/new', {
     genre,
@@ -55,7 +56,7 @@ router.get('genres-new', '/new', async (ctx) => {
   });
 });
 
-router.get('genres-edit', '/:kebabName/edit', async (ctx) => {
+router.get('genres-edit', '/:kebabName/edit', isAdmin, async (ctx) => {
   const { genre } = ctx.state;
   await ctx.render('genres/edit', {
     genre,
@@ -63,7 +64,7 @@ router.get('genres-edit', '/:kebabName/edit', async (ctx) => {
   });
 });
 
-router.post('genres-create', '/', async (ctx) => {
+router.post('genres-create', '/', isAdmin, async (ctx) => {
   try {
     const genre = await ctx.orm.Genre.create(ctx.request.body);
     ctx.redirect(ctx.router.url('genres-show', _.kebabCase(genre.name)));
@@ -76,7 +77,7 @@ router.post('genres-create', '/', async (ctx) => {
   }
 });
 
-router.patch('genres-update', '/:id', async (ctx) => {
+router.patch('genres-update', '/:id', isAdmin, async (ctx) => {
   const { genre } = ctx.state;
   try {
     await genre.update(ctx.request.body);
@@ -109,7 +110,7 @@ router.get('genres-show', '/:kebabName', async (ctx) => {
   });
 });
 
-router.delete('genres-destroy', '/:id', async (ctx) => {
+router.delete('genres-destroy', '/:id', isAdmin, async (ctx) => {
   const { genre } = ctx.state;
   await genre.destroy();
   ctx.redirect(ctx.state.genresPath);
