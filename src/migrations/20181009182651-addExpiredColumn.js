@@ -9,7 +9,7 @@ module.exports = {
   ),
 
   down: queryInterface => queryInterface.removeColumn(
-    'BooksInstances',
+    'BookInstances',
     'expired',
   ),
 };
