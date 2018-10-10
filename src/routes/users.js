@@ -1,7 +1,15 @@
 const KoaRouter = require('koa-router');
+const { isAdmin } = require('../lib/routes/permissions');
 const { Author } = require('../models');
 
 const router = new KoaRouter();
+
+function isAdminOrSelf(ctx, next) {
+  if (ctx.state.user.id === ctx.state.currentUser.id) {
+    return next();
+  }
+  return isAdmin(ctx, next);
+}
 
 router.param('username', async (username, ctx, next) => {
   ctx.state.user = await ctx.orm.User.findOne({ where: { username: ctx.params.username } });
@@ -24,7 +32,7 @@ router.get('users-new', '/new', async (ctx) => {
   });
 });
 
-router.get('users-edit', '/:username/edit', async (ctx) => {
+router.get('users-edit', '/:username/edit', isAdminOrSelf, async (ctx) => {
   const { user } = ctx.state;
   await ctx.render('users/edit', {
     user,
@@ -45,7 +53,7 @@ router.post('users-create', '/', async (ctx) => {
   }
 });
 
-router.patch('users-update', '/:username', async (ctx) => {
+router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
   const { user } = ctx.state;
   try {
     await user.update(ctx.request.body);
@@ -59,7 +67,7 @@ router.patch('users-update', '/:username', async (ctx) => {
   }
 });
 
-router.get('users-show', '/:username', async (ctx) => {
+router.get('users-show', '/:username', isAdminOrSelf, async (ctx) => {
   const { user } = ctx.state;
   const interests = await user.getInterests({ include: [{ model: Author, as: 'author' }] });
   const followers = await user.getFollowers();
@@ -75,7 +83,7 @@ router.get('users-show', '/:username', async (ctx) => {
   });
 });
 
-router.delete('users-destroy', '/:username', async (ctx) => {
+router.delete('users-destroy', '/:username', isAdmin, async (ctx) => {
   const { user } = ctx.state;
   await user.destroy();
   ctx.redirect(ctx.state.usersPath);
