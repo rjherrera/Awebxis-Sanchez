@@ -30,7 +30,9 @@
 
   <div class="reviews-section">
       <h1 class="section-title">Reviews</h1>
-      <%- include('_review-form') %>
+      <% if (currentUser) { %>
+        <%- include('_review-form') %>
+      <% } %>
       <div class="reviews-container">
         <% reviews.forEach(review => { %>
         <div class="review">
