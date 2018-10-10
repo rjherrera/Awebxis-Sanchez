@@ -1,6 +1,8 @@
 <h1>Genres</h1>
 
-<a href="<%= newGenrePath %>">New Genre</a>
+<% if (currentUserIsAdmin) { %>
+  <a href="<%= newGenrePath %>">New Genre</a>
+<% } %>
 
 <div class="search-container">
   <form action="/genres" method="get">
