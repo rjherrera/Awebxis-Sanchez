@@ -1,0 +1,25 @@
+<h1>Interests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Author</th>
+      <th>Title</th>
+      <th>Delete interest</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% interests.forEach(interest => { %>
+      <tr>
+        <td><%= interest.author.name %></td>
+        <td><%= interest.title %></td>
+        <td>
+          <form action="<%= destroyInterestPath(interest) %>" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="X" />
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
