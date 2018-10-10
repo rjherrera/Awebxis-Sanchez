@@ -12,7 +12,7 @@ router.param('id', async (id, ctx, next) => {
 router.post('match-create', '/new', async (ctx) => {
   const match = await ctx.orm.Match.build(ctx.request.body);
   try {
-    await match.save({ fields: ['matchId1', 'matchId2'] });
+    await match.save({ fields: ['proposerBookInstanceId', 'proposeeBookInstanceId'] });
     ctx.redirect(ctx.router.url('books'));
   } catch (e) {
     ctx.redirect('users');
@@ -23,29 +23,7 @@ router.post('match-create', '/new', async (ctx) => {
 router.patch('match-accept', '/:id', async (ctx) => {
   const { match } = ctx.state;
   try {
-    await match.update({ accepted: true });
-
-    // Antes de redirigir poner expired las book instances pasadas y crear las nuevas
-    const instance1 = await ctx.orm.BookInstance.findById(match.matchId1);
-    await instance1.update({ expired: true });
-    const instance2 = await ctx.orm.BookInstance.findById(match.matchId2);
-    await instance2.update({ expired: true });
-
-    const newInstance1 = await ctx.orm.BookInstance.build({
-      userId: instance2.userId,
-      bookId: instance1.bookId,
-      state: instance1.state,
-      comment: instance1.comment,
-    });
-    await newInstance1.save({ fields: ['userId', 'bookId', 'state', 'comment'] });
-    const newInstance2 = await ctx.orm.BookInstance.build({
-      userId: instance1.userId,
-      bookId: instance2.bookId,
-      state: instance2.state,
-      comment: instance2.comment,
-    });
-    await newInstance2.save({ fields: ['userId', 'bookId', 'state', 'comment'] });
-
+    await match.accept();
     ctx.redirect(ctx.router.url('books'));
   } catch (error) {
     ctx.redirect(ctx.router.url('users'));

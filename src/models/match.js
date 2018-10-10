@@ -22,6 +22,15 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
 
+  Match.prototype.accept = async function accept() {
+    await this.update({ accepted: true });
+
+    const proposerInstance = await this.getProposerBookInstance();
+    const proposeeInstance = await this.getProposeeBookInstance();
+
+    return proposerInstance.swap(proposeeInstance);
+  };
+
   Match.associate = (models) => {
     Match.belongsTo(models.BookInstance,
       { foreignKey: 'proposerBookInstanceId', as: 'proposerBookInstance' });
