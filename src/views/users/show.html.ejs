@@ -91,4 +91,6 @@
 <hr>
 
 <a href="<%= usersPath %>">Back</a>
-<a href="<%= editUserPath %>">Edit</a>
+<% if (currentUserIsAdmin || currentUser.id === user.id) { %>
+  <a href="<%= editUserPath %>">Edit</a>
+<% } %>

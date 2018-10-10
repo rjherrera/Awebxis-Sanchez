@@ -3,7 +3,7 @@
  <ul>
   <% users.forEach((user) => { %>
     <li>
-      <% if (currentUserIsAdmin || currentUser.id === user.id) { %>
+      <% if (currentUser) { %>
         <a href="<%= buildUserPath(user) %>"><%= user.username %></a>
       <% } else { %>
         <%= user.username %>
