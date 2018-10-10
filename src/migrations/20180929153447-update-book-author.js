@@ -19,4 +19,18 @@ module.exports = {
     );
     return rmCol.then(addCol);
   },
+  down: (queryInterface, Sequelize) => {
+    const rmCol = queryInterface.removeColumn(
+      'Books',
+      'authorId',
+    );
+    const addCol = queryInterface.addColumn(
+      'Books',
+      'author',
+      {
+        type: Sequelize.STRING,
+      },
+    );
+    return rmCol.then(addCol);
+  },
 };
