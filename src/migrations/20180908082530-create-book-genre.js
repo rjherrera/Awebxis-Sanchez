@@ -6,11 +6,23 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    BookId: {
+    bookId: {
+      allowNull: false,
       type: Sequelize.INTEGER,
+      references: {
+        model: 'Books',
+        key: 'id',
+      },
+      onDelete: 'cascade',
     },
-    GenreId: {
+    genreId: {
+      allowNull: false,
       type: Sequelize.INTEGER,
+      references: {
+        model: 'Genres',
+        key: 'id',
+      },
+      onDelete: 'cascade',
     },
     createdAt: {
       allowNull: false,
