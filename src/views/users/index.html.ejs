@@ -1,8 +1,13 @@
-<h1>Usuarios</h1>
+<h1>Users</h1>
 
  <ul>
-   <% users.forEach((user) => { %>
-     <li><a href="<%= buildUserPath(user) %>"><%= user.username %></a></li>
-   <% }) %>
- </ul>
- 
+  <% users.forEach((user) => { %>
+    <li>
+      <% if (currentUserIsAdmin || currentUser.id === user.id) { %>
+        <a href="<%= buildUserPath(user) %>"><%= user.username %></a>
+      <% } else { %>
+        <%= user.username %>
+      <% } %>
+    </li>
+  <% }) %>
+</ul>
