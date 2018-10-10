@@ -12,11 +12,13 @@
     </div>
 </div>
 
-<a href="<%= editBookPath %>">Edit</a>
-<form action="<%= destroyBookPath %>" method="post">
-  <input type="hidden" name="_method" value="delete" />
-  <input type="submit" value="Destroy" />
-</form>
+<% if (currentUserIsAdmin) { %>
+  <a href="<%= editBookPath %>">Edit</a>
+  <form action="<%= destroyBookPath %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <input type="submit" value="Destroy" />
+  </form>
+<% } %>
 
 <div class="bottom-container">
   <div class="genres-section">
@@ -33,7 +35,7 @@
         <% reviews.forEach(review => { %>
         <div class="review">
           <p class="rating"><a href="<%= buildUserPath(review.user) %> " class="username"><%= review.user.firstName %></a>
-             rated it 
+             rated it
             <% for( let i = 0; i < review.rating; i++ ) { %>
             <i class="fa fa-star filled"></i>
             <% } %>
