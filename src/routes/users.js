@@ -1,5 +1,5 @@
 const KoaRouter = require('koa-router');
-const { isAdmin } = require('../lib/routes/permissions');
+const { isLoggedIn, isAdmin } = require('../lib/routes/permissions');
 const { Author } = require('../models');
 
 const router = new KoaRouter();
@@ -67,7 +67,7 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
   }
 });
 
-router.get('users-show', '/:username', isAdminOrSelf, async (ctx) => {
+router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   const { user } = ctx.state;
   const interests = await user.getInterests({ include: [{ model: Author, as: 'author' }] });
   const followers = await user.getFollowers();
