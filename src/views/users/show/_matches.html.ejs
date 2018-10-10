@@ -6,20 +6,21 @@
     <th>Contact</th>
   </thead>
   <tbody>
-    <% for (let i = 0; i < settledMatches.length; i += 1) { %>
-      <% if (settledMatches[i].proposeeBookInstanceId.userId === currentUser.id) {%>
-      <tr>
-        <td><%= bookTitlesSettled[i][1].title %></td>
-        <td><%= bookTitlesSettled[i][0].title %></td>
-        <td><%= usersContact[i].email %></td>
-      </tr>
-    <% } else if (settledMatches[i].proposerBookInstance.userId === currentUser.id) { %>
-      <tr>
-        <td><%= bookTitlesSettled[i][0].title %></td>
-        <td><%= bookTitlesSettled[i][1].title %></td>
-        <td><%= usersContact[i].email %></td>
-      </tr>
-    <% }} %>
+    <% settledMatches.forEach(({ proposerBookInstance, proposeeBookInstance }) => { %>
+      <% if (proposeeBookInstance.userId === currentUser.id) { %>
+        <tr>
+          <td><%= proposeeBookInstance.book.title %></td>
+          <td><%= proposerBookInstance.book.title %></td>
+          <td><%= proposerBookInstance.user.email %></td>
+        </tr>
+      <% } else { %>
+        <tr>
+          <td><%= proposerBookInstance.book.title %></td>
+          <td><%= proposeeBookInstance.book.title %></td>
+          <td><%= proposeeBookInstance.user.email %></td>
+        </tr>
+      <% } %>
+    <% }) %>
   </tbody>
 </table>
 
@@ -36,27 +37,29 @@
   </thead>
 
   <tbody>
-    <% for (let i = 0; i < pendingMatches.length; i += 1) { %>
-      <% if (pendingMatches[i].proposeeBookInstance.userId === currentUser.id) {%>
-      <tr>
-        <td><%= userNames[i].username %></td>
-        <td><%= bookTitlesPending[i][0].title %></td>
-        <td><%= bookTitlesPending[i][1].title %></td>
-        <td><%= pendingMatches[i].proposerBookInstance.state %></td>
-        <td><%= pendingMatches[i].proposerBookInstance.comment %></td>
-        <td>
-          <form action="<%= acceptMatchPath(pendingMatches[i]) %>" method="post">
-            <input type="hidden" name="_method" value="patch" />
-            <input type="submit" value="Approve it" />
-          </form>
-        </td>
-        <td>
-          <form action="<%= destroyMatchPath(pendingMatches[i]) %>" method="post">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="Refuse it" />
-          </form>
-        </td>
-      </tr>
-    <% }} %>
+    <% pendingMatches.forEach(match => { %>
+      <% const { proposerBookInstance, proposeeBookInstance } = match;%>
+      <% if (proposeeBookInstance.userId === currentUser.id) { %>
+        <tr>
+          <td><%= proposerBookInstance.user.username %></td>
+          <td><%= proposerBookInstance.book.title %></td>
+          <td><%= proposeeBookInstance.book.title %></td>
+          <td><%= proposerBookInstance.state %></td>
+          <td><%= proposerBookInstance.comment %></td>
+          <td>
+            <form action="<%= acceptMatchPath(match) %>" method="post">
+              <input type="hidden" name="_method" value="patch" />
+              <input type="submit" value="Approve it" />
+            </form>
+          </td>
+          <td>
+            <form action="<%= destroyMatchPath(match) %>" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="Refuse it" />
+            </form>
+          </td>
+        </tr>
+      <% } %>
+    <% }) %>
   </tbody>
 </table>
