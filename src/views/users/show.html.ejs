@@ -1,209 +1,201 @@
 <h1><%= user.firstName %></h1>
 
 <table>
+  <tr>
+    <thead>
+      <th>Username</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
     <tr>
-        <thead>
-            <th>Username</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><%= user.username %></td>
-            <td><%= user.email %></td>
-        </tr>
-    </tbody>
+      <td><%= user.username %></td>
+      <td><%= user.email %></td>
+    </tr>
+  </tbody>
 </table>
-
-
 
 <h1>Interests</h1>
 
 <table>
-    <thead>
-        <tr>
-            <th>Author</th>
-            <th>Title</th>
-            <th>Delete interest</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% interests.forEach(interest => { %>
-            <tr>
-                <td><%= interest.author.name %></td>
-                <td><%= interest.title %></td>
-                <td>
-                    <form action="<%= destroyInterestPath(interest) %>" method="post">
-                        <input type="hidden" name="_method" value="delete" />
-                        <input type="submit" value="X" />
-                    </form>
-                </td>
-            </tr>
-        <% }) %>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Author</th>
+      <th>Title</th>
+      <th>Delete interest</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% interests.forEach(interest => { %>
+      <tr>
+        <td><%= interest.author.name %></td>
+        <td><%= interest.title %></td>
+        <td>
+          <form action="<%= destroyInterestPath(interest) %>" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="X" />
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
 </table>
 
+<% if (currentUser.id === user.id) { %>
 
+  <h2>Resolved matches:</h2>
+  <table>
+    <thead>
+      <th>Book you'll give</th>
+      <th>Book you'll get</th>
+      <th>Contact</th>
+    </thead>
+    <% for (let i = 0; i < settledMatches.length; i += 1) { %>
+      <% if (settledMatches[i].proposeeBookInstanceId.userId === currentUser.id) {%>
+      <tr>
+        <td><%= bookTitlesSettled[i][1].title %></td>
+        <td><%= bookTitlesSettled[i][0].title %></td>
+        <td><%= usersContact[i].email %></td>
+      </tr>
+    <% } else if (settledMatches[i].proposerBookInstance.userId === currentUser.id) { %>
+      <tr>
+        <td><%= bookTitlesSettled[i][0].title %></td>
+        <td><%= bookTitlesSettled[i][1].title %></td>
+        <td><%= usersContact[i].email %></td>
+      </tr>
+    <% }} %>
+    <tbody>
 
-<% if (currentUser.username === user.username) { %>
+    </tbody>
+  </table>
 
-    <h2>Resolved matches:</h2>
-    <table>
-        <thead>
-            <th>Book you'll give</th>
-            <th>Book you'll get</th>
-            <th>Contact</th>
-        </thead>
-        <% for (let i = 0; i < settledMatches.length; i += 1) { %>
-            <% if (settledMatches[i].proposeeBookInstanceId.userId === currentUser.id) {%>
-            <tr>
-                <td><%= bookTitlesSettled[i][1].title %></td>
-                <td><%= bookTitlesSettled[i][0].title %></td>
-                <td><%= usersContact[i].email %></td>
-            </tr>
-        <% } else if (settledMatches[i].proposerBookInstance.userId === currentUser.id) { %>
-            <tr>
-                <td><%= bookTitlesSettled[i][0].title %></td>
-                <td><%= bookTitlesSettled[i][1].title %></td>
-                <td><%= usersContact[i].email %></td>
-            </tr>
-        <% }} %>
-        <tbody>
+  <h2>Pending matches:</h2>
+  <table>
+    <thead>
+      <th>Proposing user</th>
+      <th>Proposed book</th>
+      <th>Your book</th>
+      <th>Book's state</th>
+      <th>Book's comment</th>
+      <th>Approve</th>
+      <th>Refuse</th>
+    </thead>
 
-        </tbody>
-    </table>
-
-
-    <h2>Pending matches:</h2>
-    <table>
-        <thead>
-            <th>Proposing user</th>
-            <th>Proposed book</th>
-            <th>Your book</th>
-            <th>Book's state</th>
-            <th>Book's comment</th>
-            <th>Approve</th>
-            <th>Refuse</th>
-        </thead>
-
-        <tbody>
-            <% for (let i = 0; i < pendingMatches.length; i += 1) { %>
-                <% if (pendingMatches[i].proposeeBookInstance.userId === currentUser.id) {%>
-                <tr>
-                    <td><%= userNames[i].username %></td>
-                    <td><%= bookTitlesPending[i][0].title %></td>
-                    <td><%= bookTitlesPending[i][1].title %></td>
-                    <td><%= pendingMatches[i].proposerBookInstance.state %></td>
-                    <td><%= pendingMatches[i].proposerBookInstance.comment %></td>
-                    <td>
-                        <form action="<%= acceptMatchPath(pendingMatches[i]) %>" method="post">
-                            <input type="hidden" name="_method" value="patch" />
-                            <input type="submit" value="Approve it" />
-                        </form>
-                    </td>
-                    <td>
-                        <form action="<%= destroyMatchPath(pendingMatches[i]) %>" method="post">
-                            <input type="hidden" name="_method" value="delete" />
-                            <input type="submit" value="Refuse it" />
-                        </form>
-                    </td>
-                </tr>
-            <% }} %>
-        </tbody>
-    </table>
+    <tbody>
+      <% for (let i = 0; i < pendingMatches.length; i += 1) { %>
+        <% if (pendingMatches[i].proposeeBookInstance.userId === currentUser.id) {%>
+        <tr>
+          <td><%= userNames[i].username %></td>
+          <td><%= bookTitlesPending[i][0].title %></td>
+          <td><%= bookTitlesPending[i][1].title %></td>
+          <td><%= pendingMatches[i].proposerBookInstance.state %></td>
+          <td><%= pendingMatches[i].proposerBookInstance.comment %></td>
+          <td>
+            <form action="<%= acceptMatchPath(pendingMatches[i]) %>" method="post">
+              <input type="hidden" name="_method" value="patch" />
+              <input type="submit" value="Approve it" />
+            </form>
+          </td>
+          <td>
+            <form action="<%= destroyMatchPath(pendingMatches[i]) %>" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="Refuse it" />
+            </form>
+          </td>
+        </tr>
+      <% }} %>
+    </tbody>
+  </table>
 <% } %>
-
 
 <h1>Books owned: <%= userBooks.length %> </h1>
 
 <table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>State</th>
-            <th>Comment</th>
-            <% if (currentUser.username !== user.username) { %>
-                <th>Propose exchange</th>
-            <% } %>
-        </tr>
-    </thead>
-    <tbody>
-        <% userBooks.forEach(instance => { %>
-            <tr>
-                <td><%= instance.book.title %></td>
-                <td><%= instance.state %></td>
-                <td><%= instance.comment %></td>
-                <% if (currentUser.username !== user.username) { %>
-                    <td>
-                        <form action="<%= createMatchPath %>" method="post">
-                            <input type="hidden" name="proposeeBookInstanceId" value="<%= instance.id %>"/>
-                            <select name="proposerBookInstanceId" required>
-                                <% currentUserBooks.forEach(instance => { %>
-                                    <option value="<%= instance.id %>"><%= instance.book.title %></option>
-                                <% }) %>
-                            </select>
-                            <input type="submit" value="Propose exchange" />
-                        </form>
-                    </td>
-                <% } %>
-            </tr>
-        <% }) %>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>State</th>
+      <th>Comment</th>
+      <% if (currentUser.username !== user.username) { %>
+        <th>Propose exchange</th>
+      <% } %>
+    </tr>
+  </thead>
+  <tbody>
+    <% userBooks.forEach(instance => { %>
+      <tr>
+        <td><%= instance.book.title %></td>
+        <td><%= instance.state %></td>
+        <td><%= instance.comment %></td>
+        <% if (currentUser.username !== user.username) { %>
+          <td>
+            <form action="<%= createMatchPath %>" method="post">
+              <input type="hidden" name="proposeeBookInstanceId" value="<%= instance.id %>"/>
+              <select name="proposerBookInstanceId" required>
+                <% currentUserBooks.forEach(instance => { %>
+                  <option value="<%= instance.id %>"><%= instance.book.title %></option>
+                <% }) %>
+              </select>
+              <input type="submit" value="Propose exchange" />
+            </form>
+          </td>
+        <% } %>
+      </tr>
+    <% }) %>
+  </tbody>
 </table>
-
-
 
 <h1>Followers: <%= followers.length %></h1>
 
 <table>
-    <thead>
-        <tr>
-            <th>Follower</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% followers.forEach(follower => { %>
-            <tr>
-                <td><%= follower.username %></td>
-            </tr>
-        <% }) %>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Follower</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% followers.forEach(follower => { %>
+      <tr>
+        <td><%= follower.username %></td>
+      </tr>
+    <% }) %>
+  </tbody>
 </table>
 
 <h1>Following: <%= following.length %></h1>
 
 <table>
-    <thead>
-        <tr>
-            <th>Following</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% following.forEach(follow => { %>
-            <tr>
-                <td><%= follow.username %></td>
-            </tr>
-        <% }) %>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Following</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% following.forEach(follow => { %>
+      <tr>
+        <td><%= follow.username %></td>
+      </tr>
+    <% }) %>
+  </tbody>
 </table>
 
 <h1>Feedbacks</h1>
 
 <table>
-    <thead>
-        <tr>
-            <th>Stars</th>
-            <th>Comment</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% feedbacks.forEach(feedback => { %>
-            <tr>
-                <td><%= feedback.rating %></td>
-                <td><%= feedback.comment %></td>
-            </tr>
-        <% }) %>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Stars</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% feedbacks.forEach(feedback => { %>
+      <tr>
+        <td><%= feedback.rating %></td>
+        <td><%= feedback.comment %></td>
+      </tr>
+    <% }) %>
+  </tbody>
 </table>
 
 <hr>
