@@ -53,7 +53,7 @@ router.patch('match-accept', '/:id', async (ctx) => {
 });
 
 router.delete('match-destroy', '/:id', async (ctx) => {
-  const match = await ctx.orm.Match.findById(ctx.state.matchId);
+  const { match } = ctx.state;
   await match.destroy();
   ctx.redirect(ctx.router.url('books'));
 });
