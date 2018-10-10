@@ -1,4 +1,4 @@
-function isLogged(ctx, next) {
+function isLoggedIn(ctx, next) {
   ctx.assert(ctx.state.currentUser, 401);
   return next();
 }
@@ -10,6 +10,6 @@ function isAdmin(ctx, next) {
 }
 
 module.exports = {
-  isLogged,
+  isLoggedIn,
   isAdmin,
 };
