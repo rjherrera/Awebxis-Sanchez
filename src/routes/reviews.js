@@ -13,7 +13,9 @@ router.param('isbn', async (isbn, ctx, next) => {
 
 router.post('reviews-create', '/:isbn', isLoggedIn, async (ctx) => {
   const { book } = ctx.state;
-  const review = await ctx.orm.Review.build(ctx.request.body);
+  const review = await ctx.orm.Review.build(
+    { ...ctx.request.body, userId: ctx.state.currentUser.id, bookId: book.id },
+  );
   try {
     await review.save(ctx.request.body);
     await book.addReview(review);
