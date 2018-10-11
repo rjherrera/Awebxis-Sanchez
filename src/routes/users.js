@@ -77,49 +77,10 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();
-  const userBooks = await user.getUserBooks({
-    include: [{ model: Book, as: 'book' }],
-    where: {
-      expired: false,
-    },
-  });
-
-  const currentUserBooks = await ctx.state.currentUser.getUserBooks({
-    include: [{ model: Book, as: 'book' }],
-    where: {
-      expired: false,
-    },
-  });
-
-  const pendingMatches = await ctx.orm.Match.findAll({
-    where: {
-      accepted: false,
-    },
-    include: [{
-      model: BookInstance,
-      as: 'proposerBookInstance',
-      include: [{ model: Book, as: 'book' }, { model: User, as: 'user' }],
-    }, {
-      model: BookInstance,
-      as: 'proposeeBookInstance',
-      include: [{ model: Book, as: 'book' }, { model: User, as: 'user' }],
-    }],
-  });
-
-  const settledMatches = await ctx.orm.Match.findAll({
-    where: {
-      accepted: true,
-    },
-    include: [{
-      model: BookInstance,
-      as: 'proposerBookInstance',
-      include: [{ model: Book, as: 'book' }, { model: User, as: 'user' }],
-    }, {
-      model: BookInstance,
-      as: 'proposeeBookInstance',
-      include: [{ model: Book, as: 'book' }, { model: User, as: 'user' }],
-    }],
-  });
+  const userBooks = await user.getUserBooks({ scope: ['withBook', 'active'] });
+  const currentUserBooks = await ctx.state.currentUser.getUserBooks({ scope: ['withBook', 'active'] });
+  const pendingMatches = await ctx.orm.Match.scope('withInstances', 'pending').findAll();
+  const settledMatches = await ctx.orm.Match.scope('withInstances', 'settled').findAll();
 
   await ctx.render('users/show', {
     user,
