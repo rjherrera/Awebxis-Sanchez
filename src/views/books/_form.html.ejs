@@ -61,7 +61,7 @@
     </div>
     <div>
       <label for="description">Genres</label>
-      <select name="genres" multiple>
+      <select name="genres" size="5" multiple>
         <% genres.forEach(genre => { %>
           <% if (!book.isNewRecord && !!book.genres.find(g => g.id === genre.id)) { %>
           <option value="<%= genre.id %>" selected><%= genre.name %></option>
@@ -80,3 +80,14 @@
     </div>
   </form>
 </div>
+
+<script>
+// Change select behavior -> click to toggle option selection
+$("select").mousedown(function(e){
+    e.preventDefault();
+    var scroll = this .scrollTop;
+    e.target.selected = !e.target.selected;
+    setTimeout(function(){this.scrollTop = scroll;}, 0);
+    $(this).focus();
+}).mousemove(function(e){e.preventDefault()});
+</script>

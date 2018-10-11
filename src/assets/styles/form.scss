@@ -60,3 +60,12 @@
         }
     }
 }
+
+select[multiple] {
+    background: none;
+    border: none;
+    outline: none;
+    flex: 5;
+    padding: 0 0 0 10px;
+    font-size: 14px;
+}
