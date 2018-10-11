@@ -3,28 +3,25 @@ const { isLoggedIn } = require('../lib/routes/permissions');
 
 const router = new KoaRouter();
 
+router.use(isLoggedIn);
+
 router.param('bookId', async (bookId, ctx, next) => {
-  ctx.state.bookId = bookId;
+  const instance = await ctx.orm.BookInstance.findOne({
+    where: { userId: ctx.state.currentUser.id, bookId },
+  });
+  ctx.assert(instance, 404);
+  ctx.state.instance = instance;
   return next();
 });
 
-router.post('book-instances-create', '/', isLoggedIn, async (ctx) => {
+router.post('book-instances-create', '/', async (ctx) => {
   const instance = await ctx.orm.BookInstance.build(ctx.request.body);
-  try {
-    await instance.save();
-    ctx.redirect('back');
-  } catch (e) {
-    ctx.redirect(ctx.router.url('books'));
-  }
+  await instance.save();
+  ctx.redirect('back');
 });
 
-router.delete('book-instances-destroy', '/:bookId', isLoggedIn, async (ctx) => {
-  const userId = ctx.state.currentUser.id;
-  const { bookId } = ctx.state;
-  const instance = await ctx.orm.BookInstance.findOne({
-    where: { userId, bookId },
-  });
-  ctx.assert(instance, 404);
+router.delete('book-instances-destroy', '/:bookId', async (ctx) => {
+  const { instance } = ctx.state;
   await instance.destroy();
   ctx.redirect('back');
 });
