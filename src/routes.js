@@ -10,7 +10,7 @@ const index = require('./routes/index');
 const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 const session = require('./routes/session');
-const bookInstances = require('./routes/bookInstances');
+const bookInstances = require('./routes/book-instances');
 const interests = require('./routes/interests');
 const matches = require('./routes/matches');
 
