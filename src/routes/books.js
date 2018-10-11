@@ -2,6 +2,8 @@ const KoaRouter = require('koa-router');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 const { isAdmin } = require('../lib/routes/permissions');
 const { Author, User } = require('../models');
+const { fetchAvgRating } = require('../lib/utils/fetch-avg-rating.js');
+
 
 const router = new KoaRouter();
 
@@ -111,11 +113,14 @@ router.get('books-show', '/:isbn', async (ctx) => {
     },
   }) : null;
 
+  const avgRating = await fetchAvgRating(book);
+
   await ctx.render('books/show', {
     genres,
     reviews,
     bookInstance,
     interest,
+    avgRating,
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
