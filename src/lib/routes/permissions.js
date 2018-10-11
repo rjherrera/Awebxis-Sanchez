@@ -9,7 +9,15 @@ function isAdmin(ctx, next) {
   return next();
 }
 
+function isAdminOrSelf(ctx, next) {
+  if (ctx.state.user.id === ctx.state.currentUser.id) {
+    return next();
+  }
+  return isAdmin(ctx, next);
+}
+
 module.exports = {
   isLoggedIn,
   isAdmin,
+  isAdminOrSelf,
 };

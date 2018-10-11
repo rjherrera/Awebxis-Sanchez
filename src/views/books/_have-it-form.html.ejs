@@ -1,0 +1,16 @@
+<div>
+  <form action="<%= newBookInstancePath %>" method="post">
+    <% if (locals.bookInstanceErrors) { %>
+      <p class="errors">Check the following errors:</p>
+      <ul>
+        <% Object.keys(reviewErrors).forEach(prop => { %>
+          <li><%= prop %>: <%= bookInstanceErrors[prop].message %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <input type="hidden" name="bookId" value="<%= book.id %>"/>
+    <input type="hidden" name="state" value="2"/>
+    <input type="hidden" name="comment" value="Not that good"/>
+    <input type="submit" value="Have it" />
+  </form>
+</div>

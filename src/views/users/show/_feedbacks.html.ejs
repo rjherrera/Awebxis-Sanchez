@@ -1,0 +1,18 @@
+<h1>Feedbacks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stars</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% feedbacks.forEach(feedback => { %>
+      <tr>
+        <td><%= feedback.rating %></td>
+        <td><%= feedback.comment %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

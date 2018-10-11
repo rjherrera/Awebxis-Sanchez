@@ -96,13 +96,34 @@ router.get('books-show', '/:isbn', async (ctx) => {
     include: [{ model: User, as: 'user' }],
   });
   const genres = await book.getGenres({ order: [['name', 'ASC']] });
+
+  const bookInstance = ctx.state.currentUser ? await ctx.orm.BookInstance.findOne({
+    where: {
+      bookId: book.id,
+      userId: ctx.state.currentUser.id,
+    },
+  }) : null;
+
+  const interest = ctx.state.currentUser ? await ctx.orm.Interest.findOne({
+    where: {
+      bookId: book.id,
+      userId: ctx.state.currentUser.id,
+    },
+  }) : null;
+
   await ctx.render('books/show', {
     genres,
     reviews,
+    bookInstance,
+    interest,
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
+    newBookInstancePath: ctx.router.url('book-instances-create'),
+    destroyBookInstancePath: instance => ctx.router.url('book-instances-destroy', instance.id),
+    newInterestPath: ctx.router.url('interests-create', book.isbn),
+    destroyInterestPath: intrst => ctx.router.url('interests-destroy', intrst.id),
   });
 });
 

@@ -5,7 +5,7 @@
     <div class="info">
       <h1><%= book.title %> - <span id="author"><a href="<%= authorPath %> "><%= book.author.name %></a></span></h1>
       <p><%= book.description %></p>
-      <p><span class="label">Published: </span><%= formatDateTz(book.datePublished) %> (<%= book.publisher %>)</p>
+      <p><span class="label">Published: </span><%= formatDate(book.datePublished, 'MMMM Do, YYYY') %> (<%= book.publisher %>)</p>
       <p><span class="label">ISBN: </span><%= book.isbn %></p>
       <p><span class="label">Language: </span><%= book.language %></p>
       <p><span class="label">Format: </span><%= book.format %>, <%= book.pages %> pages</p>
@@ -19,6 +19,29 @@
     <input type="submit" value="Destroy" />
   </form>
 <% } %>
+
+<br>
+
+<% if (bookInstance) { %>
+  <form action="<%= destroyBookInstancePath(bookInstance) %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <input type="submit" value="Don't have it" />
+  </form>
+<% } else if (currentUser) {%>
+  <%- include('_have-it-form') %>
+<%}%>
+
+<br>
+<% if (interest) { %>
+  <form action="<%= destroyInterestPath(interest) %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <input type="submit" value="Don't want it" />
+  </form>
+<% } else if (currentUser) { %>
+  <%- include('_want-it-form') %>
+<% } %>
+<br>
+
 
 <div class="bottom-container">
   <div class="genres-section">

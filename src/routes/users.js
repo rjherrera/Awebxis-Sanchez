@@ -1,18 +1,11 @@
 const KoaRouter = require('koa-router');
-const { isLoggedIn, isAdmin } = require('../lib/routes/permissions');
+const { isLoggedIn, isAdmin, isAdminOrSelf } = require('../lib/routes/permissions');
 const { Author } = require('../models');
 
 const router = new KoaRouter();
 
-function isAdminOrSelf(ctx, next) {
-  if (ctx.state.user.id === ctx.state.currentUser.id) {
-    return next();
-  }
-  return isAdmin(ctx, next);
-}
-
 router.param('username', async (username, ctx, next) => {
-  ctx.state.user = await ctx.orm.User.findOne({ where: { username: ctx.params.username } });
+  ctx.state.user = await ctx.orm.User.findOne({ where: { username } });
   ctx.assert(ctx.state.user, 404);
   return next();
 });
@@ -42,8 +35,8 @@ router.get('users-edit', '/:username/edit', isAdminOrSelf, async (ctx) => {
 
 router.post('users-create', '/', async (ctx) => {
   try {
-    const user = await ctx.orm.User.create(ctx.request.body);
-    ctx.redirect(ctx.router.url('users-show', { username: user.username }));
+    await ctx.orm.User.create(ctx.request.body);
+    ctx.redirect(ctx.router.url('session-new'));
   } catch (validationError) {
     await ctx.render('users/new', {
       user: ctx.orm.User.create(ctx.request.body),
@@ -73,17 +66,30 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
 
 router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   const { user } = ctx.state;
-  const interests = await user.getInterests({ include: [{ model: Author, as: 'author' }] });
+  const interests = await user.getInterests({ scope: ['withBook'] });
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();
+  const userBooks = await user.getUserBooks({ scope: ['withBook', 'active'] });
+  const currentUserBooks = await ctx.state.currentUser.getUserBooks({ scope: ['withBook', 'active'] });
+  const pendingMatches = await ctx.orm.Match.scope('withInstances', 'pending').findAll();
+  const settledMatches = await ctx.orm.Match.scope('withInstances', 'settled').findAll();
+
   await ctx.render('users/show', {
     user,
     interests,
     followers,
     following,
     feedbacks,
+    userBooks,
+    currentUserBooks,
+    pendingMatches,
+    settledMatches,
     editUserPath: ctx.router.url('users-edit', user.username),
+    createMatchPath: ctx.router.url('match-create', user.username),
+    acceptMatchPath: match => ctx.router.url('match-accept', { id: match.id }),
+    destroyMatchPath: match => ctx.router.url('match-destroy', { id: match.id }),
+    destroyInterestPath: interest => ctx.router.url('interests-destroy', { id: interest.id }),
   });
 });
 

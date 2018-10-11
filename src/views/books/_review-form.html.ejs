@@ -8,8 +8,6 @@
                 <% }) %>
             </ul>
         <% } %>
-        <!-- TODO: remove when session is implemented -->
-        <input type="number" hidden="true" name="userId" value="1" />
         <div class="review-area">
             <textarea type="text" name="comment" placeholder="Write something..."></textarea>
             <input type="number" hidden="true" min="1" max="5" required="true" name="rating" value="3"/>
@@ -33,7 +31,7 @@ $('i').click((e) => {
         $(`i#${i}`).removeClass('empty').addClass('filled');
     }
     for (let i = ratingStar + 1; i <= 5; i++) {
-        $(`i#${i}`).removeClass('filled').addClass('empty');  
+        $(`i#${i}`).removeClass('filled').addClass('empty');
     }
 });
 $('i').mouseover((e) => {

@@ -1,0 +1,29 @@
+<h1>Interests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Author</th>
+      <th>Title</th>
+      <% if (isAdminOrSelf) { %>
+        <th>Delete interest</th>
+      <% } %>
+    </tr>
+  </thead>
+  <tbody>
+    <% interests.forEach(interest => { %>
+      <tr>
+        <td><%= interest.book.author.name %></td>
+        <td><%= interest.book.title %></td>
+        <% if (isAdminOrSelf) { %>
+          <td>
+            <form action="<%= destroyInterestPath(interest) %>" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="X" />
+            </form>
+          </td>
+        <% } %>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
