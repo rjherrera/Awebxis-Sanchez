@@ -10,20 +10,15 @@ router.param('id', async (id, ctx, next) => {
 });
 
 router.post('interest-create', '/', async (ctx) => {
-  // const { book } = ctx.state;
   const interest = await ctx.orm.Interest.build(ctx.request.body);
-  try {
-    await interest.save();
-    ctx.redirect(ctx.router.url('books'));
-  } catch (e) {
-    ctx.redirect(ctx.router.url('books'));
-  }
+  await interest.save();
+  ctx.redirect('back');
 });
 
 router.delete('interest-destroy', '/:id', async (ctx) => {
   const { interest } = ctx.state;
   await interest.destroy();
-  ctx.redirect(ctx.router.url('books'));
+  ctx.redirect('back');
 });
 
 module.exports = router;
