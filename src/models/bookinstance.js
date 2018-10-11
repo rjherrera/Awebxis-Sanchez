@@ -12,7 +12,21 @@ module.exports = (sequelize, DataTypes) => {
     expired: {
       type: DataTypes.BOOLEAN,
     },
-  }, {});
+  }, {
+    scopes: {
+      active: {
+        where: {
+          expired: false,
+        },
+      },
+      withBook: () => ({
+        include: [{ model: sequelize.models.Book, as: 'book' }],
+      }),
+      withUser: () => ({
+        include: [{ model: sequelize.models.User, as: 'user' }],
+      }),
+    },
+  });
 
   BookInstance.prototype.swap = async function swap(otherInstance) {
     await this.update({ expired: true });

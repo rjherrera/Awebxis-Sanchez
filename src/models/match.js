@@ -20,7 +20,29 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-  }, {});
+  }, {
+    scopes: {
+      settled: {
+        where: {
+          accepted: true,
+        },
+      },
+      pending: {
+        where: {
+          accepted: false,
+        },
+      },
+      withInstances: () => ({
+        include: [{
+          model: sequelize.models.BookInstance.scope('withBook', 'withUser'),
+          as: 'proposerBookInstance',
+        }, {
+          model: sequelize.models.BookInstance.scope('withBook', 'withUser'),
+          as: 'proposeeBookInstance',
+        }],
+      }),
+    },
+  });
 
   Match.prototype.accept = async function accept() {
     await this.update({ accepted: true });
