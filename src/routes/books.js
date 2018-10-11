@@ -104,7 +104,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     },
   }) : null;
 
-  const interest = ctx.state.currentUser ? await ctx.orm.Interest.findAll({
+  const interest = ctx.state.currentUser ? await ctx.orm.Interest.findOne({
     where: {
       bookId: book.id,
       userId: ctx.state.currentUser.id,
@@ -123,8 +123,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     newBookInstancePath: ctx.router.url('book-instances-create'),
     destroyBookInstancePath: instance => ctx.router.url('book-instances-destroy', instance.id),
     newInterestPath: ctx.router.url('interests-create', book.isbn),
-    destroyInterestPath: intrst => intrst,
-    // destroyInterestPath: intrst => ctx.router.url('interests-destroy', intrst.id),
+    destroyInterestPath: intrst => ctx.router.url('interests-destroy', intrst.id),
   });
 });
 

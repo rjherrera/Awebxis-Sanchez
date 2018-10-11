@@ -1,11 +1,11 @@
 const KoaRouter = require('koa-router');
 const { isLoggedIn, isAdmin, isAdminOrSelf } = require('../lib/routes/permissions');
-const { Author, Book, BookInstance, User } = require('../models');
+const { Author } = require('../models');
 
 const router = new KoaRouter();
 
 router.param('username', async (username, ctx, next) => {
-  ctx.state.user = await ctx.orm.User.findOne({ where: { username: ctx.params.username } });
+  ctx.state.user = await ctx.orm.User.findOne({ where: { username } });
   ctx.assert(ctx.state.user, 404);
   return next();
 });
@@ -89,7 +89,7 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
     createMatchPath: ctx.router.url('match-create', user.username),
     acceptMatchPath: match => ctx.router.url('match-accept', { id: match.id }),
     destroyMatchPath: match => ctx.router.url('match-destroy', { id: match.id }),
-    destroyInterestPath: interest => ctx.router.url('interest-destroy', { id: interest.id }),
+    destroyInterestPath: interest => ctx.router.url('interests-destroy', { id: interest.id }),
   });
 });
 
