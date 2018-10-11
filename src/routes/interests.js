@@ -1,21 +1,25 @@
 const KoaRouter = require('koa-router');
+const { isAdminOrSelf, isLoggedIn } = require('../lib/routes/permissions');
+
 
 const router = new KoaRouter();
 
-router.param('id', async (id, ctx, next) => {
+router.param('id', isLoggedIn, async (id, ctx, next) => {
   const interest = await ctx.orm.Interest.findById(id);
   ctx.assert(interest, 404);
   ctx.state.interest = interest;
   return next();
 });
 
-router.post('interest-create', '/', async (ctx) => {
-  const interest = await ctx.orm.Interest.build(ctx.request.body);
+router.post('interest-create', '/', isLoggedIn, async (ctx) => {
+  const interest = await ctx.orm.Interest.build(
+    { ...ctx.request.body, userId: ctx.state.currentUser.id },
+  );
   await interest.save();
   ctx.redirect('back');
 });
 
-router.delete('interest-destroy', '/:id', async (ctx) => {
+router.delete('interest-destroy', '/:id', isAdminOrSelf, async (ctx) => {
   const { interest } = ctx.state;
   await interest.destroy();
   ctx.redirect('back');
