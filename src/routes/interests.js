@@ -11,7 +11,7 @@ router.param('id', isLoggedIn, async (id, ctx, next) => {
   return next();
 });
 
-router.post('interest-create', '/', isLoggedIn, async (ctx) => {
+router.post('interests-create', '/', isLoggedIn, async (ctx) => {
   const interest = await ctx.orm.Interest.build(
     { ...ctx.request.body, userId: ctx.state.currentUser.id },
   );
@@ -19,7 +19,7 @@ router.post('interest-create', '/', isLoggedIn, async (ctx) => {
   ctx.redirect('back');
 });
 
-router.delete('interest-destroy', '/:id', isAdminOrSelf, async (ctx) => {
+router.delete('interests-destroy', '/:id', isAdminOrSelf, async (ctx) => {
   const { interest } = ctx.state;
   await interest.destroy();
   ctx.redirect('back');
