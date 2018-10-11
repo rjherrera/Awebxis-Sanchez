@@ -23,59 +23,11 @@
 
 <%- include('show/_books') %>
 
+<%- include('show/_follows', { collection: followers, title: 'Followers', name: 'Follower' }) %>
 
-<h1>Followers: <%= followers.length %></h1>
+<%- include('show/_follows', { collection: following, title: 'Following', name: 'Following' }) %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Follower</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% followers.forEach(follower => { %>
-      <tr>
-        <td><%= follower.username %></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
-
-<h1>Following: <%= following.length %></h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Following</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% following.forEach(follow => { %>
-      <tr>
-        <td><%= follow.username %></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
-
-<h1>Feedbacks</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Stars</th>
-      <th>Comment</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% feedbacks.forEach(feedback => { %>
-      <tr>
-        <td><%= feedback.rating %></td>
-        <td><%= feedback.comment %></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+<%- include('show/_feedbacks') %>
 
 <hr>
 
