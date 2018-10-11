@@ -17,8 +17,7 @@ router.post('reviews-create', '/:isbn', isLoggedIn, async (ctx) => {
     { ...ctx.request.body, userId: ctx.state.currentUser.id, bookId: book.id },
   );
   try {
-    await review.save(ctx.request.body);
-    await book.addReview(review);
+    await review.save();
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
