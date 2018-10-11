@@ -1,48 +1,47 @@
 <div class="info-container">
+  <div class="left-container">
     <div class="image-container">
-        <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
+      <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
     </div>
-    <div class="info">
-      <h1><%= book.title %> - <span id="author"><a href="<%= authorPath %> "><%= book.author.name %></a></span></h1>
-      <p><%= book.description %></p>
-      <p><span class="label">Published: </span><%= formatDate(book.datePublished, 'MMMM Do, YYYY') %> (<%= book.publisher %>)</p>
-      <p><span class="label">ISBN: </span><%= book.isbn %></p>
-      <p><span class="label">Language: </span><%= book.language %></p>
-      <p><span class="label">Format: </span><%= book.format %>, <%= book.pages %> pages</p>
-      <p><span class="label">Goodreads' rating: </span><%= avgRating %></p>
+    <div class="actions-container">
+      <% if (bookInstance) { %>
+        <form action="<%= destroyBookInstancePath(bookInstance) %>" method="post">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="submit" class="button secondary" value="Don't have it" />
+        </form>
+      <% } else if (currentUser) {%>
+        <%- include('_have-it-form') %>
+      <%}%>
+      <% if (interest) { %>
+        <form action="<%= destroyInterestPath(interest) %>" method="post">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="submit" class="button secondary" value="Don't want it" />
+        </form>
+      <% } else if (currentUser) { %>
+        <%- include('_want-it-form') %>
+      <% } %>
+
+      <% if (currentUserIsAdmin) { %>
+        <form action="<%= editBookPath %>">
+          <input type="submit" class="button secondary" value="Edit" />
+        </form>
+        <form action="<%= destroyBookPath %>" method="post">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="submit" class="button negative" value="Destroy" />
+        </form>
+      <% } %>
     </div>
+  </div>
+  <div class="info">
+    <h1><%= book.title %> - <span id="author"><a href="<%= authorPath %> "><%= book.author.name %></a></span></h1>
+    <p><%= book.description %></p>
+    <p><span class="label">Published: </span><%= formatDate(book.datePublished, 'MMMM Do, YYYY') %> (<%= book.publisher %>)</p>
+    <p><span class="label">ISBN: </span><%= book.isbn %></p>
+    <p><span class="label">Language: </span><%= book.language %></p>
+    <p><span class="label">Format: </span><%= book.format %>, <%= book.pages %> pages</p>
+    <p><span class="label">Goodreads' rating: </span><%= avgRating %></p>
+  </div>
 </div>
-
-<% if (currentUserIsAdmin) { %>
-  <a href="<%= editBookPath %>">Edit</a>
-  <form action="<%= destroyBookPath %>" method="post">
-    <input type="hidden" name="_method" value="delete" />
-    <input type="submit" value="Destroy" />
-  </form>
-<% } %>
-
-<br>
-
-<% if (bookInstance) { %>
-  <form action="<%= destroyBookInstancePath(bookInstance) %>" method="post">
-    <input type="hidden" name="_method" value="delete" />
-    <input type="submit" value="Don't have it" />
-  </form>
-<% } else if (currentUser) {%>
-  <%- include('_have-it-form') %>
-<%}%>
-
-<br>
-<% if (interest) { %>
-  <form action="<%= destroyInterestPath(interest) %>" method="post">
-    <input type="hidden" name="_method" value="delete" />
-    <input type="submit" value="Don't want it" />
-  </form>
-<% } else if (currentUser) { %>
-  <%- include('_want-it-form') %>
-<% } %>
-<br>
-
 
 <div class="bottom-container">
   <div class="genres-section">
@@ -62,16 +61,13 @@
         <div class="review">
           <p class="rating"><a href="<%= buildUserPath(review.user) %> " class="username"><%= review.user.firstName %></a>
              rated it
-            <% for( let i = 0; i < review.rating; i++ ) { %>
-            <i class="fa fa-star filled"></i>
-            <% } %>
-            <% for( let i = 0; i < 5 - review.rating; i++ ) { %>
-            <i class="fa fa-star empty"></i>
-            <% } %>
+            <% Array(5).fill().forEach((e, i) => { %>
+              <i class="fa fa-star <%= i < review.rating ? 'filled' : 'empty' %>"></i>
+            <% }) %>
           </p>
           <div class="comment">
-            <input id="<%= review.id %>" type="checkbox">
-            <label for="<%= review.id %>"></label>
+            <input id="checkbox-<%= review.id %>" type="checkbox">
+            <label for="checkbox-<%= review.id %>"></label>
             <div class="text"><%= review.comment %></div>
           </div>
         </div>
