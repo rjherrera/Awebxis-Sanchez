@@ -43,7 +43,7 @@ router.get('users-edit', '/:username/edit', isAdminOrSelf, async (ctx) => {
 router.post('users-create', '/', async (ctx) => {
   try {
     await ctx.orm.User.create(ctx.request.body);
-    ctx.redirect('/users');
+    ctx.redirect(ctx.router.url('session-new'));
   } catch (validationError) {
     await ctx.render('users/new', {
       user: ctx.orm.User.create(ctx.request.body),
