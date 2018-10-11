@@ -58,7 +58,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER,
     },
-  }, {});
+  }, {
+    scopes: {
+      withAuthor: () => ({
+        include: [{ model: sequelize.models.Author, as: 'author' }],
+      }),
+    },
+  });
 
   Book.associate = (models) => {
     Book.hasMany(models.Review, { as: 'reviews', foreignKey: 'bookId' });
