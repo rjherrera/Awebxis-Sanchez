@@ -32,7 +32,12 @@
 <%}%>
 
 <br>
-<% if (currentUser) { %>
+<% if (interest) { %>
+  <form action="<%= destroyInterestPath(interest) %>" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <input type="submit" value="Don't want it" />
+  </form>
+<% } else if (currentUser) { %>
   <%- include('_want-it-form') %>
 <% } %>
 <br>
