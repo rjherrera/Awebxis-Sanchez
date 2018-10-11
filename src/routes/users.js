@@ -66,7 +66,7 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
 
 router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   const { user } = ctx.state;
-  const interests = await user.getInterests({ include: [{ model: Author, as: 'author' }] });
+  const interests = await user.getInterests({ scope: ['withBook'] });
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();

@@ -13,8 +13,8 @@
   <tbody>
     <% interests.forEach(interest => { %>
       <tr>
-        <td><%= interest.author.name %></td>
-        <td><%= interest.title %></td>
+        <td><%= interest.book.author.name %></td>
+        <td><%= interest.book.title %></td>
         <% if (isAdminOrSelf) { %>
           <td>
             <form action="<%= destroyInterestPath(interest) %>" method="post">
