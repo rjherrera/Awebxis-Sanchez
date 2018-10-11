@@ -8,7 +8,7 @@ router.param('bookId', async (bookId, ctx, next) => {
   return next();
 });
 
-router.post('bookInstance-create', '/', isLoggedIn, async (ctx) => {
+router.post('book-instances-create', '/', isLoggedIn, async (ctx) => {
   const instance = await ctx.orm.BookInstance.build(ctx.request.body);
   try {
     await instance.save();
@@ -18,7 +18,7 @@ router.post('bookInstance-create', '/', isLoggedIn, async (ctx) => {
   }
 });
 
-router.delete('bookInstances-destroy', '/:bookId', isLoggedIn, async (ctx) => {
+router.delete('book-instances-destroy', '/:bookId', isLoggedIn, async (ctx) => {
   const userId = ctx.state.currentUser.id;
   const { bookId } = ctx.state;
   const instance = await ctx.orm.BookInstance.findOne({
