@@ -72,20 +72,9 @@ form.review {
         background: $cambalache-white;
         font-size: 16px;
     }
-    input[type=submit] {
-        cursor: pointer;
+    .button {
+        margin-right: 0;
         width: 200px;
-        height: 30px;
-        margin: 15px 0 0 15px;
-        padding: 0;
-        background: $cambalache-white;
-        border: 1px solid $cambalache-orange;
-        border-radius: 15px;
-        font-size: 14px;
-        outline: none;
-    }
-    input[type=submit]:hover {
-        opacity: 0.75;
     }
     .select {
         cursor: pointer;
