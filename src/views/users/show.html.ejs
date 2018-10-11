@@ -1,5 +1,7 @@
 <h1><%= user.firstName %></h1>
 
+<% const isAdminOrSelf = currentUserIsAdmin || currentUser.id === user.id %>
+
 <table>
   <tr>
     <thead>
@@ -15,7 +17,7 @@
   </tbody>
 </table>
 
-<%- include('show/_interests') %>
+<%- include('show/_interests', { isAdminOrSelf }) %>
 
 <% if (currentUser.id === user.id) { %>
   <%- include('show/_matches') %>
@@ -32,6 +34,6 @@
 <hr>
 
 <a href="<%= usersPath %>">Back</a>
-<% if (currentUserIsAdmin || currentUser.id === user.id) { %>
+<% if (isAdminOrSelf) { %>
   <a href="<%= editUserPath %>">Edit</a>
 <% } %>

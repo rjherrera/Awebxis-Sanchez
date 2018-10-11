@@ -5,7 +5,9 @@
     <tr>
       <th>Author</th>
       <th>Title</th>
-      <th>Delete interest</th>
+      <% if (isAdminOrSelf) { %>
+        <th>Delete interest</th>
+      <% } %>
     </tr>
   </thead>
   <tbody>
@@ -13,12 +15,14 @@
       <tr>
         <td><%= interest.author.name %></td>
         <td><%= interest.title %></td>
-        <td>
-          <form action="<%= destroyInterestPath(interest) %>" method="post">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" value="X" />
-          </form>
-        </td>
+        <% if (isAdminOrSelf) { %>
+          <td>
+            <form action="<%= destroyInterestPath(interest) %>" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" value="X" />
+            </form>
+          </td>
+        <% } %>
       </tr>
     <% }) %>
   </tbody>
