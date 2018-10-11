@@ -4,7 +4,7 @@
 }
 
 .form-title {
-    color: $cambalache-orange;
+    color: $cambalache-brown;
     text-align: center;
 }
 
@@ -14,14 +14,14 @@
     border-radius: 15px;
     background: $cambalache-white;
     .errors, ul {
-        color: $cambalache-orange;
+        color: $cambalache-brown;
     }
     div {
         display: flex;
         align-items: stretch;
         margin: 10px 0 0 0;
         padding: 5px 10px;
-        border-block-end: 1px solid $cambalache-orange;
+        border-block-end: 1px solid $cambalache-brown;
     }
     label {
         flex: 2;
@@ -51,7 +51,7 @@
             width: 30%;
             height: 30px;
             padding: 0;
-            border: 1px solid $cambalache-orange;
+            border: 1px solid $cambalache-brown;
             border-radius: 15px;
             cursor: pointer;
         }
