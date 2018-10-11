@@ -1,15 +1,8 @@
 const KoaRouter = require('koa-router');
-const { isLoggedIn, isAdmin } = require('../lib/routes/permissions');
+const { isLoggedIn, isAdmin, isAdminOrSelf } = require('../lib/routes/permissions');
 const { Author, Book, BookInstance, User } = require('../models');
 
 const router = new KoaRouter();
-
-function isAdminOrSelf(ctx, next) {
-  if (ctx.state.user.id === ctx.state.currentUser.id) {
-    return next();
-  }
-  return isAdmin(ctx, next);
-}
 
 router.param('username', async (username, ctx, next) => {
   ctx.state.user = await ctx.orm.User.findOne({ where: { username: ctx.params.username } });
