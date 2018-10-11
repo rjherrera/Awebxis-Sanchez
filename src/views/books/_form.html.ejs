@@ -59,6 +59,19 @@
       <label for="description">Description</label>
       <textarea type="text" name="description" placeholder="The story features the adventures of young Charlie Bucket inside the chocolate factory of eccentric chocolatier Willy Wonka."><%= book.description %></textarea>
     </div>
+    <div>
+      <label for="description">Genres</label>
+      <select name="genres" multiple>
+        <% genres.forEach(genre => { %>
+          <% if (!book.isNewRecord && !!book.genres.find(g => g.id === genre.id)) { %>
+          <option value="<%= genre.id %>" selected><%= genre.name %></option>
+          <% } else { %>
+          <option value="<%= genre.id %>"><%= genre.name %></option>
+          <% } %>
+        <% }) %>
+      </select>
+    </div>
+
     <div class="button">
       <% if (book.isNewRecord) { %>
       <input type="submit" name="create" value="Create" />

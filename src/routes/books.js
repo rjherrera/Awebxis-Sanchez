@@ -1,14 +1,17 @@
 const KoaRouter = require('koa-router');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 const { isAdmin } = require('../lib/routes/permissions');
-const { Author, User } = require('../models');
+const { Author, Genre, User } = require('../models');
 
 const router = new KoaRouter();
 
 router.param('isbn', async (isbn, ctx, next) => {
   const book = await ctx.orm.Book.findOne({
     where: { isbn },
-    include: [{ model: Author, as: 'author' }],
+    include: [
+      { model: Author, as: 'author' },
+      { model: Genre, as: 'genres' },
+    ],
   });
   ctx.assert(book, 404);
   ctx.state.book = book;
@@ -36,16 +39,20 @@ router.get('books', '/', async (ctx) => {
 
 router.get('books-new', '/new', isAdmin, async (ctx) => {
   const book = ctx.orm.Book.build();
+  const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('books/new', {
     book,
+    genres,
     submitBookPath: ctx.router.url('books-create'),
   });
 });
 
 router.get('books-edit', '/:isbn/edit', isAdmin, async (ctx) => {
   const { book } = ctx.state;
+  const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('books/edit', {
     book,
+    genres,
     submitBookPath: ctx.router.url('books-update', book.isbn),
   });
 });
@@ -53,16 +60,20 @@ router.get('books-edit', '/:isbn/edit', isAdmin, async (ctx) => {
 router.post('books-create', '/', isAdmin, async (ctx) => {
   const book = await ctx.orm.Book.build(ctx.request.body);
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
+  const genresIds = ctx.request.body.genres || [];
   try {
     await book.setAuthor(author, { save: false });
     await book.save(
       { fields: ['title', 'isbn', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
     );
+    await book.setGenres(genresIds);
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
+    const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
     await ctx.render('books/new', {
       book,
+      genres,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-create'),
     });
@@ -72,8 +83,10 @@ router.post('books-create', '/', isAdmin, async (ctx) => {
 router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
   const { book } = ctx.state;
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
+  const genresIds = ctx.request.body.genres || [];
   try {
     await book.setAuthor(author);
+    await book.setGenres(genresIds);
     await book.update(
       ctx.request.body,
       { fields: ['title', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description'] },
@@ -81,8 +94,10 @@ router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
+    const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
     await ctx.render('books/edit', {
       book,
+      genres,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-update', book.isbn),
     });
@@ -95,7 +110,6 @@ router.get('books-show', '/:isbn', async (ctx) => {
     order: [['createdAt', 'DESC']],
     include: [{ model: User, as: 'user' }],
   });
-  const genres = await book.getGenres({ order: [['name', 'ASC']] });
 
   const bookInstance = ctx.state.currentUser ? await ctx.orm.BookInstance.findOne({
     where: {
@@ -112,7 +126,6 @@ router.get('books-show', '/:isbn', async (ctx) => {
   }) : null;
 
   await ctx.render('books/show', {
-    genres,
     reviews,
     bookInstance,
     interest,
