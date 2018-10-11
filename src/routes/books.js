@@ -121,6 +121,7 @@ router.get('books-show', '/:isbn', async (ctx) => {
     bookInstance,
     interest,
     avgRating,
+    stats: { interestsCount: 4, valueInterestsCount: 80, matchesCount: 1, valueMatchesCount: 20 },
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),

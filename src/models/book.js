@@ -70,6 +70,7 @@ module.exports = (sequelize, DataTypes) => {
     Book.hasMany(models.Review, { as: 'reviews', foreignKey: 'bookId' });
     Book.belongsTo(models.Author, { as: 'author', foreignKey: 'authorId' });
     Book.hasMany(models.BookInstance, { as: 'instances', foreignKey: 'bookId' });
+    Book.hasMany(models.Interest, { as: 'interests', foreignKey: 'bookId' });
     Book.belongsToMany(models.User, { through: models.Interest, as: 'interested', foreignKey: 'bookId' });
   };
 
