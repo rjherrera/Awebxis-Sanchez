@@ -7,18 +7,22 @@ module.exports = {
       type: Sequelize.INTEGER,
     },
     bookId: {
+      allowNull: false,
       type: Sequelize.INTEGER,
       references: {
         model: 'Books',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
     userId: {
+      allowNull: false,
       type: Sequelize.INTEGER,
       references: {
         model: 'Users',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
     state: {
       type: Sequelize.INTEGER,

@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   Book.associate = (models) => {
-    Book.hasMany(models.Review, { foreignKey: 'bookId' });
+    Book.hasMany(models.Review, { as: 'reviews', foreignKey: 'bookId' });
     Book.belongsTo(models.Author, { as: 'author', foreignKey: 'authorId' });
     Book.hasMany(models.BookInstance, { as: 'instances', foreignKey: 'bookId' });
   };

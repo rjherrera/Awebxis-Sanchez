@@ -13,6 +13,7 @@ module.exports = {
         model: 'BookInstances',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
     proposeeBookInstanceId: {
       type: Sequelize.INTEGER,
@@ -21,6 +22,7 @@ module.exports = {
         model: 'BookInstances',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
     accepted: {
       type: Sequelize.BOOLEAN,

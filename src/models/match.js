@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     // proposerBookInstance - BookInstance of the user that proposed the match.
     proposerBookInstanceId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notEmpty: true,
       },
@@ -10,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     // proposeeBookInstance - BookInstance of the user that has to accept it.
     proposeeBookInstanceId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notEmpty: true,
       },

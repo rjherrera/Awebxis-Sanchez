@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const BookInstance = sequelize.define('BookInstance', {
     state: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notEmpty: true,
       },
