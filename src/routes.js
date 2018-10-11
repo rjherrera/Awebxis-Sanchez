@@ -48,7 +48,7 @@ router.use('/genres', genres.routes());
 router.use('/reviews', reviews.routes());
 router.use('/users', users.routes());
 router.use('/session', session.routes());
-router.use('/bookInstances', bookInstances.routes());
+router.use('/book-instances', bookInstances.routes());
 router.use('/interests', interests.routes());
 router.use('/matches', matches.routes());
 
