@@ -2,12 +2,12 @@ const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
   up: async (queryInterface) => {
-    const instancesJson = await getJSON('bookInstances.json');
+    const instancesJson = await getJSON('book-instances.json');
     const instancesData = [];
-    instancesJson.forEach((instance) => {
+    instancesJson.bookInstances.forEach((instance) => {
       instancesData.push({
-        UserId: instance.UserId,
-        BookId: instance.BookId,
+        userId: instance.userId,
+        bookId: instance.bookId,
         state: instance.state,
         comment: instance.comment,
         createdAt: new Date(),
