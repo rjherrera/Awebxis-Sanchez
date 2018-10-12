@@ -1,26 +1,30 @@
 <h1><%= genre.name %></h1>
 
-<a href="<%= genresPath %>">Back to all genres</a>
-
 <% if (currentUserIsAdmin) { %>
-  <a href="<%= editGenrePath %>">Edit</a>
-  <form action="<%= destroyGenrePath %>" method="post">
-    <input type="hidden" name="_method" value="delete" />
-    <input type="submit" value="Destroy" />
-  </form>
+  <div class="actions-container">
+    <form action="<%= editGenrePath %>">
+      <input type="submit" class="button secondary" value="Edit"/>
+    </form>
+    <form action="<%= destroyGenrePath %>" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <input type="submit" class="button secondary" value="Destroy" />
+    </form>
+  </div>
 <% } %>
 
 <div class="cards-container">
   <% books.forEach((book) => { %>
-  <a class="card-book" href="<%= buildBookPath(book) %>">
-    <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
-    <div class="shadow">
-      <p class="title"><%= book.title %></p>
-      <p class="author"><%= book.author.name %></p>
-    </div>
-  </a>
+    <a class="card-book" href="<%= buildBookPath(book) %>">
+      <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
+      <div class="shadow">
+        <p class="title"><%= book.title %></p>
+        <p class="author"><%= book.author.name %></p>
+      </div>
+    </a>
   <% }) %>
 </div>
+
+<a href="<%= genresPath %>">Back to all genres</a>
 
 <div class="page-selector">
   <% if (page > 1) { %>
