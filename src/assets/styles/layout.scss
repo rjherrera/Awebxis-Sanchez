@@ -71,3 +71,20 @@ header {
     color: white;
   }
 }
+
+.actions-container {
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+
+  form {
+    flex: 0 1 50%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+
+    .button {
+      width: 80%;
+    }
+  }
+}
