@@ -8,6 +8,21 @@
   outline: none;
   cursor: pointer;
 
+  @each $color in $names {
+    $index: index($names, $color);
+
+    &.#{$color} {
+      border: 1px solid nth($colors, $index);
+      color: $cambalache-white;
+      background: nth($colors, $index);
+    }
+
+    &.#{$color}.inverted {
+      color: nth($colors, $index);
+      background: $cambalache-white;
+    }
+  }
+
   &.primary {
     border: 1px solid $cambalache-orange;
     background: $cambalache-orange;
@@ -18,18 +33,6 @@
     border: 1px solid $cambalache-orange;
     background: $cambalache-white;
     color: $cambalache-black;
-  }
-
-  &.negative, &.red {
-    border: 1px solid $cambalache-red;
-    background: $cambalache-red;
-    color: $cambalache-white;
-  }
-
-  &.positive, &.green {
-    border: 1px solid $cambalache-green;
-    background: $cambalache-green;
-    color: $cambalache-white;
   }
 
   &.inline {
