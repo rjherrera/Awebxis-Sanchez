@@ -7,7 +7,7 @@
 <div class="search-container">
   <form action="/books" method="get">
     <input class="field" type="text" name="q" value="<%= q %>" placeholder="Harry Potter">
-    <input class="button" type="submit" value="Search">
+    <input class="button fitted" type="submit" value="Search">
   </form>
   <% if (q.length) { %>
     <p>Results for '<span class="q"><%= q %></span>'</p>
