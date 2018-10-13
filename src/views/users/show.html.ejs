@@ -1,33 +1,53 @@
+<style>
+
+  .flex-column {
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      /* background: linear-gradient(to bottom right, #8E4631 0%, #FFD13D 100%); */
+  }
+
+  .flex-body {
+      display: flex;
+      flex: 0 0 100%;
+      flex-wrap: wrap;
+  }
+
+  .flex-body div:not([class*="flex"]) {
+      /* border: 1px solid white; */
+      flex: 1 1 200px;
+      width: 500px;
+  }
+</style>
+
 <h1><%= user.firstName %></h1>
 
 <% const isAdminOrSelf = currentUserIsAdmin || currentUser.id === user.id %>
 
-<table>
-  <tr>
-    <thead>
-      <th>Username</th>
-      <th>Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%= user.username %></td>
-      <td><%= user.email %></td>
-    </tr>
-  </tbody>
-</table>
 
-<%- include('show/_interests', { isAdminOrSelf }) %>
+<div class="flex-body">
+  <div class="flex-colum">
+    <div class="one">
+      <% if (currentUser.id === user.id) { %>
+        <%- include('show/_matches') %>
+      <% } %>
+    </div>
+    <div class="two">
+      <%- include('show/_books') %>
+    </div>
+  </div>
+  <div class="flex-column">
+    <div class="three">
+      <%- include('show/_interests', { isAdminOrSelf }) %>
+    </div>
+    <div class="four">
+      <%- include('show/_books') %>
+    </div>
+  </div>
+  </div>
 
-<% if (currentUser.id === user.id) { %>
-  <%- include('show/_matches') %>
-<% } %>
-
-<%- include('show/_books') %>
-
-<%- include('show/_follows', { collection: followers, title: 'Followers', name: 'Follower' }) %>
-
-<%- include('show/_follows', { collection: following, title: 'Following', name: 'Following' }) %>
 
 <%- include('show/_feedbacks') %>
 
