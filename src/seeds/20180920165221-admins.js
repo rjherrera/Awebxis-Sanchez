@@ -3,7 +3,7 @@ const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
   up: async (queryInterface) => {
-    const usersJson = await getJSON('users.json');
+    const usersJson = await getJSON('admins.json');
     const usersData = await Promise.all(
       usersJson.map(async user => ({
         username: user.username,
@@ -11,7 +11,7 @@ module.exports = {
         lastName: user.last_name,
         email: user.email,
         password: await bcrypt.hash(user.password, 10),
-        admin: false,
+        admin: true,
         profilePicUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),

@@ -1,13 +1,16 @@
-const getJSON = require('../lib/seeds/get-json');
+const { User, Book } = require('../models');
+
+const randint = n => Math.floor(Math.random() * n) + 1;
 
 module.exports = {
   up: async (queryInterface) => {
-    const interestsJson = await getJSON('interests.json');
+    const users = await User.findAll({ attributes: ['id'] });
+    const books = await Book.findAll({ attributes: ['id'] });
     const interestsData = [];
-    interestsJson.forEach((interest) => {
+    users.forEach(({ id }) => {
       interestsData.push({
-        userId: interest.UserId,
-        bookId: interest.BookId,
+        userId: id,
+        bookId: books[randint(books.length - 1)].id,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
