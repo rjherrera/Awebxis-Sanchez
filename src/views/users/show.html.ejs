@@ -35,6 +35,7 @@
       <% } %>
     </div>
     <div class="two">
+      <h1>Interest on your books</h1>
       <%- include('show/_books') %>
     </div>
   </div>
@@ -43,6 +44,7 @@
       <%- include('show/_interests', { isAdminOrSelf }) %>
     </div>
     <div class="four">
+      <h1>Books owned: <%= userBooks.length %> </h1>
       <%- include('show/_books') %>
     </div>
   </div>

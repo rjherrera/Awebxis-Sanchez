@@ -1,0 +1,16 @@
+.flexbox_user{
+    height: 500px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .flexbox_user div {
+    width: 40%;
+    // background: green;
+    height: 30%;
+  }
+  .flexbox_user .one, .flexbox_user .two{
+    height: 45%;
+  }
