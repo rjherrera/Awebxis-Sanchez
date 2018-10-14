@@ -1,61 +1,110 @@
 <style>
+  .flex-row {
+    flex-direction: row;
+    display: flex;
+    /* flex-flow: row wrap; */
+    margin-left: -5%;
+    margin-right: -5%;
+  }
 
   .flex-column {
-      flex-direction: column;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-grow: 1;
-      /* background: linear-gradient(to bottom right, #8E4631 0%, #FFD13D 100%); */
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    flex: 50%;
+    padding: 15px;
   }
 
-  .flex-body {
-      display: flex;
-      flex: 0 0 100%;
-      flex-wrap: wrap;
+  .flex-column_full {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    flex: 100%;
   }
 
-  .flex-body div:not([class*="flex"]) {
-      /* border: 1px solid white; */
-      flex: 1 1 200px;
-      width: 500px;
+  h5 {
+    font-style: italic;
   }
+
+  .interest-count {
+    font-style: italic;
+  }
+
+  ul {
+   list-style: none;
+  }
+
+  .quadrant1 {
+    background:rgba(0,0,0,0.05);
+  }
+
+  .quadrant2 {
+    background:rgba(0,0,0,0.1);
+  }
+
+  .quadrant3 {
+    background:rgba(0,0,0,0.2);
+  }
+
+  .quadrant4 {
+    background:rgba(0,0,0,0.3);
+  }
+
+  .exchange {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
+
 </style>
 
-<h1><%= user.firstName %></h1>
+<h1><%= user.firstName + " " + user.lastName %></h1>
+<h5><%= followers.length %> followers and following <%= following.length %> people </h5>
 
 <% const isAdminOrSelf = currentUserIsAdmin || currentUser.id === user.id %>
 
 
-<div class="flex-body">
-  <div class="flex-colum">
-    <div class="one">
-      <% if (currentUser.id === user.id) { %>
-        <%- include('show/_matches') %>
-      <% } %>
-    </div>
-    <div class="two">
-      <h1>Interest on your books</h1>
-      <%- include('show/_books') %>
-    </div>
+<div class="flex-row">
+  <% if (currentUser.id === user.id) { %>
+    <div class="flex-column quadrant1">
+      <%- include('show/_matches') %>
+  <% } %>
   </div>
-  <div class="flex-column">
-    <div class="three">
-      <%- include('show/_interests', { isAdminOrSelf }) %>
+  <% if (currentUser.id === user.id) { %>
+    <div class="flex-column quadrant2">
+        <%- include('show/_interests', { isAdminOrSelf }) %>
     </div>
-    <div class="four">
-      <h1>Books owned: <%= userBooks.length %> </h1>
-      <%- include('show/_books') %>
+  <% } else { %>
+    <div class="flex-column_full quadrant2">
+        <%- include('show/_interests', { isAdminOrSelf }) %>
     </div>
+  <% } %>
+</div>
+
+<div class="flex-row">
+  <div class="flex-column quadrant3" >
+      <h1>Wants: <%= interests.length %> </h1>
+    <%- include('show/_interests_cards', { isAdminOrSelf }) %>
   </div>
+  <div class="flex-column quadrant4">
+    <h1>Owns: <%= userBooks.length %> </h1>
+    <%- include('show/_books') %>
   </div>
+</div>
 
 
 <%- include('show/_feedbacks') %>
 
-<hr>
-
-<a href="<%= usersPath %>">Back</a>
-<% if (isAdminOrSelf) { %>
-  <a href="<%= editUserPath %>">Edit</a>
+<% if (user.id === currentUser.id) { %>
+  <form action='<%= editUserPath %>' class="flex-column_full">
+    <input type="submit" class="button" value="User's info">
+  </form>
+<% } else { %>
+  <form action='#' class="flex-column_full">
+    <input type="submit" class="button" value="User's info">
+  </form>
 <% } %>

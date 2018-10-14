@@ -11,8 +11,8 @@ body, a, p, span {
 body {
   background: linear-gradient(to bottom right, $cambalache-brown 0%, $cambalache-yellow 100%);
   background-attachment: fixed;
-  padding: 60px 40px;
-  margin: 0 5%;
+  padding: 60px 5%;
+  // margin: 0 5%;
 }
 
 * {
