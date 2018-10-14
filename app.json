@@ -1,9 +1,12 @@
 {
   "name": "Cambalache",
   "scripts": {
-    "postdeploy": "npx sequelize db:seed:all"
+    "postdeploy": "./postdeploy.sh"
   },
   "env": {
+    "GOODREADS_KEY": {
+      "required": true
+    },
     "SEEDS_SERVER": {
       "required": true
     }
