@@ -1,9 +1,22 @@
-<h1>Pending matches:</h1>
-
 <ul>
   <% pendingMatches.forEach(match => { %>
     <% const { proposerBookInstance, proposeeBookInstance } = match;%>
     <% if (proposeeBookInstance.userId === currentUser.id) { %>
-      You're being offered <%= proposerBookInstance.book.title %> for your <%= proposeeBookInstance.book.title %>
+      · You're being offered <span class="bolded"><%= proposerBookInstance.book.title %></span> for your <span class="bolded"><%= proposeeBookInstance.book.title %></span>
+      <div class="flex-row">
+        <div class="flex-column">
+          <form action="<%= acceptMatchPath(match) %>" method="post">
+            <input type="hidden" name="_method" value="patch" />
+            <input type="submit" class="button" value="Approve it" />
+          </form>
+        </div>
+        <div class="flex-column">
+          <form action="<%= destroyMatchPath(match) %>" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" class="button negative" value="Refuse it" />
+          </form>
+        </div>
+      </div>
+          
     <%}})%>
 </ul>

@@ -24,6 +24,9 @@
     justify-content: center;
     flex-grow: 1;
     flex: 100%;
+    padding: 15px;
+    margin-left: -5%;
+    margin-right: -5%;
   }
 
   h5 {
@@ -36,6 +39,7 @@
 
   ul {
    list-style: none;
+   line-height: 2.0;
   }
 
   .quadrant1 {
@@ -60,6 +64,17 @@
     justify-content: center;
   }
 
+  .bolded {
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  .flex-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
 </style>
 
 <h1><%= user.firstName + " " + user.lastName %></h1>
@@ -68,29 +83,26 @@
 <% const isAdminOrSelf = currentUserIsAdmin || currentUser.id === user.id %>
 
 
-<div class="flex-row">
-  <% if (currentUser.id === user.id) { %>
-    <div class="flex-column quadrant1">
+<% if (currentUser.id === user.id) { %>
+  <div class="flex-row">
+  
+    <div class="flex-column quadrant1 flex-top">
+        <h1>Pending matches:</h1>
       <%- include('show/_matches') %>
-  <% } %>
   </div>
-  <% if (currentUser.id === user.id) { %>
-    <div class="flex-column quadrant2">
-        <%- include('show/_interests', { isAdminOrSelf }) %>
-    </div>
-  <% } else { %>
-    <div class="flex-column_full quadrant2">
+    <div class="flex-column quadrant2 flex-top">
+        <h1>Interest on user's books</h1>
         <%- include('show/_interests', { isAdminOrSelf }) %>
     </div>
   <% } %>
 </div>
 
 <div class="flex-row">
-  <div class="flex-column quadrant3" >
+  <div class="flex-column quadrant3 flex-top" >
       <h1>Wants: <%= interests.length %> </h1>
     <%- include('show/_interests_cards', { isAdminOrSelf }) %>
   </div>
-  <div class="flex-column quadrant4">
+  <div class="flex-column quadrant4 flex-top">
     <h1>Owns: <%= userBooks.length %> </h1>
     <%- include('show/_books') %>
   </div>

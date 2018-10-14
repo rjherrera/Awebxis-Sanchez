@@ -9,19 +9,9 @@
         <p class="author"><%= instance.book.author.name %></p>
       </div>
     </a>
-    <!-- <a href="#" class="exchange">Exchange</a> -->
+    <a href="#" class="exchange">Exchange</a>
   </div>
-  
-<form action="<%= createMatchPath %>" method="post">
-  <input type="hidden" name="proposeeBookInstanceId" value="<%= instance.id %>"/>
-  <select name="proposerBookInstanceId" required>
-    <% currentUserBooks.forEach(instance => { %>
-      <option value="<%= instance.id %>"><%= instance.book.title %></option>
-    <% }) %>
-  </select>
-  <input type="submit" value="Propose exchange" />
-</form>  
-  
+    
   <% }) %>
 </div>
   
