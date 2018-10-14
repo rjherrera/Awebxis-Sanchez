@@ -11,9 +11,20 @@ router.param('username', async (username, ctx, next) => {
 });
 
 router.get('users', '/', async (ctx) => {
-  const users = await ctx.orm.User.findAll();
+  const page = parseInt(ctx.query.page, 10) || 1;
+  const q = ctx.query.q || '';
+  const users = await ctx.orm.User.findAll({
+    order: [['username', 'ASC']],
+    offset: (page - 1) * ctx.state.pageSize,
+    limit: ctx.state.pageSize,
+    where: { username: { $iLike: `%${q}%` } },
+  });
   await ctx.render('users/index', {
     users,
+    page,
+    q,
+    previousPagePath: ctx.router.url('users', { query: { page: page - 1 } }),
+    nextPagePath: ctx.router.url('users', { query: { page: page + 1 } }),
   });
 });
 
