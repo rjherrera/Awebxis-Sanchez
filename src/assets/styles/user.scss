@@ -1,0 +1,100 @@
+.flex-row {
+    flex-direction: row;
+    display: flex;
+    /* flex-flow: row wrap; */
+    margin-left: -5.55555%;
+    margin-right: -5.55555%;
+}
+
+.flex-column {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    flex: 50%;
+    padding: 15px;
+}
+
+.flex-column_full {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    flex: 100%;
+    padding: 15px;
+    margin-left: -5.55555%;
+    margin-right: -5.55555%;
+}
+
+h5 {
+    font-style: italic;
+}
+
+.interest-count {
+    font-style: italic;
+}
+
+ul {
+    list-style: none;
+    line-height: 2.0;
+}
+
+.quadrant1 {
+    background:rgba(0,0,0,0.05);
+}
+
+.quadrant2 {
+    background:rgba(0,0,0,0.1);
+}
+
+.quadrant3 {
+    background:rgba(0,0,0,0.2);
+}
+
+.quadrant4 {
+    background:rgba(0,0,0,0.3);
+}
+
+.exchange {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.bolded {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.flex-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.card-exchange-container {
+    text-decoration: none;
+    position: relative;
+    display: flex;
+    flex-flow: column wrap;
+    overflow: hidden;
+    margin: 10px;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.flex-form-center {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 165px;
+    margin-left: 10px;
+}
+
+.empty-feedbacks {
+    font-style: italic;
+}

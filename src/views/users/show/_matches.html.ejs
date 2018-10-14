@@ -1,65 +1,22 @@
-<h2>Resolved matches:</h2>
-<table>
-  <thead>
-    <th>Book you'll give</th>
-    <th>Book you'll get</th>
-    <th>Contact</th>
-  </thead>
-  <tbody>
-    <% settledMatches.forEach(({ proposerBookInstance, proposeeBookInstance }) => { %>
-      <% if (proposeeBookInstance.userId === currentUser.id) { %>
-        <tr>
-          <td><%= proposeeBookInstance.book.title %></td>
-          <td><%= proposerBookInstance.book.title %></td>
-          <td><%= proposerBookInstance.user.email %></td>
-        </tr>
-      <% } else { %>
-        <tr>
-          <td><%= proposerBookInstance.book.title %></td>
-          <td><%= proposeeBookInstance.book.title %></td>
-          <td><%= proposeeBookInstance.user.email %></td>
-        </tr>
-      <% } %>
-    <% }) %>
-  </tbody>
-</table>
-
-<h2>Pending matches:</h2>
-<table>
-  <thead>
-    <th>Proposing user</th>
-    <th>Proposed book</th>
-    <th>Your book</th>
-    <th>Book's state</th>
-    <th>Book's comment</th>
-    <th>Approve</th>
-    <th>Refuse</th>
-  </thead>
-
-  <tbody>
-    <% pendingMatches.forEach(match => { %>
-      <% const { proposerBookInstance, proposeeBookInstance } = match;%>
-      <% if (proposeeBookInstance.userId === currentUser.id) { %>
-        <tr>
-          <td><%= proposerBookInstance.user.username %></td>
-          <td><%= proposerBookInstance.book.title %></td>
-          <td><%= proposeeBookInstance.book.title %></td>
-          <td><%= proposerBookInstance.state %></td>
-          <td><%= proposerBookInstance.comment %></td>
-          <td>
-            <form action="<%= acceptMatchPath(match) %>" method="post">
-              <input type="hidden" name="_method" value="patch" />
-              <input type="submit" value="Approve it" />
-            </form>
-          </td>
-          <td>
-            <form action="<%= destroyMatchPath(match) %>" method="post">
-              <input type="hidden" name="_method" value="delete" />
-              <input type="submit" value="Refuse it" />
-            </form>
-          </td>
-        </tr>
-      <% } %>
-    <% }) %>
-  </tbody>
-</table>
+<ul>
+  <% pendingMatches.forEach(match => { %>
+    <% const { proposerBookInstance, proposeeBookInstance } = match;%>
+    <% if (proposeeBookInstance.userId === currentUser.id) { %>
+      · You're being offered <span class="bolded"><%= proposerBookInstance.book.title %></span> for your <span class="bolded"><%= proposeeBookInstance.book.title %></span>
+      <div class="flex-row">
+        <div class="flex-column">
+          <form action="<%= acceptMatchPath(match) %>" method="post">
+            <input type="hidden" name="_method" value="patch" />
+            <input type="submit" class="button" value="Accept it" />
+          </form>
+        </div>
+        <div class="flex-column">
+          <form action="<%= destroyMatchPath(match) %>" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" class="button negative" value="Refuse it" />
+          </form>
+        </div>
+      </div>
+          
+    <%}})%>
+</ul>

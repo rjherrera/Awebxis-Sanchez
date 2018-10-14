@@ -90,6 +90,9 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
     acceptMatchPath: match => ctx.router.url('match-accept', { id: match.id }),
     destroyMatchPath: match => ctx.router.url('match-destroy', { id: match.id }),
     destroyInterestPath: interest => ctx.router.url('interests-destroy', { id: interest.id }),
+    stats: {
+      interestsCount: 4, valueInterestsCount: 80, matchesCount: 1, valueMatchesCount: 20,
+    },
   });
 });
 
