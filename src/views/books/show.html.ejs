@@ -66,8 +66,8 @@
 <div class="bottom-container">
   <div class="genres-section">
     <h1 class="section-title">Genres</h1>
-    <% genres.forEach(genre => { %>
-    <a href="<%= buildGenrePath(genre) %>"><%= genre.name %></a>
+    <% book.genres.forEach(genre => { %>
+      <a href="<%= buildGenrePath(genre) %>"><%= genre.name %></a>
     <% }) %>
   </div>
 
