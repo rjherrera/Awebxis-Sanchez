@@ -26,7 +26,11 @@
   </div>
   <div class="flex-column quadrant4 flex-top">
     <h1>Owns: <%= userBooks.length %> </h1>
-    <%- include('show/_books') %>
+    <% if (currentUser.id === user.id) { %>
+      <%- include('show/_books_current') %>
+    <% } else { %>
+      <%- include('show/_books') %>
+    <% } %>
   </div>
 </div>
 
@@ -35,10 +39,6 @@
 
 <% if (user.id === currentUser.id) { %>
   <form action='<%= editUserPath %>' class="flex-column_full">
-    <input type="submit" class="button" value="User's info">
-  </form>
-<% } else { %>
-  <form action='#' class="flex-column_full">
     <input type="submit" class="button" value="User's info">
   </form>
 <% } %>

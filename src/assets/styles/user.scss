@@ -80,8 +80,6 @@ ul {
     display: flex;
     flex-flow: column wrap;
     overflow: hidden;
-    width: 175px;
-    height: 380px;
     margin: 10px;
     text-align: center;
     align-content: center;
@@ -94,12 +92,6 @@ ul {
     justify-content: center;
     flex-direction: column;
     max-width: 165px;
+    margin-left: 10px;
 }
 
-.select-proposal .submit-proposal {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    flex-direction: column;
-    max-width: 165px;
-}
