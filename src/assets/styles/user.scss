@@ -2,8 +2,8 @@
     flex-direction: row;
     display: flex;
     /* flex-flow: row wrap; */
-    margin-left: -5%;
-    margin-right: -5%;
+    margin-left: -5.55555%;
+    margin-right: -5.55555%;
 }
 
 .flex-column {
@@ -24,8 +24,8 @@
     flex-grow: 1;
     flex: 100%;
     padding: 15px;
-    margin-left: -5%;
-    margin-right: -5%;
+    margin-left: -5.55555%;
+    margin-right: -5.55555%;
 }
 
 h5 {
@@ -95,3 +95,6 @@ ul {
     margin-left: 10px;
 }
 
+.empty-feedbacks {
+    font-style: italic;
+}
