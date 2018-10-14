@@ -1,13 +1,16 @@
-const getJSON = require('../lib/seeds/get-json');
+const { User } = require('../models');
+
+const randint = n => Math.floor(Math.random() * n) + 1;
 
 module.exports = {
   up: async (queryInterface) => {
-    const followsJson = await getJSON('follows.json');
+    const users = await User.findAll({ attributes: ['id'] });
     const followsData = [];
-    followsJson.forEach((follow) => {
+    Array(200).fill(0).forEach(() => {
+      const firstId = users[randint(users.length - 1)].id;
       followsData.push({
-        followerId: follow.followerId,
-        followeeId: follow.followeeId,
+        followerId: firstId,
+        followeeId: users.filter(u => u.id !== firstId)[randint(users.length - 2)].id,
         createdAt: new Date(),
         updatedAt: new Date(),
       });

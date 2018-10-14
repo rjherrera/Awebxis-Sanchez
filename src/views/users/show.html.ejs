@@ -1,39 +1,44 @@
-<h1><%= user.firstName %></h1>
+
+<h1><%= user.firstName + " " + user.lastName %></h1>
+<h5><%= followers.length %> followers and following <%= following.length %> people </h5>
 
 <% const isAdminOrSelf = currentUserIsAdmin || currentUser.id === user.id %>
 
-<table>
-  <tr>
-    <thead>
-      <th>Username</th>
-      <th>Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%= user.username %></td>
-      <td><%= user.email %></td>
-    </tr>
-  </tbody>
-</table>
-
-<%- include('show/_interests', { isAdminOrSelf }) %>
 
 <% if (currentUser.id === user.id) { %>
-  <%- include('show/_matches') %>
-<% } %>
+  <div class="flex-row">
+  
+    <div class="flex-column quadrant1 flex-top">
+        <h1>Pending matches</h1>
+      <%- include('show/_matches') %>
+  </div>
+    <div class="flex-column quadrant2 flex-top">
+        <h1>Interest on user's books</h1>
+        <%- include('show/_interests', { isAdminOrSelf }) %>
+    </div>
+  <% } %>
+</div>
 
-<%- include('show/_books') %>
+<div class="flex-row">
+  <div class="flex-column quadrant3 flex-top" >
+      <h1>Wants: <%= interests.length %> </h1>
+    <%- include('show/_interests_cards', { isAdminOrSelf }) %>
+  </div>
+  <div class="flex-column quadrant4 flex-top">
+    <h1>Owns: <%= userBooks.length %> </h1>
+    <% if (currentUser.id === user.id) { %>
+      <%- include('show/_books_current') %>
+    <% } else { %>
+      <%- include('show/_books') %>
+    <% } %>
+  </div>
+</div>
 
-<%- include('show/_follows', { collection: followers, title: 'Followers', name: 'Follower' }) %>
-
-<%- include('show/_follows', { collection: following, title: 'Following', name: 'Following' }) %>
 
 <%- include('show/_feedbacks') %>
 
-<hr>
-
-<a href="<%= usersPath %>">Back</a>
-<% if (isAdminOrSelf) { %>
-  <a href="<%= editUserPath %>">Edit</a>
+<% if (user.id === currentUser.id) { %>
+  <form action='<%= editUserPath %>' class="flex-column_full">
+    <input type="submit" class="button" value="User's info">
+  </form>
 <% } %>
