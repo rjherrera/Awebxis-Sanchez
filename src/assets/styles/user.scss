@@ -4,9 +4,9 @@
     /* flex-flow: row wrap; */
     margin-left: -5%;
     margin-right: -5%;
-  }
+}
 
-  .flex-column {
+.flex-column {
     flex-direction: column;
     display: flex;
     align-items: center;
@@ -14,9 +14,9 @@
     flex-grow: 1;
     flex: 50%;
     padding: 15px;
-  }
+}
 
-  .flex-column_full {
+.flex-column_full {
     flex-direction: column;
     display: flex;
     align-items: center;
@@ -26,69 +26,80 @@
     padding: 15px;
     margin-left: -5%;
     margin-right: -5%;
-  }
+}
 
-  h5 {
+h5 {
     font-style: italic;
-  }
+}
 
-  .interest-count {
+.interest-count {
     font-style: italic;
-  }
+}
 
-  ul {
-   list-style: none;
-   line-height: 2.0;
-  }
+ul {
+    list-style: none;
+    line-height: 2.0;
+}
 
-  .quadrant1 {
+.quadrant1 {
     background:rgba(0,0,0,0.05);
-  }
+}
 
-  .quadrant2 {
+.quadrant2 {
     background:rgba(0,0,0,0.1);
-  }
+}
 
-  .quadrant3 {
+.quadrant3 {
     background:rgba(0,0,0,0.2);
-  }
+}
 
-  .quadrant4 {
+.quadrant4 {
     background:rgba(0,0,0,0.3);
-  }
+}
 
-  .exchange {
+.exchange {
     display: flex;
     align-content: center;
     justify-content: center;
-  }
+}
 
-  .bolded {
+.bolded {
     font-weight: bold;
     font-style: italic;
-  }
+}
 
-  .flex-top {
+.flex-top {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-  }
+}
 
-  .card-exchange-container {
+.card-exchange-container {
     text-decoration: none;
     position: relative;
     display: flex;
     flex-flow: column wrap;
     overflow: hidden;
-    width: 165px;
+    width: 175px;
     height: 380px;
     margin: 10px;
     text-align: center;
-  }
+    align-content: center;
+    justify-content: center;
+}
 
-  .flex-form-center {
+.flex-form-center {
     display: flex;
     align-content: center;
     justify-content: center;
     flex-direction: column;
-  }
+    max-width: 165px;
+}
+
+.select-proposal .submit-proposal {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 165px;
+}
