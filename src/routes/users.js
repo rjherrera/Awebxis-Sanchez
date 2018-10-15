@@ -23,8 +23,8 @@ router.get('users', '/', async (ctx) => {
     users,
     page,
     q,
-    previousPagePath: ctx.router.url('users', { query: { page: page - 1 } }),
-    nextPagePath: ctx.router.url('users', { query: { page: page + 1 } }),
+    previousPagePath: ctx.router.url('users', { query: { page: page - 1, q } }),
+    nextPagePath: ctx.router.url('users', { query: { page: page + 1, q } }),
   });
 });
 
