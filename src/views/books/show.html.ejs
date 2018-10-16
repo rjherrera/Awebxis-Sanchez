@@ -79,7 +79,12 @@
       <div class="reviews-container">
         <% reviews.forEach(review => { %>
         <div class="review">
-          <p class="rating"><a href="<%= buildUserPath(review.user) %> " class="username"><%= review.user.firstName %></a>
+          <p class="rating">
+            <% if (currentUser) { %>
+              <a href="<%= buildUserPath(review.user) %> " class="username"><%= review.user.firstName %></a>
+            <% } else { %>
+              <%= review.user.firstName %>               
+            <% } %>
              rated it
             <% Array(5).fill().forEach((e, i) => { %>
               <i class="fa fa-star <%= i < review.rating ? 'filled' : 'empty' %>"></i>

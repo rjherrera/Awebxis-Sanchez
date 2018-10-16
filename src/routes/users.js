@@ -1,6 +1,5 @@
 const KoaRouter = require('koa-router');
 const { isLoggedIn, isAdmin, isAdminOrSelf } = require('../lib/routes/permissions');
-const { Author } = require('../models');
 
 const router = new KoaRouter();
 
