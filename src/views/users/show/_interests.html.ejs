@@ -1,7 +1,7 @@
 <ul>
-  <% interests.forEach(interest => { %>
+  <% userBooks.forEach(instance => { %>
     <li>
-      · <%= interest.book.title %> <span class="interest-count">- <%= stats.interestsCount %> Interesados</span>
+      · <%= instance.book.title %> <span class="interest-count">- <%= stats.interestsCount %> Interesados</span>
     </li>
   <% }) %>
 </ul>
