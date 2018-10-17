@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { storage } = require('pkgcloud');
-const clientConfig = require('../config/minio');
+const clientConfig = require('../config/amazon');
 
 const CONTAINER_NAME = 'cambalache';
 
