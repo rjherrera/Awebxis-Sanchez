@@ -1,0 +1,50 @@
+.button {
+  min-height: 30px;
+  margin: 0px 5px;
+  padding: 0 20px;
+  border: 0px none transparent;
+  border-radius: 15px;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+
+  @each $color in $names {
+    $index: index($names, $color);
+
+    &.#{$color} {
+      border: 1px solid nth($colors, $index);
+      color: $cambalache-white;
+      background: nth($colors, $index);
+    }
+
+    &.#{$color}.inverted {
+      color: nth($colors, $index);
+      background: $cambalache-white;
+    }
+  }
+
+  &.primary {
+    border: 1px solid $cambalache-orange;
+    background: $cambalache-orange;
+    color: $cambalache-white;
+  }
+
+  &.secondary {
+    border: 1px solid $cambalache-orange;
+    background: $cambalache-white;
+    color: $cambalache-black;
+  }
+
+  &.inline {
+    display: inline;
+  }
+
+  &.fitted {
+    margin: 0;
+  }
+
+  &:hover {
+    opacity: 0.75;
+    font-weight: bold;
+  }
+}

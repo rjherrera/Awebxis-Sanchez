@@ -1,27 +1,30 @@
 const KoaRouter = require('koa-router');
 const cloudStorage = require('../lib/cloud-storage');
-const { isLoggedIn, isAdmin } = require('../lib/routes/permissions');
-const { Author } = require('../models');
+const { isLoggedIn, isAdmin, isAdminOrSelf } = require('../lib/routes/permissions');
 
 const router = new KoaRouter();
 
-function isAdminOrSelf(ctx, next) {
-  if (ctx.state.user.id === ctx.state.currentUser.id) {
-    return next();
-  }
-  return isAdmin(ctx, next);
-}
-
 router.param('username', async (username, ctx, next) => {
-  ctx.state.user = await ctx.orm.User.findOne({ where: { username: ctx.params.username } });
+  ctx.state.user = await ctx.orm.User.findOne({ where: { username } });
   ctx.assert(ctx.state.user, 404);
   return next();
 });
 
 router.get('users', '/', async (ctx) => {
-  const users = await ctx.orm.User.findAll();
+  const page = parseInt(ctx.query.page, 10) || 1;
+  const q = ctx.query.q || '';
+  const users = await ctx.orm.User.findAll({
+    order: [['username', 'ASC']],
+    offset: (page - 1) * ctx.state.pageSize,
+    limit: ctx.state.pageSize,
+    where: { username: { $iLike: `%${q}%` } },
+  });
   await ctx.render('users/index', {
     users,
+    page,
+    q,
+    previousPagePath: ctx.router.url('users', { query: { page: page - 1, q } }),
+    nextPagePath: ctx.router.url('users', { query: { page: page + 1, q } }),
   });
 });
 
@@ -51,7 +54,7 @@ router.post('users-create', '/', async (ctx) => {
       await cloudStorage.upload(localImagePath, remoteImagePath);
       await user.update({ profilePicUrl: remoteImagePath });
     }
-    ctx.redirect(ctx.router.url('users-show', { username: user.username }));
+    ctx.redirect(ctx.router.url('session-new'));
   } catch (validationError) {
     await ctx.render('users/new', {
       user: ctx.orm.User.create(ctx.request.body),
@@ -88,17 +91,33 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
 
 router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   const { user } = ctx.state;
-  const interests = await user.getInterests({ include: [{ model: Author, as: 'author' }] });
+  const interests = await user.getInterests({ scope: ['withBook'] });
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();
+  const userBooks = await user.getUserBooks({ scope: ['withBook', 'active'] });
+  const currentUserBooks = await ctx.state.currentUser.getUserBooks({ scope: ['withBook', 'active'] });
+  const pendingMatches = await ctx.orm.Match.scope('withInstances', 'pending').findAll();
+  const settledMatches = await ctx.orm.Match.scope('withInstances', 'settled').findAll();
+
   await ctx.render('users/show', {
     user,
     interests,
     followers,
     following,
     feedbacks,
+    userBooks,
+    currentUserBooks,
+    pendingMatches,
+    settledMatches,
     editUserPath: ctx.router.url('users-edit', user.username),
+    createMatchPath: ctx.router.url('match-create', user.username),
+    acceptMatchPath: match => ctx.router.url('match-accept', { id: match.id }),
+    destroyMatchPath: match => ctx.router.url('match-destroy', { id: match.id }),
+    destroyInterestPath: interest => ctx.router.url('interests-destroy', { id: interest.id }),
+    stats: {
+      interestsCount: 4, valueInterestsCount: 80, matchesCount: 1, valueMatchesCount: 20,
+    },
   });
 });
 

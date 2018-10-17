@@ -1,0 +1,17 @@
+
+<div class="cards-container">
+  <% userBooks.forEach((instance) => { %>
+  <div class="card-exchange-container">
+    <a class="card-book" href="<%= buildBookPath(instance.book) %>">
+      <img src="<%= instance.book.imageUrl %>" alt="<%= instance.book.title %>">
+      <div class="shadow">
+        <p class="title"><%= instance.book.title %></p>
+        <p class="author"><%= instance.book.author.name %></p>
+      </div>
+    </a>
+  </div>
+    
+  <% }) %>
+</div>
+  
+

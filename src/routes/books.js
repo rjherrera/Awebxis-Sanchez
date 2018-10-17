@@ -2,14 +2,18 @@ const KoaRouter = require('koa-router');
 const cloudStorage = require('../lib/cloud-storage');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 const { isAdmin } = require('../lib/routes/permissions');
-const { Author, User } = require('../models');
+const { Author, Genre, User } = require('../models');
+const { fetchAvgRating } = require('../lib/utils/fetch-avg-rating.js');
 
 const router = new KoaRouter();
 
 router.param('isbn', async (isbn, ctx, next) => {
   const book = await ctx.orm.Book.findOne({
     where: { isbn },
-    include: [{ model: Author, as: 'author' }],
+    include: [
+      { model: Author, as: 'author' },
+      { model: Genre, as: 'genres' },
+    ],
   });
   ctx.assert(book, 404);
   ctx.state.book = book;
@@ -37,16 +41,20 @@ router.get('books', '/', async (ctx) => {
 
 router.get('books-new', '/new', isAdmin, async (ctx) => {
   const book = ctx.orm.Book.build();
+  const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('books/new', {
     book,
+    genres,
     submitBookPath: ctx.router.url('books-create'),
   });
 });
 
 router.get('books-edit', '/:isbn/edit', isAdmin, async (ctx) => {
   const { book } = ctx.state;
+  const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('books/edit', {
     book,
+    genres,
     submitBookPath: ctx.router.url('books-update', book.isbn),
   });
 });
@@ -54,6 +62,7 @@ router.get('books-edit', '/:isbn/edit', isAdmin, async (ctx) => {
 router.post('books-create', '/', isAdmin, async (ctx) => {
   const book = await ctx.orm.Book.build(ctx.request.body);
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
+  const genresIds = ctx.request.body.genres || [];
   try {
     await book.setAuthor(author, { save: false });
     await book.save(
@@ -66,11 +75,14 @@ router.post('books-create', '/', isAdmin, async (ctx) => {
       await cloudStorage.upload(localImagePath, remoteImagePath);
       await book.update({ imageUrl: remoteImagePath });
     }
+    await book.setGenres(genresIds);
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
+    const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
     await ctx.render('books/new', {
       book,
+      genres,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-create'),
     });
@@ -80,8 +92,10 @@ router.post('books-create', '/', isAdmin, async (ctx) => {
 router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
   const { book } = ctx.state;
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
+  const genresIds = ctx.request.body.genres || [];
   try {
     await book.setAuthor(author);
+    await book.setGenres(genresIds);
     await book.update(
       ctx.request.body,
       { fields: ['title', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description'] },
@@ -96,8 +110,10 @@ router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
+    const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
     await ctx.render('books/edit', {
       book,
+      genres,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-update', book.isbn),
     });
@@ -110,14 +126,37 @@ router.get('books-show', '/:isbn', async (ctx) => {
     order: [['createdAt', 'DESC']],
     include: [{ model: User, as: 'user' }],
   });
-  const genres = await book.getGenres({ order: [['name', 'ASC']] });
+
+  const bookInstance = ctx.state.currentUser ? await ctx.orm.BookInstance.findOne({
+    where: {
+      bookId: book.id,
+      userId: ctx.state.currentUser.id,
+    },
+  }) : null;
+
+  const interest = ctx.state.currentUser ? await ctx.orm.Interest.findOne({
+    where: {
+      bookId: book.id,
+      userId: ctx.state.currentUser.id,
+    },
+  }) : null;
+
+  const avgRating = await fetchAvgRating(book);
+
   await ctx.render('books/show', {
-    genres,
     reviews,
+    bookInstance,
+    interest,
+    avgRating,
+    stats: { interestsCount: 4, valueInterestsCount: 80, matchesCount: 1, valueMatchesCount: 20 },
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
+    newBookInstancePath: ctx.router.url('book-instances-create'),
+    destroyBookInstancePath: instance => ctx.router.url('book-instances-destroy', instance.id),
+    newInterestPath: ctx.router.url('interests-create', book.isbn),
+    destroyInterestPath: intrst => ctx.router.url('interests-destroy', intrst.id),
   });
 });
 

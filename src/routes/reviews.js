@@ -13,10 +13,11 @@ router.param('isbn', async (isbn, ctx, next) => {
 
 router.post('reviews-create', '/:isbn', isLoggedIn, async (ctx) => {
   const { book } = ctx.state;
-  const review = await ctx.orm.Review.build(ctx.request.body);
+  const review = await ctx.orm.Review.build(
+    { ...ctx.request.body, userId: ctx.state.currentUser.id, bookId: book.id },
+  );
   try {
-    await review.save(ctx.request.body);
-    await book.addReview(review);
+    await review.save();
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;

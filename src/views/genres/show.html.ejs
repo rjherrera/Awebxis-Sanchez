@@ -1,13 +1,15 @@
 <h1><%= genre.name %></h1>
 
-<a href="<%= genresPath %>">Back to all genres</a>
-
 <% if (currentUserIsAdmin) { %>
-  <a href="<%= editGenrePath %>">Edit</a>
-  <form action="<%= destroyGenrePath %>" method="post">
-    <input type="hidden" name="_method" value="delete" />
-    <input type="submit" value="Destroy" />
-  </form>
+  <div class="actions-container">
+    <form action="<%= editGenrePath %>">
+      <input type="submit" class="button secondary" value="Edit"/>
+    </form>
+    <form action="<%= destroyGenrePath %>" method="post">
+      <input type="hidden" name="_method" value="delete" />
+      <input type="submit" class="button negative" value="Destroy" />
+    </form>
+  </div>
 <% } %>
 
 <div class="cards-container">
@@ -21,6 +23,8 @@
   </a>
   <% }) %>
 </div>
+
+<a href="<%= genresPath %>">Back to all genres</a>
 
 <div class="page-selector">
   <% if (page > 1) { %>

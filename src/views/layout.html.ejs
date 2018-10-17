@@ -22,6 +22,7 @@
         <a href="<%= booksPath %>">Books</a>
         <a href="<%= genresPath %>">Genres</a>
         <a href="<%= authorsPath %>">Authors</a>
+        <a href="<%= usersPath %>">Users</a>
         <% if (currentUser) { %>
           <a href="<%= buildUserPath(currentUser) %>"><%= currentUser.username %></a>
           <form action="<%= destroySessionPath %>" method="post">
@@ -34,6 +35,7 @@
         <% } %>
       </nav>
     </header>
+
     <%- body %>
     <script src="<%= assetPath('app.js') %>"></script>
   </body>

@@ -1,0 +1,16 @@
+<h1><%= title %>: <%= collection.length %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= name %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% collection.forEach(element => { %>
+      <tr>
+        <td><%= element.username %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

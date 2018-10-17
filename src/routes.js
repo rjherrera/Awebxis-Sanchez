@@ -10,6 +10,9 @@ const index = require('./routes/index');
 const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 const session = require('./routes/session');
+const bookInstances = require('./routes/book-instances');
+const interests = require('./routes/interests');
+const matches = require('./routes/matches');
 
 const defaults = require('./defaults');
 
@@ -47,5 +50,8 @@ router.use('/genres', genres.routes());
 router.use('/reviews', reviews.routes());
 router.use('/users', users.routes());
 router.use('/session', session.routes());
+router.use('/book-instances', bookInstances.routes());
+router.use('/interests', interests.routes());
+router.use('/matches', matches.routes());
 
 module.exports = router;

@@ -59,6 +59,18 @@
       <label for="description">Description</label>
       <textarea type="text" name="description" placeholder="The story features the adventures of young Charlie Bucket inside the chocolate factory of eccentric chocolatier Willy Wonka."><%= book.description %></textarea>
     </div>
+    <div>
+      <label for="description">Genres</label>
+      <select name="genres" size="5" multiple>
+        <% genres.forEach(genre => { %>
+          <% if (!book.isNewRecord && !!book.genres.find(g => g.id === genre.id)) { %>
+          <option value="<%= genre.id %>" selected><%= genre.name %></option>
+          <% } else { %>
+          <option value="<%= genre.id %>"><%= genre.name %></option>
+          <% } %>
+        <% }) %>
+      </select>
+    </div>
     <div class="button">
       <% if (book.isNewRecord) { %>
       <input type="submit" name="create" value="Create" />
@@ -68,3 +80,14 @@
     </div>
   </form>
 </div>
+
+<script>
+// Change select behavior -> click to toggle option selection
+$("select").mousedown(function(e){
+    e.preventDefault();
+    var scroll = this .scrollTop;
+    e.target.selected = !e.target.selected;
+    setTimeout(function(){this.scrollTop = scroll;}, 0);
+    $(this).focus();
+}).mousemove(function(e){e.preventDefault()});
+</script>
