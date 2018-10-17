@@ -24,7 +24,10 @@
         <a href="<%= authorsPath %>">Authors</a>
         <a href="<%= usersPath %>">Users</a>
         <% if (currentUser) { %>
-          <a href="<%= buildUserPath(currentUser) %>"><%= currentUser.username %></a>
+          <a href="<%= buildUserPath(currentUser) %>" class="profile">
+            <img src="<%= currentUser.profilePicUrl ? getUserProfilePicPath(currentUser) : defaults.userImageUrl %>">
+            <%= currentUser.username %>
+          </a>
           <form action="<%= destroySessionPath %>" method="post">
             <input type="hidden" name="_method" value="delete" />
             <button type="submit" class="icon-button"><i class="fa fa-sign-out-alt"></i></button>
