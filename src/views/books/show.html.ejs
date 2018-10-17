@@ -1,6 +1,6 @@
 <div class="info-container">
     <div class="image-container">
-        <img src="<%= bookImagePath %>" alt="<%= book.title %>">
+        <img src="<%= getBookImagePath(book) %>" alt="<%= book.title %>">
     </div>
     <div class="info">
       <h1><%= book.title %> - <span id="author"><a href="<%= authorPath %> "><%= book.author.name %></a></span></h1>
