@@ -1,4 +1,5 @@
 const KoaRouter = require('koa-router');
+const cloudStorage = require('../lib/cloud-storage');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
 const { isAdmin } = require('../lib/routes/permissions');
 const { Author, Genre, User } = require('../models');
@@ -65,8 +66,15 @@ router.post('books-create', '/', isAdmin, async (ctx) => {
   try {
     await book.setAuthor(author, { save: false });
     await book.save(
-      { fields: ['title', 'isbn', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
+      { fields: ['title', 'isbn', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
     );
+    const { files } = ctx.request;
+    if (files.imageUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.imageUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await book.update({ imageUrl: remoteImagePath });
+    }
     await book.setGenres(genresIds);
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
@@ -90,8 +98,15 @@ router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
     await book.setGenres(genresIds);
     await book.update(
       ctx.request.body,
-      { fields: ['title', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description'] },
+      { fields: ['title', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description'] },
     );
+    const { files } = ctx.request;
+    if (files.imageUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.imageUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await book.update({ imageUrl: remoteImagePath });
+    }
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
@@ -143,6 +158,15 @@ router.get('books-show', '/:isbn', async (ctx) => {
     newInterestPath: ctx.router.url('interests-create', book.isbn),
     destroyInterestPath: intrst => ctx.router.url('interests-destroy', intrst.id),
   });
+});
+
+router.get('books-show-image', '/:isbn/image', async (ctx) => {
+  const { imageUrl } = ctx.state.book;
+  if (/^https?:\/\//.test(imageUrl)) {
+    ctx.redirect(imageUrl);
+  } else {
+    ctx.body = cloudStorage.download(imageUrl);
+  }
 });
 
 router.delete('books-destroy', '/:isbn', isAdmin, async (ctx) => {

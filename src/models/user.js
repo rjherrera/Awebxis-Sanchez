@@ -44,13 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
     },
     profilePicUrl: {
-      allowNull: true,
       type: DataTypes.STRING,
-      validate: {
-        isUrl: {
-          msg: 'must be a valid url',
-        },
-      },
     },
   }, {
     hooks: {

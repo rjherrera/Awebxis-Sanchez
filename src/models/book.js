@@ -7,11 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     imageUrl: {
       type: DataTypes.STRING,
-      validate: {
-        isUrl: {
-          msg: 'must be a valid url',
-        },
-      },
     },
     isbn: {
       allowNull: false,

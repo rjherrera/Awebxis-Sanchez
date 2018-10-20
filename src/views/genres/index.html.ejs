@@ -17,7 +17,7 @@
 <div class="cards-container">
   <% genres.forEach((genre) => { %>
   <a class="card-label" href="<%= buildGenrePath(genre) %>">
-    <img src="<%= genre.books.length ? genre.books[0].imageUrl : defaults.bookImageUrl %>" alt="<%= genre.name %>">
+    <img src="<%= genre.books.length ? getBookImagePath(genre.books[0]) : defaults.bookImageUrl %>" alt="<%= genre.name %>">
     <div class="shadow">
       <p class="label"><%= genre.name %></p>
     </div>
