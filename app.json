@@ -9,7 +9,17 @@
     },
     "SEEDS_SERVER": {
       "required": true
-    }
+    },
+    "AMAZON_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "AMAZON_SECRET_KEY": {
+      "required": true
+    },
+    "AMAZON_REGION": {
+      "required": true
+    },
+    "CONTAINER_NAME": "cambalache-staging"
   },
   "formation": {
     "web": {
