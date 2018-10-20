@@ -2,7 +2,7 @@
 <h1><%= user.firstName + " " + user.lastName %></h1>
 <h5><%= followers.length %> followers and following <%= following.length %> people </h5>
 
-<img src="<%= getUserProfilePicPath(user) %>" alt="<%= user.username %>">
+<img src="<%= user.profilePicUrl ? getUserProfilePicPath(user) : defaults.userImageUrl %>" alt="<%= user.username %>">
 
 <% const isAdminOrSelf = currentUserIsAdmin || currentUser.id === user.id %>
 
