@@ -2,7 +2,7 @@ const fs = require('fs');
 const { storage } = require('pkgcloud');
 const clientConfig = require('../config/amazon');
 
-const CONTAINER_NAME = 'cambalache';
+const { CONTAINER_NAME } = process.env;
 
 let client;
 
