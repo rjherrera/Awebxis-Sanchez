@@ -43,6 +43,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       type: DataTypes.BOOLEAN,
     },
+    active: {
+      defaultValue: false,
+      type: DataTypes.BOOLEAN,
+    },
     profilePicUrl: {
       type: DataTypes.STRING,
     },
