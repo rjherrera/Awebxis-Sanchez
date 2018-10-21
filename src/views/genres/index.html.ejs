@@ -1,15 +1,30 @@
 <h1>Genres</h1>
 
-<a href="<%= newGenrePath %>">New Genre</a>
+<% if (currentUserIsAdmin) { %>
+  <a href="<%= newGenrePath %>">New Genre</a>
+<% } %>
+
+<div class="search-container">
+  <form action="/genres" method="get">
+    <input class="field" type="text" name="q" value="<%= q %>" placeholder="Drama">
+    <input class="button fitted" type="submit" value="Search">
+  </form>
+  <% if (q.length) { %>
+    <p>Results for '<span class="q"><%= q %></span>'</p>
+  <% } %>
+</div>
 
 <div class="cards-container">
   <% genres.forEach((genre) => { %>
   <a class="card-label" href="<%= buildGenrePath(genre) %>">
-    <img src="<%= genre.books.length ? genre.books[0].imageUrl : defaults.bookImageUrl %>" alt="<%= genre.name %>">
+    <img src="<%= genre.books.length ? getBookImagePath(genre.books[0]) : defaults.bookImageUrl %>" alt="<%= genre.name %>">
     <div class="shadow">
       <p class="label"><%= genre.name %></p>
     </div>
   </a>
+  <% }) %>
+  <% Array(15).fill(0).forEach(_ => { -%>
+    <div class="last-row-fix"></div>
   <% }) %>
 </div>
 

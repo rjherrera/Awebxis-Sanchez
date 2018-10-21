@@ -1,8 +1,33 @@
-<h1>Usuarios</h1>
+<h1>Users</h1>
 
- <ul>
-   <% users.forEach((user) => { %>
-     <li><a href="<%= buildUserPath(user) %>"><%= user.username %></a></li>
-   <% }) %>
- </ul>
- 
+<div class="search-container">
+  <form action="/users" method="get">
+    <input class="field" type="text" name="q" value="<% q %>" placeholder="janedoe">
+    <input class="button fitted" type="submit" value="Search">
+  </form>
+  <% if (q) { %>
+    <p>Results for '<span class="q"><%= q %></span>'</p>
+  <% } %>
+</div>
+
+<div class="cards-container">
+  <% users.forEach((user) => { %>
+  <a class="card-label" href="<%= currentUser ? buildUserPath(user) : '#' %>">
+    <img src="<%= user.profilePicUrl ? getUserProfilePicPath(user) : defaults.userImageUrl %>" alt="<%= user.username %>">
+    <div class="shadow">
+      <p class="label"><%= user.username %></p>
+    </div>
+  </a>
+  <% }) %>
+  <% Array(15).fill(0).forEach(_ => { -%>
+    <div class="last-row-fix"></div>
+  <% }) %>
+</div>
+
+<div class="page-selector">
+  <% if (page > 1) { %>
+  <a class="page-arrow" href="<%= previousPagePath %>">&lt;</a>
+  <% } %>
+  <span class="page-number"><%= page %></span>
+  <a class="page-arrow" href="<%= nextPagePath %>">&gt;</a>
+</div>

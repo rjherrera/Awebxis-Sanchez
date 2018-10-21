@@ -9,7 +9,7 @@ module.exports = {
     author: {
       type: Sequelize.STRING,
     },
-    date_published: {
+    datePublished: {
       type: Sequelize.DATE,
     },
     description: {
@@ -18,7 +18,7 @@ module.exports = {
     format: {
       type: Sequelize.STRING,
     },
-    image_url: {
+    imageUrl: {
       type: Sequelize.STRING,
     },
     isbn: {

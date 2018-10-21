@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
-const _ = require('lodash');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
+const { isLoggedIn } = require('../lib/routes/permissions');
 
 const router = new KoaRouter();
 
@@ -11,12 +11,13 @@ router.param('isbn', async (isbn, ctx, next) => {
   return next();
 });
 
-router.post('reviews-create', '/:isbn', async (ctx) => {
+router.post('reviews-create', '/:isbn', isLoggedIn, async (ctx) => {
   const { book } = ctx.state;
-  const review = await ctx.orm.Review.build(ctx.request.body);
+  const review = await ctx.orm.Review.build(
+    { ...ctx.request.body, userId: ctx.state.currentUser.id, bookId: book.id },
+  );
   try {
-    await review.save(ctx.request.body);
-    await book.addReview(review);
+    await review.save();
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
@@ -29,7 +30,6 @@ router.post('reviews-create', '/:isbn', async (ctx) => {
       reviewErrors: getFirstErrors(error),
       editBookPath: ctx.router.url('books-edit', book.isbn),
       destroyBookPath: ctx.router.url('books-destroy', book.isbn),
-      buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
       submitReviewPath: ctx.router.url('reviews-create', book.isbn),
     });
   }

@@ -1,0 +1,71 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.form-title {
+    color: $cambalache-brown;
+    text-align: center;
+}
+
+.form-card {
+    width: 40%;
+    padding: 25px;
+    border-radius: 15px;
+    background: $cambalache-white;
+    .errors, ul {
+        color: $cambalache-brown;
+    }
+    div {
+        display: flex;
+        align-items: stretch;
+        margin: 10px 0 0 0;
+        padding: 5px 10px;
+        border-block-end: 1px solid $cambalache-brown;
+    }
+    label {
+        flex: 2;
+        font-size: 14px;
+        color: $cambalache-darkgrey;
+    }
+    input, textarea {
+        flex: 5;
+        padding: 0 0 0 10px;
+        border: 0;
+        background: none;
+        outline: none;
+        font-size: 14px;
+        color: $cambalache-black;
+    }
+    input::placeholder, textarea::placeholder {
+        font-style: italic;
+    }
+    .button {
+        border-block-end: none;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        margin: 20px 0;
+        input {
+            position: absolute;
+            width: 30%;
+            height: 30px;
+            padding: 0;
+            border: 1px solid $cambalache-brown;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        input:hover {
+            opacity: 0.75;
+        }
+    }
+}
+
+select[multiple] {
+    background: none;
+    border: none;
+    outline: none;
+    flex: 5;
+    padding: 0 0 0 10px;
+    font-size: 14px;
+}

@@ -1,47 +1,49 @@
-<div>
-     <% if (locals.errors) { %>
-     <div>
-         You need to fix the following errors:
-         <ul>
-             <% errors.forEach(error => { %>
-             <li>
-                 <%= error.message %>
-             </li>
-             <% }); %>
-         </ul>
-     </div>
-     <% } %>
-     <form action="<%= submitUserPath %>" method="post">
-         <% if (!user.isNewRecord) { %>
-         <input type="hidden" name="_method" value="patch" />
-         <% } %>
-         <div>
-             <label for="username">Username</label>
-             <input type="text" name="username" value="<%= user.username %>" required/>
-         </div>
-         <div>
-            <label for="firstName">First Name</label>
-            <input type="text" name="firstName" value="<%= user.firstName %>" required/>
-        </div>
-        <div>
-            <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" value="<%= user.lastName %>" />
-        </div>
-         <div>
-             <label for="email">Email</label>
-             <input type="email" name="email" value="<%= user.email %>" required/>
-         </div>
-         <div>
-             <label for="password">Password</label>
-             <input type="password" minlength=6 maxlength=20 name="password" value="<%= user.password %>" required/>
-         </div>
-         <div>
-             <% if (user.isNewRecord) { %>
-             <input type="submit" name="create" value="Create" />
-             <% } else { %>
-             <input type="submit" name="update" value="Save" />
-             <% } %>
-         </div>
-     </form>
- </div> 
- 
+<div class="form-container">
+  <% if (locals.errors) { %>
+    <div>
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form action="<%= submitUserPath %>" method="post" enctype="multipart/form-data" class="form-card">
+    <h1 class="form-title"><%= title %></h1>
+    <% if (!user.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div>
+      <label for="username">Username</label>
+      <input type="text" name="username" value="<%= user.username %>" placeholder="willywonka" required/>
+    </div>
+    <div>
+      <label for="firstName">First Name</label>
+      <input type="text" name="firstName" value="<%= user.firstName %>" placeholder="Willy" required/>
+    </div>
+    <div>
+      <label for="lastName">Last Name</label>
+      <input type="text" name="lastName" value="<%= user.lastName %>" placeholder="Wonka" />
+    </div>
+    <div>
+      <label for="profilePicUrl">Profile Picture</label>
+      <input type="file" name="profilePicUrl" />
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" name="email" value="<%= user.email %>" placeholder="willy@wonka.com" required/>
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" minlength=6 maxlength=20 name="password" value="" placeholder="•••••••••" required/>
+    </div>
+    <div class="button">
+      <% if (user.isNewRecord) { %>
+        <input type="submit" name="create" value="Register" />
+      <% } else { %>
+        <input type="submit" name="update" value="Save" />
+      <% } %>
+    </div>
+  </form>
+</div>

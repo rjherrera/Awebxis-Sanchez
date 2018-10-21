@@ -1,0 +1,23 @@
+<div class="reviews-section">
+  <h1 class="section-title">Feedbacks</h1>
+  <div class="reviews-container">
+    <% if (feedbacks.length === 0) { %>
+      <p class="empty-feedbacks">No feedbacks yet</p>
+    <% } %>
+    <% feedbacks.forEach(feedback => { %>
+    <div class="review">
+      <p class="rating"><%= user.firstName %>
+          was rated
+        <% Array(5).fill().forEach((e, i) => { %>
+          <i class="fa fa-star <%= i < feedback.rating ? 'filled' : 'empty' %>"></i>
+        <% }) %>
+      </p>
+      <div class="comment">
+        <input id="checkbox-<%= feedback.id %>" type="checkbox">
+        <label for="checkbox-<%= feedback.id %>"></label>
+        <div class="text"><%= feedback.comment %></div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
+const { isAdmin } = require('../lib/routes/permissions');
 const { Author, Book } = require('../models');
 
 const router = new KoaRouter();
@@ -24,6 +25,7 @@ router.param('id', async (id, ctx, next) => {
 
 router.get('genres', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
+  const q = ctx.query.q || '';
   const genres = await ctx.orm.Genre.findAll({
     order: [['name', 'ASC']],
     offset: (page - 1) * ctx.state.pageSize,
@@ -34,18 +36,19 @@ router.get('genres', '/', async (ctx) => {
       limit: 1,
       separate: false,
     }],
+    where: { name: { $iLike: `%${q}%` } },
   });
   await ctx.render('genres/index', {
     genres,
     newGenrePath: ctx.router.url('genres-new'),
-    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
     page,
-    previousPagePath: ctx.router.url('genres', { query: { page: page - 1 } }),
-    nextPagePath: ctx.router.url('genres', { query: { page: page + 1 } }),
+    q,
+    previousPagePath: ctx.router.url('genres', { query: { page: page - 1, q } }),
+    nextPagePath: ctx.router.url('genres', { query: { page: page + 1, q } }),
   });
 });
 
-router.get('genres-new', '/new', async (ctx) => {
+router.get('genres-new', '/new', isAdmin, async (ctx) => {
   const genre = ctx.orm.Genre.build();
   await ctx.render('genres/new', {
     genre,
@@ -53,7 +56,7 @@ router.get('genres-new', '/new', async (ctx) => {
   });
 });
 
-router.get('genres-edit', '/:kebabName/edit', async (ctx) => {
+router.get('genres-edit', '/:kebabName/edit', isAdmin, async (ctx) => {
   const { genre } = ctx.state;
   await ctx.render('genres/edit', {
     genre,
@@ -61,7 +64,7 @@ router.get('genres-edit', '/:kebabName/edit', async (ctx) => {
   });
 });
 
-router.post('genres-create', '/', async (ctx) => {
+router.post('genres-create', '/', isAdmin, async (ctx) => {
   try {
     const genre = await ctx.orm.Genre.create(ctx.request.body);
     ctx.redirect(ctx.router.url('genres-show', _.kebabCase(genre.name)));
@@ -74,7 +77,7 @@ router.post('genres-create', '/', async (ctx) => {
   }
 });
 
-router.patch('genres-update', '/:id', async (ctx) => {
+router.patch('genres-update', '/:id', isAdmin, async (ctx) => {
   const { genre } = ctx.state;
   try {
     await genre.update(ctx.request.body);
@@ -99,20 +102,18 @@ router.get('genres-show', '/:kebabName', async (ctx) => {
   await ctx.render('genres/show', {
     books,
     genre,
-    genresPath: ctx.router.url('genres'),
     editGenrePath: ctx.router.url('genres-edit', _.kebabCase(genre.name)),
     destroyGenrePath: ctx.router.url('genres-destroy', genre.id),
-    buildBookPath: book => ctx.router.url('books-show', book.isbn),
     page,
     previousPagePath: ctx.router.url('genres-show', _.kebabCase(genre.name), { query: { page: page - 1 } }),
     nextPagePath: ctx.router.url('genres-show', _.kebabCase(genre.name), { query: { page: page + 1 } }),
   });
 });
 
-router.delete('genres-destroy', '/:id', async (ctx) => {
+router.delete('genres-destroy', '/:id', isAdmin, async (ctx) => {
   const { genre } = ctx.state;
   await genre.destroy();
-  ctx.redirect(ctx.router.url('genres'));
+  ctx.redirect(ctx.state.genresPath);
 });
 
 module.exports = router;

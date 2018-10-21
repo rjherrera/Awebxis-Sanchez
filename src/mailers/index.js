@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const previewEmail = require('preview-email');
 const emailConfig = require('../config/email');
 
 module.exports = function mailers(app) {
@@ -9,6 +10,9 @@ module.exports = function mailers(app) {
       `emails/${emailName}`,
       { ...templateContext, layout: false, writeResp: false },
     );
+    if (app.env === 'development') {
+      return previewEmail({ ...options, html });
+    }
     return transport.sendMail({ ...options, html });
   };
 };

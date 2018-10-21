@@ -1,0 +1,12 @@
+
+<div class="cards-container">
+    <% interests.forEach((interest) => { %>
+    <a class="card-book" href="<%= buildBookPath(interest.book) %>">
+        <img src="<%= interest.book.imageUrl %>" alt="<%= interest.book.title %>">
+        <div class="shadow">
+        <p class="title"><%= interest.book.title %></p>
+        <p class="author"><%= interest.book.author.name %></p>
+        </div>
+    </a>
+    <% }) %>
+</div>

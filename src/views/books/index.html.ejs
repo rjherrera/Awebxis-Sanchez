@@ -1,16 +1,31 @@
-<h1>Libros</h1>
+<h1>Books</h1>
 
-<a href="<%= newBookPath %>">New Book</a>
+<% if (currentUserIsAdmin) { %>
+  <a href="<%= newBookPath %>">New Book</a>
+<% } %>
+
+<div class="search-container">
+  <form action="/books" method="get">
+    <input class="field" type="text" name="q" value="<%= q %>" placeholder="Harry Potter">
+    <input class="button fitted" type="submit" value="Search">
+  </form>
+  <% if (q.length) { %>
+    <p>Results for '<span class="q"><%= q %></span>'</p>
+  <% } %>
+</div>
 
 <div class="cards-container">
   <% books.forEach((book) => { %>
   <a class="card-book" href="<%= buildBookPath(book) %>">
-    <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
+    <img src="<%= getBookImagePath(book) %>" alt="<%= book.title %>">
     <div class="shadow">
       <p class="title"><%= book.title %></p>
       <p class="author"><%= book.author.name %></p>
     </div>
   </a>
+  <% }) %>
+  <% Array(15).fill(0).forEach(_ => { -%>
+    <div class="last-row-fix"></div>
   <% }) %>
 </div>
 
@@ -21,4 +36,3 @@
   <span class="page-number"><%= page %></span>
   <a class="page-arrow" href="<%= nextPagePath %>">&gt;</a>
 </div>
-

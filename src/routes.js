@@ -1,4 +1,7 @@
 const KoaRouter = require('koa-router');
+const _ = require('lodash');
+
+const utils = require('./lib/utils');
 
 const authors = require('./routes/authors');
 const books = require('./routes/books');
@@ -7,23 +10,35 @@ const index = require('./routes/index');
 const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 const session = require('./routes/session');
+const bookInstances = require('./routes/book-instances');
+const interests = require('./routes/interests');
+const matches = require('./routes/matches');
 
 const defaults = require('./defaults');
 
 const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
+  const currentUser = ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId);
   Object.assign(ctx.state, {
     authorsPath: ctx.router.url('authors'),
     booksPath: ctx.router.url('books'),
     genresPath: ctx.router.url('genres'),
     usersPath: ctx.router.url('users'),
-    currentUser: ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId),
+    newUserPath: ctx.router.url('users-new'),
     newSessionPath: ctx.router.url('session-new'),
     destroySessionPath: ctx.router.url('session-destroy'),
-    newUserPath: ctx.router.url('users-new'),
+    currentUser,
+    currentUserIsAdmin: currentUser && currentUser.admin,
+    buildAuthorPath: author => ctx.router.url('authors-show', author.kebabName),
+    buildBookPath: book => ctx.router.url('books-show', book.isbn),
+    getBookImagePath: book => ctx.router.url('books-show-image', book.isbn),
+    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
+    buildUserPath: user => ctx.router.url('users-show', user.username),
+    getUserProfilePicPath: user => ctx.router.url('users-show-image', user.username),
     pageSize: 24,
     defaults,
+    ...utils,
   });
   return next();
 });
@@ -35,5 +50,8 @@ router.use('/genres', genres.routes());
 router.use('/reviews', reviews.routes());
 router.use('/users', users.routes());
 router.use('/session', session.routes());
+router.use('/book-instances', bookInstances.routes());
+router.use('/interests', interests.routes());
+router.use('/matches', matches.routes());
 
 module.exports = router;

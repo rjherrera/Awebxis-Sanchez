@@ -12,7 +12,7 @@ router.get('session-new', '/new', async (ctx) => {
 router.put('session-create', '/', async (ctx) => {
   const { email, password } = ctx.request.body;
   const user = await ctx.orm.User.find({ where: { email } });
-  if (user && user.password === password) {
+  if (user && await user.checkPassword(password)) {
     ctx.session.userId = user.id;
     return ctx.redirect('/');
   }
@@ -25,7 +25,7 @@ router.put('session-create', '/', async (ctx) => {
 
 router.delete('session-destroy', '/', (ctx) => {
   ctx.session = null;
-  ctx.redirect(ctx.router.url('session-new'));
+  ctx.redirect(ctx.state.newSessionPath);
 });
 
 module.exports = router;

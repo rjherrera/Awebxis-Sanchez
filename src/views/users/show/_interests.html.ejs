@@ -1,0 +1,7 @@
+<ul>
+  <% userBooks.forEach(instance => { %>
+    <li>
+      · <%= instance.book.title %> <span class="interest-count">- <%= stats.interestsCount %> Interesados</span>
+    </li>
+  <% }) %>
+</ul>

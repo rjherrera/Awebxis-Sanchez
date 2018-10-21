@@ -1,15 +1,19 @@
 const KoaRouter = require('koa-router');
-const _ = require('lodash');
-const moment = require('moment');
+const cloudStorage = require('../lib/cloud-storage');
 const { isValidationError, getFirstErrors } = require('../lib/models/validation-error');
-const { Author, User } = require('../models');
+const { isAdmin } = require('../lib/routes/permissions');
+const { Author, Genre, User } = require('../models');
+const { fetchAvgRating } = require('../lib/utils/fetch-avg-rating.js');
 
 const router = new KoaRouter();
 
 router.param('isbn', async (isbn, ctx, next) => {
   const book = await ctx.orm.Book.findOne({
     where: { isbn },
-    include: [{ model: Author, as: 'author' }],
+    include: [
+      { model: Author, as: 'author' },
+      { model: Genre, as: 'genres' },
+    ],
   });
   ctx.assert(book, 404);
   ctx.state.book = book;
@@ -18,76 +22,100 @@ router.param('isbn', async (isbn, ctx, next) => {
 
 router.get('books', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
+  const q = ctx.query.q || '';
   const books = await ctx.orm.Book.findAll({
     offset: (page - 1) * ctx.state.pageSize,
     limit: ctx.state.pageSize,
     include: [{ model: Author, as: 'author' }],
+    where: { title: { $iLike: `%${q}%` } },
   });
   await ctx.render('books/index', {
     books,
-    buildBookPath: book => ctx.router.url('books-show', { isbn: book.isbn }),
     newBookPath: ctx.router.url('books-new'),
     page,
-    previousPagePath: ctx.router.url('books', { query: { page: page - 1 } }),
-    nextPagePath: ctx.router.url('books', { query: { page: page + 1 } }),
+    q,
+    previousPagePath: ctx.router.url('books', { query: { page: page - 1, q } }),
+    nextPagePath: ctx.router.url('books', { query: { page: page + 1, q } }),
   });
 });
 
-router.get('books-new', '/new', async (ctx) => {
+router.get('books-new', '/new', isAdmin, async (ctx) => {
   const book = ctx.orm.Book.build();
+  const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('books/new', {
     book,
+    genres,
     submitBookPath: ctx.router.url('books-create'),
-    formatDate: date => moment(date).format('YYYY-MM-DD'),
   });
 });
 
-router.get('books-edit', '/:isbn/edit', async (ctx) => {
+router.get('books-edit', '/:isbn/edit', isAdmin, async (ctx) => {
   const { book } = ctx.state;
+  const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
   await ctx.render('books/edit', {
     book,
+    genres,
     submitBookPath: ctx.router.url('books-update', book.isbn),
-    formatDate: date => moment(date).format('YYYY-MM-DD'),
   });
 });
 
-router.post('books-create', '/', async (ctx) => {
+router.post('books-create', '/', isAdmin, async (ctx) => {
   const book = await ctx.orm.Book.build(ctx.request.body);
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
+  const genresIds = ctx.request.body.genres || [];
   try {
     await book.setAuthor(author, { save: false });
     await book.save(
-      { fields: ['title', 'isbn', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
+      { fields: ['title', 'isbn', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description', 'authorId'] },
     );
+    const { files } = ctx.request;
+    if (files.imageUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.imageUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await book.update({ imageUrl: remoteImagePath });
+    }
+    await book.setGenres(genresIds);
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
+    const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
     await ctx.render('books/new', {
       book,
+      genres,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-create'),
-      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
 
-router.patch('books-update', '/:isbn', async (ctx) => {
+router.patch('books-update', '/:isbn', isAdmin, async (ctx) => {
   const { book } = ctx.state;
   const author = await ctx.orm.Author.findOne({ where: { name: ctx.request.body.author } });
+  const genresIds = ctx.request.body.genres || [];
   try {
     await book.setAuthor(author);
+    await book.setGenres(genresIds);
     await book.update(
       ctx.request.body,
-      { fields: ['title', 'language', 'pages', 'imageUrl', 'publisher', 'datePublished', 'format', 'description'] },
+      { fields: ['title', 'language', 'pages', 'publisher', 'datePublished', 'format', 'description'] },
     );
+    const { files } = ctx.request;
+    if (files.imageUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.imageUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'books', namePrefix: book.isbn });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await book.update({ imageUrl: remoteImagePath });
+    }
     ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
   } catch (error) {
     if (!isValidationError(error)) throw error;
+    const genres = await ctx.orm.Genre.findAll({ order: [['name', 'ASC']] });
     await ctx.render('books/edit', {
       book,
+      genres,
       errors: getFirstErrors(error),
       submitBookPath: ctx.router.url('books-update', book.isbn),
-      formatDate: date => moment(date).format('YYYY-MM-DD'),
     });
   }
 });
@@ -98,21 +126,50 @@ router.get('books-show', '/:isbn', async (ctx) => {
     order: [['createdAt', 'DESC']],
     include: [{ model: User, as: 'user' }],
   });
-  const genres = await book.getGenres({ order: [['name', 'ASC']] });
+
+  const bookInstance = ctx.state.currentUser ? await ctx.orm.BookInstance.findOne({
+    where: {
+      bookId: book.id,
+      userId: ctx.state.currentUser.id,
+    },
+  }) : null;
+
+  const interest = ctx.state.currentUser ? await ctx.orm.Interest.findOne({
+    where: {
+      bookId: book.id,
+      userId: ctx.state.currentUser.id,
+    },
+  }) : null;
+
+  const avgRating = await fetchAvgRating(book);
+
   await ctx.render('books/show', {
-    genres,
     reviews,
+    bookInstance,
+    interest,
+    avgRating,
+    stats: { interestsCount: 4, valueInterestsCount: 80, matchesCount: 1, valueMatchesCount: 20 },
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
-    buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
-    buildUserPath: user => ctx.router.url('users-show', user.username),
     submitReviewPath: ctx.router.url('reviews-create', book.isbn),
-    formatDate: (date, format) => moment(date).tz('GMT').format(format),
+    newBookInstancePath: ctx.router.url('book-instances-create'),
+    destroyBookInstancePath: instance => ctx.router.url('book-instances-destroy', instance.id),
+    newInterestPath: ctx.router.url('interests-create', book.isbn),
+    destroyInterestPath: intrst => ctx.router.url('interests-destroy', intrst.id),
   });
 });
 
-router.delete('books-destroy', '/:isbn', async (ctx) => {
+router.get('books-show-image', '/:isbn/image', async (ctx) => {
+  const { imageUrl } = ctx.state.book;
+  if (/^https?:\/\//.test(imageUrl)) {
+    ctx.redirect(imageUrl);
+  } else {
+    ctx.body = cloudStorage.download(imageUrl);
+  }
+});
+
+router.delete('books-destroy', '/:isbn', isAdmin, async (ctx) => {
   const { book } = ctx.state;
   await book.destroy();
   ctx.redirect(ctx.router.url('books'));
