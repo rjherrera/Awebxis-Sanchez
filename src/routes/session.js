@@ -12,9 +12,15 @@ router.get('session-new', '/new', async (ctx) => {
 router.put('session-create', '/', async (ctx) => {
   const { email, password } = ctx.request.body;
   const user = await ctx.orm.User.find({ where: { email } });
-  if (user && await user.checkPassword(password)) {
+  if (user && await user.checkPassword(password) && user.active) {
     ctx.session.userId = user.id;
     return ctx.redirect('/');
+  }
+  if (!user.active) {
+    return ctx.render('users/activation-sent', {
+      user,
+      resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+    });
   }
   return ctx.render('session/new', {
     email,
