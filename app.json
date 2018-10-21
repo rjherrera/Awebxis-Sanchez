@@ -19,12 +19,6 @@
     "AMAZON_REGION": {
       "required": true
     },
-    "SENDGRID_PASS": {
-      "required": true
-    },
-    "SENDGRID_USER": {
-      "required": true
-    },
     "CONTAINER_NAME": "cambalache-staging"
   },
   "formation": {
