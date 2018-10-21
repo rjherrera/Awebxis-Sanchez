@@ -55,7 +55,12 @@ router.post('users-create', '/', async (ctx) => {
       await cloudStorage.upload(localImagePath, remoteImagePath);
       await user.update({ profilePicUrl: remoteImagePath });
     }
-    sendActivationEmail(ctx, { user });
+    sendActivationEmail(ctx, {
+      user,
+      uuid: await user.uuid,
+      origin: ctx.request.origin,
+      activationPath: ctx.router.url('users-activate', { username: user.username }),
+    });
     ctx.redirect(ctx.router.url('session-new'));
   } catch (validationError) {
     await ctx.render('users/new', {
@@ -123,6 +128,16 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   });
 });
 
+router.patch('users-activate', '/:username/activate', async (ctx) => {
+  const { user } = ctx.state;
+  const targetUuid = await user.uuid;
+  if (ctx.request.body.uuid === targetUuid) {
+    user.update({ active: true });
+    ctx.redirect(ctx.router.url('session-new'));
+  } else {
+    ctx.redirect(ctx.router.url('users-new'));
+  }
+});
 router.get('users-show-image', '/:username/image', async (ctx) => {
   const { profilePicUrl } = ctx.state.user;
   if (/^https?:\/\//.test(profilePicUrl)) {

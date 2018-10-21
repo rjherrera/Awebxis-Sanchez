@@ -1,1 +1,57 @@
-Welcome, <strong><%= user.username %></strong>!
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Activate your account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
+  </head>
+
+  <body style="margin: 0; padding: 0;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#f7f7f7">
+      <tr>
+        <td>
+          <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%; max-width: 600px; border-radius: 0.3rem; ">
+            <tr>
+              <td bgcolor="#f7f7f7" style="padding: 30px 30px 30px 30px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="box-shadow: 0 0 0 1px rgba(39,41,43,.15),0 1px 2px 0 rgba(0,0,0,.05); border-radius: 0.3rem;">
+                  <tr style="border-radius: 0.3rem 0.3rem 0px 0px;">
+                    <td bgcolor="#D4A25E" align="center" style="padding: 10px 20px 5px 20px;border-radius: 0.3rem 0.3rem 0px 0px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);">
+                      <a href="<%= origin %>"><img src="<%= origin %><%= assetPath('logo.svg') %>" alt="Cambalache" height="20px"></a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td style="padding:20px 30px 20px 30px;">
+                      <h2 style="font-size:1.2rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:0px; margin-bottom:10px;font-weight: normal">Welcome to Cambalache <strong><%= user.firstName %></strong>,
+                      </h2>
+                      <p style="font-size:0.9rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:0px; margin-bottom:0px;"> You are almost ready to enjoy Cambalache. Please click the following link to activate your account: </p>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td style="font-family: Raleway; font-size: 0.9rem; color:#565656; padding:0px 30px 5px 30px;text-align:center;">
+                      <form action="<%= origin %><%= activationPath %>" method="post">
+                        <input type="hidden" name="_method" value="patch" />
+                        <input type="hidden" name="uuid" value="<%= uuid %>" />
+                        <input type="submit" class="button secondary" value="Activate" style="min-height: 30px; margin: 0px 5px; padding: 0 20px; border: 0px none transparent; border-radius: 15px; font-family: Raleway; font-size: 0.9rem; outline: none; cursor: pointer; border: 1px solid #D4A25E; background: #D4A25E; color: #FAFAFA;" />
+                      </form>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td style="font-family: Raleway; font-size: 0.7rem; color: #565656; padding: 20px 30px 10px 30px;text-align:center;">
+                     * If you did not request this mail, please ignore it.
+                    </td>
+                  </tr>
+
+                  <tr style="border-radius: 0px 0px 0.3rem 0.3rem; "></tr>
+                </table>
+
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
