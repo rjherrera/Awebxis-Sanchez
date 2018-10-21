@@ -1,6 +1,7 @@
 const KoaRouter = require('koa-router');
 const cloudStorage = require('../lib/cloud-storage');
 const { isLoggedIn, isAdmin, isAdminOrSelf } = require('../lib/routes/permissions');
+const sendActivationEmail = require('../mailers/activation');
 
 const router = new KoaRouter();
 
@@ -54,6 +55,7 @@ router.post('users-create', '/', async (ctx) => {
       await cloudStorage.upload(localImagePath, remoteImagePath);
       await user.update({ profilePicUrl: remoteImagePath });
     }
+    sendActivationEmail(ctx, { user });
     ctx.redirect(ctx.router.url('session-new'));
   } catch (validationError) {
     await ctx.render('users/new', {
