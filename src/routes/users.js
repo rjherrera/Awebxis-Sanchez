@@ -61,7 +61,10 @@ router.post('users-create', '/', async (ctx) => {
       origin: ctx.request.origin,
       activationPath: ctx.router.url('users-activate', { username: user.username }),
     });
-    ctx.redirect(ctx.router.url('session-new'));
+    await ctx.render('users/activation-sent', {
+      user,
+      resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+    });
   } catch (validationError) {
     await ctx.render('users/new', {
       user: ctx.orm.User.create(ctx.request.body),
@@ -135,9 +138,26 @@ router.patch('users-activate', '/:username/activate', async (ctx) => {
     user.update({ active: true });
     ctx.redirect(ctx.router.url('session-new'));
   } else {
-    ctx.redirect(ctx.router.url('users-new'));
+    await ctx.render('users/activation-failed', {
+      resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+    });
   }
 });
+
+router.post('users-resend-activation', '/:username/resend-activation', async (ctx) => {
+  const { user } = ctx.state;
+  sendActivationEmail(ctx, {
+    user,
+    uuid: await user.uuid,
+    origin: ctx.request.origin,
+    activationPath: ctx.router.url('users-activate', { username: user.username }),
+  });
+  await ctx.render('users/activation-sent', {
+    user,
+    resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+  });
+});
+
 router.get('users-show-image', '/:username/image', async (ctx) => {
   const { profilePicUrl } = ctx.state.user;
   if (/^https?:\/\//.test(profilePicUrl)) {
