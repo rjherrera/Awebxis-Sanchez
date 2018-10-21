@@ -4,7 +4,13 @@ const pkg = require('../../package.json');
 const router = new KoaRouter();
 
 router.get('/', async (ctx) => {
-  await ctx.render('index', { appVersion: pkg.version });
+  if (ctx.state.currentUser) {
+    // console.log(ctx.state.currentUser);
+    // await ctx.render('books/index');
+    await ctx.render('index', { appVersion: pkg.version });
+  } else {
+    await ctx.render('index', { appVersion: pkg.version });
+  }
 });
 
 module.exports = router;

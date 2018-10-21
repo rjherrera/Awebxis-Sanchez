@@ -1,5 +1,110 @@
-<h1>Cambalache</h1>
-<h3>
-  The biggest and funniest book exchange community
-</h3>
-<div id="react-app"></div>
+<style>
+
+  .wrapper {
+  display: grid;
+  grid-template-columns: 65% 35%;
+  grid-template-rows: 60% 40%;
+  grid-template-areas: " a b "
+                       " c d " ;}
+
+  .a { grid-area: a; }
+  .b { grid-area: b; }
+  .c { grid-area: c; padding-left: 5%; background-color: #cccccc;  }
+  .d { grid-area: d; background-color: #cccccc; margin-left: 9%; margin-right: -15%; }
+
+  #book-img {
+    width:150%;
+    margin-top: -65%;
+  }
+
+  .banner-like {
+    max-height: 100px;
+  }
+  .icon {
+    max-height: 100px;
+  }
+
+  .black-text {
+    color: black;
+  }
+
+  .wrapper {
+    position:fixed;
+    padding:0;
+    margin:0;
+
+    top:0;
+    left:0;
+
+    width: 95%;
+    height: 95%;
+  }
+
+.book-column {
+    flex-direction: column;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+#start-today {
+  width: 30%;
+  margin-bottom: 10px;
+}
+
+
+
+</style>
+
+<div class="wrapper">
+  
+  <div class="a flex-row">
+    <div class="flex-column initial">
+      <h1>JOIN CAMBALACHE</h1>
+      <button class="button" id="start-today">START TODAY</button>
+      <a href="#">Or just login</a>
+    </div>
+  </div>
+
+  <div class="b">
+    
+  </div>
+  
+  <div class="d">
+    <img src="<%= assetPath('libros2.png') %>" alt="Books" id="book-img">
+  </div>
+
+  <div class="c flex-row">
+  
+    <div class="flex-column">
+      <img src="<%= assetPath('noun_Book Search_661902.png') %>" alt="Books" class="icon">
+      <h2 class="black-text">Find books</h2>
+      <p class="black-text">Do you want a book, but don't have the money to buy it? Maybe you can exchange it for one you already have!</p>
+    </div>
+  
+    <div class="flex-column">
+      <h2 class="black-text">Join a community of thousands</h2>
+      <p class="black-text">We know you're special, but there're still plenty of people with your interests: get to know them!</p>
+      <img src="<%= assetPath('noun_Librarian_281780.png') %>" alt="Books" class="icon">
+    </div>
+  </div>
+
+</div>
+
+<!-- 
+<div class="landing-column">
+  <div class="flex-row">
+      <div class="flex-column">
+        <h1>LOREM IPSUM</h1>
+        <button>Start today</button>
+      </div>
+  </div>
+  <div class="flex-row">
+
+  </div>
+</div>
+
+<div class="landing-column" id="folletos">
+  <img src="<%= assetPath('libros2.png') %>" alt="Books">
+  <p>A</p>
+</div> -->
