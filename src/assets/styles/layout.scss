@@ -88,3 +88,27 @@ header {
     }
   }
 }
+
+.footer {
+  display: block;
+  background-color: #EAEAEA;
+  margin-left: -5.555%;
+  margin-right: -5.555%;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  margin-bottom: -5%;
+}
+
+.footer p {
+  color: #0B0B0B;
+  text-align: center;
+  display: block;
+}
+
+#link-footer {
+  text-decoration: none;
+  color: #D4A25E;
+  font-weight: bolder;
+}

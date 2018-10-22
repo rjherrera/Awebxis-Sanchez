@@ -9,8 +9,8 @@
   
 .a { grid-area: a; }
 .b { grid-area: b; }
-.c { grid-area: c; padding-left: 5%; background-color: #efefef;  }
-.d { grid-area: d; background-color: #efefef; margin-left: 9%; margin-right: -15%; }
+.c { grid-area: c; padding-left: 5%; background-color: #EAEAEA;  }
+.d { grid-area: d; background-color: #EAEAEA; margin-left: 9%; margin-right: -15%; }
 
 #book-img {
     width:150%;
@@ -25,13 +25,13 @@
 }
 
 .black-text {
-    color: black;
+    color: #0B0B0B;
     text-align: center;
     font-size: 14pt;
 }
 
 .black-title {
-    color: black;
+    color: #0B0B0B;
     text-align: center;
     font-size: 16pt;
 }
@@ -69,7 +69,7 @@
 }
 
 #timeline {
-    border-color: #efefef;
+    border-color: #EAEAEA;
     margin-bottom: 45px;
 }
 
