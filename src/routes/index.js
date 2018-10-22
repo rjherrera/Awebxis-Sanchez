@@ -16,19 +16,14 @@ router.get('/', async (ctx) => {
       include: [{ model: Author, as: 'author' }],
       where: { title: { $iLike: `%${q}%` } },
     });
-    await ctx.render('books/index', {
+    ctx.redirect(ctx.router.url('books-index', {
       books,
       newBookPath: ctx.router.url('books-new'),
       page,
       q,
       previousPagePath: ctx.router.url('books', { query: { page: page - 1, q } }),
       nextPagePath: ctx.router.url('books', { query: { page: page + 1, q } }),
-    });
-    // await ctx.render('index', {
-    //   appVersion: pkg.version,
-    //   newUserPath: ctx.router.url('users-new'),
-    //   newSessionPath: ctx.router.url('session-new'),
-    // });
+    }));
   } else {
     await ctx.render('index', {
       appVersion: pkg.version,
