@@ -5,12 +5,32 @@
     grid-template-rows: 60% 40%;
     grid-template-areas: " a b "
                          " c d " ;
+    position: absolute;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 95%;
+    height: 95%;
 }
   
-.a { grid-area: a; }
-.b { grid-area: b; }
-.c { grid-area: c; padding-left: 5%; background-color: #efefef;  }
-.d { grid-area: d; background-color: #efefef; margin-left: 9%; margin-right: -15%; }
+.a {
+    grid-area: a;
+}
+.b {
+    grid-area: b;
+}
+.c {
+    grid-area: c;
+    padding-left: 5%;
+    background-color: #efefef;
+}
+.d {
+    grid-area: d;
+    background-color: #efefef;
+    margin-left: 9%;
+    margin-right: -15%;
+}
 
 #book-img {
     width:150%;
@@ -34,16 +54,6 @@
     color: black;
     text-align: center;
     font-size: 16pt;
-}
-
-.wrapper {
-    position: absolute;
-    padding:0;
-    margin:0;
-    top:0;
-    left:0;
-    width: 95%;
-    height: 95%;
 }
 
 .book-column {
