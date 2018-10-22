@@ -9,8 +9,8 @@
 
   .a { grid-area: a; }
   .b { grid-area: b; }
-  .c { grid-area: c; padding-left: 5%; background-color: #cccccc;  }
-  .d { grid-area: d; background-color: #cccccc; margin-left: 9%; margin-right: -15%; }
+  .c { grid-area: c; padding-left: 5%; background-color: #efefef;  }
+  .d { grid-area: d; background-color: #efefef; margin-left: 9%; margin-right: -15%; }
 
   #book-img {
     width:150%;
@@ -21,38 +21,66 @@
     max-height: 100px;
   }
   .icon {
-    max-height: 100px;
+    max-height: 110px;
   }
 
   .black-text {
     color: black;
+    text-align: center;
+    font-size: 14pt;
+  }
+
+  .black-title {
+    color: black;
+    text-align: center;
+    font-size: 16pt;
   }
 
   .wrapper {
-    position:fixed;
+    position: absolute;
     padding:0;
     margin:0;
-
     top:0;
     left:0;
-
     width: 95%;
     height: 95%;
   }
 
-.book-column {
-    flex-direction: column;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-}
+  .book-column {
+      flex-direction: column;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+  }
 
-#start-today {
-  width: 30%;
-  margin-bottom: 10px;
-}
+  #start-today {
+    align-self: center;
+    margin-bottom: 10px;
+  }
 
+  #second-screen {
+    position: relative;
+    top: 110vh;
+    padding-bottom: 50px;
+  }
 
+  .a-link {
+    text-decoration: none;
+  }
+
+  #timeline {
+    border-color: #efefef;
+    margin-bottom: 45px;
+  }
+
+  .margin-lesser {
+    margin-top: -1%;
+    text-align: center;
+  }
+
+  .initial {
+    margin-left: 5%;
+  }
 
 </style>
 
@@ -61,8 +89,11 @@
   <div class="a flex-row">
     <div class="flex-column initial">
       <h1>JOIN CAMBALACHE</h1>
-      <button class="button" id="start-today">START TODAY</button>
-      <a href="#">Or just login</a>
+      <h2 class="margin-lesser">The easiest and cheapest way to get the books you want</h2>
+      <form action="<%= newUserPath %>" method="get">
+        <button type="submit" class="button" id="start-today">START TODAY</button>
+      </form>
+      <a href="<%= newSessionPath %>" class="a-link">Or just login</a>
     </div>
   </div>
 
@@ -78,33 +109,40 @@
   
     <div class="flex-column">
       <img src="<%= assetPath('noun_Book Search_661902.png') %>" alt="Books" class="icon">
-      <h2 class="black-text">Find books</h2>
+      <h2 class="black-title">Find books</h2>
       <p class="black-text">Do you want a book, but don't have the money to buy it? Maybe you can exchange it for one you already have!</p>
     </div>
   
     <div class="flex-column">
-      <h2 class="black-text">Join a community of thousands</h2>
+      <h2 class="black-title">Join a community of thousands</h2>
       <p class="black-text">We know you're special, but there're still plenty of people with your interests: get to know them!</p>
-      <img src="<%= assetPath('noun_Librarian_281780.png') %>" alt="Books" class="icon">
+      <img src="<%= assetPath('noun_reading books_876198.png') %>" alt="Books" class="icon">
     </div>
   </div>
 
 </div>
 
-<!-- 
-<div class="landing-column">
-  <div class="flex-row">
+<div id="second-screen">
+  <div class="relative-container">
+    <hr id="timeline">
+    <div class="flex-row">
       <div class="flex-column">
-        <h1>LOREM IPSUM</h1>
-        <button>Start today</button>
+        <!-- <h1 class="dot">&#x22C5</h1> -->
+        <img src="<%= assetPath('noun_Librarian_281780.png') %>" alt="Books" class="icon">
+        <p class="black-text">If you have a book</p>
       </div>
-  </div>
-  <div class="flex-row">
-
+      <div class="flex-column">
+        <img src="<%= assetPath('noun_Love_103380.png') %>" alt="Books" class="icon">
+        <p class="black-text">And have found one you want</p>
+      </div>
+      <div class="flex-column">
+          <img src="<%= assetPath('noun_Bookseller_1506904.png') %>" alt="Books" class="icon">
+          <p class="black-text">Propose an exchange of books</p>
+      </div>
+      <div class="flex-column">
+        <img src="<%= assetPath('noun_read_650736.png') %>" alt="Books" class="icon">
+        <p class="black-text">And read it!</p>
+      </div>
+    </div>
   </div>
 </div>
-
-<div class="landing-column" id="folletos">
-  <img src="<%= assetPath('libros2.png') %>" alt="Books">
-  <p>A</p>
-</div> -->
