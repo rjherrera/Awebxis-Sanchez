@@ -50,6 +50,11 @@
     font-size: 14pt;
 }
 
+.little-black-text {
+    color: black;
+    text-align: center;
+}
+
 .black-title {
     color: black;
     text-align: center;
@@ -64,8 +69,13 @@
 }
 
 #start-today {
+    display: flex;
+    justify-content: center;
     align-self: center;
     margin-bottom: 10px;
+    text-decoration: none;
+    background-color: #FAFAFA;
+    color: #0B0B0B;
 }
 
 #second-screen {
