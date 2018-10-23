@@ -57,9 +57,9 @@ router.post('users-create', '/', async (ctx) => {
     }
     sendActivationEmail(ctx, {
       user,
-      uuid: await user.uuid,
       origin: ctx.request.origin,
-      activationPath: ctx.router.url('users-activate', { username: user.username }),
+      activationPath: ctx.router.url('users-activate',
+        user.username, { query: { uuid: await user.uuid } }),
     });
     await ctx.render('users/activation-sent', {
       user,
@@ -131,10 +131,10 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   });
 });
 
-router.patch('users-activate', '/:username/activate', async (ctx) => {
+router.get('users-activate', '/:username/activate', async (ctx) => {
   const { user } = ctx.state;
   const targetUuid = await user.uuid;
-  if (ctx.request.body.uuid === targetUuid) {
+  if (ctx.query.uuid === targetUuid) {
     user.update({ active: true });
     ctx.redirect(ctx.router.url('session-new'));
   } else {
@@ -148,9 +148,9 @@ router.post('users-resend-activation', '/:username/resend-activation', async (ct
   const { user } = ctx.state;
   sendActivationEmail(ctx, {
     user,
-    uuid: await user.uuid,
     origin: ctx.request.origin,
-    activationPath: ctx.router.url('users-activate', { username: user.username }),
+    activationPath: ctx.router.url('users-activate',
+      user.username, { query: { uuid: await user.uuid } }),
   });
   await ctx.render('users/activation-sent', {
     user,

@@ -30,11 +30,7 @@
 
                   <tr>
                     <td style="font-family: Raleway; font-size: 0.9rem; color:#565656; padding:0px 30px 5px 30px;text-align:center;">
-                      <form action="<%= origin %><%= activationPath %>" method="post">
-                        <input type="hidden" name="_method" value="patch" />
-                        <input type="hidden" name="uuid" value="<%= uuid %>" />
-                        <input type="submit" class="button secondary" value="Activate" style="min-height: 30px; margin: 0px 5px; padding: 0 20px; border: 0px none transparent; border-radius: 15px; font-family: Raleway; font-size: 0.9rem; outline: none; cursor: pointer; border: 1px solid #D4A25E; background: #D4A25E; color: #FAFAFA;" />
-                      </form>
+                      <a href="<%= origin %><%= activationPath %>" style="min-height: 30px; margin: 0px 5px; padding: 5px 20px; border: 0px none transparent; border-radius: 15px; font-family: Raleway; font-size: 0.9rem; outline: none; cursor: pointer; border: 1px solid #D4A25E; background: #D4A25E; color: #FAFAFA; text-decoration: none">Activate</a>
                     </td>
                   </tr>
 
