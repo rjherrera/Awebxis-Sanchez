@@ -1,3 +1,12 @@
+.landing h1 {
+    font-size: 2.75em;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.landing h2 {
+    font-weight: 200;
+}
 
 .wrapper {
     display: grid;
@@ -14,7 +23,7 @@
     // width: 95%;
     height: 95%;
 }
-  
+
 .a {
     grid-area: a;
 }
@@ -49,17 +58,15 @@
     color: black;
     text-align: center;
     font-size: 14pt;
-}
-
-.little-black-text {
-    color: black;
-    text-align: center;
+    font-weight: 200;
 }
 
 .black-title {
     color: black;
     text-align: center;
     font-size: 16pt;
+    font-weight: 300;
+    text-transform: uppercase;
 }
 
 .book-column {
@@ -70,13 +77,15 @@
 }
 
 #start-today {
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    margin-bottom: 10px;
+    height: 46px;
+    line-height: 46px;
+    padding: 0 60px;
+    margin: 10px 0;
+    border-radius: 25px;
+    border-width: 2px;
+    font-size: 1.1em;
+    text-transform: uppercase;
     text-decoration: none;
-    background-color: #FAFAFA;
-    color: #0B0B0B;
 }
 
 #second-screen {
@@ -87,6 +96,7 @@
 
 .a-link {
     text-decoration: none;
+    opacity: 0.7;
 }
 
 #timeline {
