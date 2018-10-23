@@ -6,11 +6,12 @@
     grid-template-areas: " a b "
                          " c d " ;
     position: absolute;
+    overflow: hidden;
     padding:0;
     margin:0;
     top:0;
     left:0;
-    width: 95%;
+    // width: 95%;
     height: 95%;
 }
   
