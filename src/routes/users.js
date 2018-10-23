@@ -55,8 +55,16 @@ router.post('users-create', '/', async (ctx) => {
       await cloudStorage.upload(localImagePath, remoteImagePath);
       await user.update({ profilePicUrl: remoteImagePath });
     }
-    sendActivationEmail(ctx, { user });
-    ctx.redirect(ctx.router.url('session-new'));
+    sendActivationEmail(ctx, {
+      user,
+      origin: ctx.request.origin,
+      activationPath: ctx.router.url('users-activate',
+        user.username, { query: { uuid: await user.uuid } }),
+    });
+    await ctx.render('users/activation-sent', {
+      user,
+      resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+    });
   } catch (validationError) {
     await ctx.render('users/new', {
       user: ctx.orm.User.create(ctx.request.body),
@@ -120,6 +128,33 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
     stats: {
       interestsCount: 4, valueInterestsCount: 80, matchesCount: 1, valueMatchesCount: 20,
     },
+  });
+});
+
+router.get('users-activate', '/:username/activate', async (ctx) => {
+  const { user } = ctx.state;
+  const targetUuid = await user.uuid;
+  if (ctx.query.uuid === targetUuid) {
+    user.update({ active: true });
+    ctx.redirect(ctx.router.url('session-new'));
+  } else {
+    await ctx.render('users/activation-failed', {
+      resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+    });
+  }
+});
+
+router.post('users-resend-activation', '/:username/resend-activation', async (ctx) => {
+  const { user } = ctx.state;
+  sendActivationEmail(ctx, {
+    user,
+    origin: ctx.request.origin,
+    activationPath: ctx.router.url('users-activate',
+      user.username, { query: { uuid: await user.uuid } }),
+  });
+  await ctx.render('users/activation-sent', {
+    user,
+    resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
   });
 });
 
