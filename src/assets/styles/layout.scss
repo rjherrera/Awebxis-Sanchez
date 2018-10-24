@@ -17,12 +17,13 @@ body {
 
 * {
   font-family: Raleway;
+  font-weight: 300;
 }
 
 a {
   transition: all 50ms ease-in;
   &:hover {
-    font-weight: bold;
+    font-weight: 400;
   }
 }
 

@@ -5,6 +5,7 @@
   border: 0px none transparent;
   border-radius: 15px;
   font-size: 14px;
+  font-weight: 300;
   outline: none;
   cursor: pointer;
 
@@ -20,6 +21,11 @@
     &.#{$color}.inverted {
       color: nth($colors, $index);
       background: $cambalache-white;
+    }
+
+    &.#{$color}.empty {
+      color: nth($colors, $index);
+      background-color: transparent;
     }
   }
 
@@ -45,6 +51,5 @@
 
   &:hover {
     opacity: 0.75;
-    font-weight: bold;
   }
 }

@@ -1,62 +1,60 @@
-<div class="wrapper flex-column">
+<div class="wrapper landing">
   
-  <div class="flex-row row-70">
-    <div class="a flex-column column-65">
-      <div class="flex-column initial">
-        <h1>JOIN CAMBALACHE</h1>
-        <h2 class="margin-lesser">The easiest and cheapest way to get the books you want</h2>
-          <a class="button" id="start-today" href="<%= newUserPath %>">
-            <p class="little-black-text">START TODAY</p>
-          </a>
-        <a href="<%= newSessionPath %>" class="a-link">Or just login</a>
+  <div class="full-screen">
+    <div class="flex-row row-70">
+      <div class="a flex-column column-67">
+        <div class="flex-column initial">
+          <h1>Join Cambalache</h1>
+          <h2 class="margin-lesser">The easiest and cheapest way to get the books you want</h2>
+            <a class="white button empty" id="start-today" href="<%= newUserPath %>">Start Today</a>
+          <a href="<%= newSessionPath %>" class="a-link">Or just login</a>
+        </div>
       </div>
-    </div>
-  
-    <div class="b flex-column column-35">
+    
+      <div class="b flex-column column-33">
+        
+      </div>
       
     </div>
     
-  </div>
-  
-  <div class="flex-row row-30">
-      <div class="c column-65">
-        <div class="flex-column">
+    <div class="flex-row row-30">
+        <div class="c flex-column column-33">
           <img src="<%= assetPath('noun_Book Search_661902.png') %>" alt="Books" class="icon">
           <h2 class="black-title">Find books</h2>
           <p class="black-text">Do you want a book, but don't have the money to buy it? Maybe you can exchange it for one you already have!</p>
         </div>
-      
-        <div class="flex-column">
+        <div class="c flex-column  column-33">
           <h2 class="black-title">Join a community of thousands</h2>
           <p class="black-text">We know you're special, but there're still plenty of people with your interests: get to know them!</p>
           <img src="<%= assetPath('noun_reading books_876198.png') %>" alt="Books" class="icon">
         </div>
-      </div>
-
-      <div class="d column-35">
-        <img src="<%= assetPath('libros2.png') %>" alt="Books" id="book-img">
-      </div>
+        <div class="c flex-column column-33" id="book-column">
+          <!-- <img src="<%= assetPath('libros2.png') %>" alt="Books" id="book-img"> -->
+          <p class="black-text">BOOK IMAGE HERE</p>
+        </div>
+    </div>
+  
   </div>
-
+  
   <div id="second-screen flex-row">
     <h1 class="title">THE SIMPLEST PROCESS FROM WANT TO HAVE</h1>
     <div class="relative-container">
       <hr id="timeline">
-      <div class="flex-row">
-        <div class="flex-column">
+      <div class="flex-row logos">
+        <div class="flex-column logo">
           <!-- <h1 class="dot">&#x22C5</h1> -->
           <img src="<%= assetPath('noun_Librarian_281780.png') %>" alt="Books" class="icon">
           <p class="black-text">If you have a book</p>
         </div>
-        <div class="flex-column">
+        <div class="flex-column logo">
           <img src="<%= assetPath('noun_Love_103380.png') %>" alt="Books" class="icon">
           <p class="black-text">And have found one you want</p>
         </div>
-        <div class="flex-column">
+        <div class="flex-column logo">
             <img src="<%= assetPath('noun_Bookseller_1506904.png') %>" alt="Books" class="icon">
             <p class="black-text">Propose an exchange of books</p>
         </div>
-        <div class="flex-column">
+        <div class="flex-column logo">
           <img src="<%= assetPath('noun_read_650736.png') %>" alt="Books" class="icon">
           <p class="black-text">And read it!</p>
         </div>
