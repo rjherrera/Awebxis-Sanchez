@@ -112,7 +112,6 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
       'active',
     ],
   });
-  console.log(userBooks);
   const currentUserBooks = await ctx.state.currentUser.getUserBooks({ scope: ['withBook', 'active'] });
   const pendingMatches = await ctx.orm.Match.scope('withInstances', 'pending').findAll();
   const settledMatches = await ctx.orm.Match.scope('withInstances', 'settled').findAll();
