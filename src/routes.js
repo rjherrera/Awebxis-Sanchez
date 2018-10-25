@@ -54,4 +54,8 @@ router.use('/book-instances', bookInstances.routes());
 router.use('/interests', interests.routes());
 router.use('/matches', matches.routes());
 
+router.get('error', '/oops', (ctx) => {
+  return ctx.render('errors/404');
+});
+
 module.exports = router;

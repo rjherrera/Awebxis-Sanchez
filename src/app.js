@@ -84,6 +84,9 @@ mailer(app);
 app.use(async (ctx, next) => {
   try {
     await next();
+    if (ctx.status === 404) {
+      ctx.redirect(ctx.router.url('error'));
+    }
   } catch (err) {
     ctx.status = err.status || 500;
     switch (ctx.status) {
