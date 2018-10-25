@@ -1,10 +1,9 @@
 import '../images/logo.svg';
 import '../images/favicon.png';
 import '../images/libros2.png';
-import '../images/noun_Book Search_661902.png';
-import '../images/noun_Librarian_281780.png';
-import '../images/noun_Bookseller_1506904.png';
-import '../images/noun_Love_103380.png';
-import '../images/noun_read_650736.png';
-import '../images/noun_timeline_1036759.png';
-import '../images/noun_reading books_876198.png';
+import '../images/book_search.png';
+import '../images/librarian.png';
+import '../images/book_seller.png';
+import '../images/love.png';
+import '../images/read.png';
+import '../images/reading_books.png';
