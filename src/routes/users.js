@@ -112,6 +112,8 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
 
   await ctx.render('users/show', {
     user,
+    isSelf: ctx.state.currentUser.id === user.id,
+    isAdminOrSelf: ctx.state.currentUserIsAdmin || ctx.state.currentUser.id === user.id,
     interests,
     followers,
     following,

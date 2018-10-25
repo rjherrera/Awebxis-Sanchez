@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     expired: {
       type: DataTypes.BOOLEAN,
+      default: false,
     },
   }, {
     scopes: {

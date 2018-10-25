@@ -8,9 +8,7 @@
   </div>
 </div>
 
-<% const isAdminOrSelf = currentUserIsAdmin || currentUser.id === user.id %>
-
-<% if (currentUser.id === user.id) { %>
+<% if (isSelf) { %>
   <div class="flex-row">
     <div class="flex-column quadrant1 flex-top">
       <h1>Pending proposals</h1>
@@ -18,29 +16,25 @@
     </div>
     <div class="flex-column quadrant2 flex-top">
       <h1>People looking for your books</h1>
-      <%- include('show/_interests', { isAdminOrSelf }) %>
+      <%- include('show/_interests') %>
     </div>
   <% } %>
 </div>
 
 <div class="flex-row">
   <div class="flex-column quadrant3 flex-top" >
-    <h1>Want<%= (currentUser.id === user.id) ? '' : 's' %></h1>
-    <%- include('show/_interests_cards', { isAdminOrSelf }) %>
+    <h1>Want<%= (isSelf) ? '' : 's' %></h1>
+    <%- include('show/_interests_cards') %>
   </div>
   <div class="flex-column quadrant4 flex-top">
-    <h1>Own<%= (currentUser.id === user.id) ? '' : 's' %></h1>
-    <% if (currentUser.id === user.id) { %>
-      <%- include('show/_books_current') %>
-    <% } else { %>
+    <h1>Own<%= (isSelf) ? '' : 's' %></h1>
       <%- include('show/_books') %>
-    <% } %>
   </div>
 </div>
 
 <%- include('show/_feedbacks') %>
 
-<% if (user.id === currentUser.id) { %>
+<% if (isSelf) { %>
   <form action='<%= editUserPath %>' class="flex-column_full">
     <input type="submit" class="button" value="User's info">
   </form>

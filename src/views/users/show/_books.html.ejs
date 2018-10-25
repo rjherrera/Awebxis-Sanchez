@@ -1,5 +1,9 @@
 <% if (!userBooks.length) { %>
-  <p class="empty-message">User doesn't own any book</p>
+  <% if (isSelf) { %>
+    <p class="empty-message">You don't own any book</p>
+  <% } else { %>
+    <p class="empty-message">User doesn't own any book</p>
+  <% } %>
 <% } else { %>
   <div class="cards-container">
     <% userBooks.forEach((instance) => { %>
@@ -11,18 +15,20 @@
             <p class="author"><%= instance.book.author.name %></p>
           </div>
         </a>
-        <form action="<%= createMatchPath %>" class="flex-form-center" method="post">
-          <input type="hidden" name="proposeeBookInstanceId" value="<%= instance.id %>"/>
-          <select name="proposerBookInstanceId" required>
-            <% currentUserBooks.forEach(instance => { %>
-              <% if (instance.book.title.length > 25) { %>
-                <option value="<%= instance.id %>"><%= instance.book.title.slice(0, 25) + '...' %></option>
-              <% } else { %>
-                <option value="<%= instance.id %>"><%= instance.book.title %></option>
-            <% }}) %>
-          </select>
-          <input type="submit" value="Propose exchange" />
-        </form>
+        <% if (!isSelf) { %>         
+          <form action="<%= createMatchPath %>" class="flex-form-center" method="post">
+            <input type="hidden" name="proposeeBookInstanceId" value="<%= instance.id %>"/>
+            <select name="proposerBookInstanceId" required>
+              <% currentUserBooks.forEach(instance => { %>
+                <% if (instance.book.title.length > 25) { %>
+                  <option value="<%= instance.id %>"><%= instance.book.title.slice(0, 25) + '...' %></option>
+                <% } else { %>
+                  <option value="<%= instance.id %>"><%= instance.book.title %></option>
+              <% }}) %>
+            </select>
+            <input type="submit" value="Propose exchange" />
+          </form>
+        <% } %>
       </div>
     <% }) %>
   </div>
