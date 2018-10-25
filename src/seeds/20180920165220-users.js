@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const faker = require('faker');
 const getJSON = require('../lib/seeds/get-json');
 
 module.exports = {
@@ -12,8 +13,9 @@ module.exports = {
         lastName: user.last_name,
         email: user.email,
         password: await bcrypt.hash(user.password, 10),
+        profilePicUrl: faker.image.avatar(),
         admin: false,
-        profilePicUrl: null,
+        active: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       })),
@@ -23,8 +25,9 @@ module.exports = {
         lastName: user.last_name,
         email: user.email,
         password: await bcrypt.hash(user.password, 10),
+        profilePicUrl: faker.image.avatar(),
         admin: true,
-        profilePicUrl: null,
+        active: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       })),

@@ -16,7 +16,7 @@ router.get('/', async (ctx) => {
       include: [{ model: Author, as: 'author' }],
       where: { title: { $iLike: `%${q}%` } },
     });
-    ctx.redirect(ctx.router.url('books-index', {
+    ctx.redirect(ctx.router.url('books', {
       books,
       newBookPath: ctx.router.url('books-new'),
       page,

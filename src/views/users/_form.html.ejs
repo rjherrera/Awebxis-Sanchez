@@ -9,7 +9,7 @@
       </ul>
     </div>
   <% } %>
-  <form action="<%= submitUserPath %>" method="post" class="form-card">
+  <form action="<%= submitUserPath %>" method="post" enctype="multipart/form-data" class="form-card">
     <h1 class="form-title"><%= title %></h1>
     <% if (!user.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
@@ -25,6 +25,10 @@
     <div>
       <label for="lastName">Last Name</label>
       <input type="text" name="lastName" value="<%= user.lastName %>" placeholder="Wonka" />
+    </div>
+    <div>
+      <label for="profilePicUrl">Profile Picture</label>
+      <input type="file" name="profilePicUrl" />
     </div>
     <div>
       <label for="email">Email</label>

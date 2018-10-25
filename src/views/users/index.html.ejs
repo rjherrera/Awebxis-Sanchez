@@ -13,7 +13,7 @@
 <div class="cards-container">
   <% users.forEach((user) => { %>
   <a class="card-label" href="<%= currentUser ? buildUserPath(user) : '#' %>">
-    <img src="<%= user.profilePicUrl || defaults.userImageUrl %>" alt="<%= user.username %>">
+    <img src="<%= user.profilePicUrl ? getUserProfilePicPath(user) : defaults.userImageUrl %>" alt="<%= user.username %>">
     <div class="shadow">
       <p class="label"><%= user.username %></p>
     </div>

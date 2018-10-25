@@ -43,14 +43,12 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       type: DataTypes.BOOLEAN,
     },
+    active: {
+      defaultValue: false,
+      type: DataTypes.BOOLEAN,
+    },
     profilePicUrl: {
-      allowNull: true,
       type: DataTypes.STRING,
-      validate: {
-        isUrl: {
-          msg: 'must be a valid url',
-        },
-      },
     },
   }, {
     hooks: {
@@ -58,6 +56,18 @@ module.exports = (sequelize, DataTypes) => {
         if (instance.changed('password')) {
           instance.set('password', await bcrypt.hash(instance.password, 10));
         }
+      },
+      async afterCreate(instance) {
+        await sequelize.models.ActivationUuid.create({ userId: instance.id });
+      },
+    },
+    getterMethods: {
+      async uuid() {
+        const activation = await this.getActivation();
+        return activation.uuid;
+      },
+      fullName() {
+        return `${this.firstName} ${this.lastName}`;
       },
     },
   });
@@ -73,6 +83,7 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Book,
       { through: models.Interest, as: 'interestedBooks', foreignKey: 'userId' });
     User.hasMany(models.Interest, { as: 'interests', foreignKey: 'userId' });
+    User.hasOne(models.ActivationUuid, { as: 'activation', foreignKey: 'userId' });
   };
 
   return User;

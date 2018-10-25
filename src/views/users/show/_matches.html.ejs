@@ -1,22 +1,54 @@
-<ul>
-  <% pendingMatches.forEach(match => { %>
-    <% const { proposerBookInstance, proposeeBookInstance } = match;%>
-    <% if (proposeeBookInstance.userId === currentUser.id) { %>
-      · You're being offered <span class="bolded"><%= proposerBookInstance.book.title %></span> for your <span class="bolded"><%= proposeeBookInstance.book.title %></span>
-      <div class="flex-row">
-        <div class="flex-column">
-          <form action="<%= acceptMatchPath(match) %>" method="post">
-            <input type="hidden" name="_method" value="patch" />
-            <input type="submit" class="button" value="Accept it" />
-          </form>
+<% if (!pendingMatches.length) { %>
+  <p class="empty-message">No pending matches</p>
+<% } else { %>
+  <ul>
+    <% pendingMatches.forEach(match => { %>
+      <% const { proposerBookInstance, proposeeBookInstance } = match %>
+      <% if (proposeeBookInstance.userId === currentUser.id) { %>
+        · You're being offered 
+        <a class="bolded" href="<%= buildBookPath(proposerBookInstance.book) %> ">
+          <%= proposerBookInstance.book.title %>
+        </a>
+        &nbsp;for your
+        <a class="bolded" href="<%= buildBookPath(proposeeBookInstance.book) %> ">
+          <%= proposeeBookInstance.book.title %>
+        </a>
+        <div class="flex-row">
+          <div class="flex-column">
+            <form action="<%= acceptMatchPath(match) %>" method="post">
+              <input type="hidden" name="_method" value="patch" />
+              <input type="submit" class="button" value="Accept it" />
+            </form>
+          </div>
+          <div class="flex-column">
+            <form action="<%= destroyMatchPath(match) %>" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="submit" class="button negative" value="Refuse it" />
+            </form>
+          </div>
         </div>
-        <div class="flex-column">
-          <form action="<%= destroyMatchPath(match) %>" method="post">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" class="button negative" value="Refuse it" />
-          </form>
+      <% } %>
+    <% }) %>
+    <% pendingMatches.forEach(match => { %>
+      <% const { proposerBookInstance, proposeeBookInstance } = match %>
+      <% if (proposerBookInstance.userId === currentUser.id) { %>
+        · You're offering
+        <a class="bolded" href="<%= buildBookPath(proposerBookInstance.book) %> ">
+            <%= proposerBookInstance.book.title %>
+        </a>
+        &nbsp;for
+        <a class="bolded" href="<%= buildBookPath(proposeeBookInstance.book) %> ">
+          <%= proposeeBookInstance.book.title %>
+        </a>
+        <div class="flex-row">
+            <div class="flex-column">
+              <form action="<%= destroyMatchPath(match) %>" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" class="button negative" value="Cancel" />
+              </form>
+          </div>
         </div>
-      </div>
-          
-    <%}})%>
-</ul>
+      <% } %>
+    <% }) %>
+  </ul>
+<% } %>

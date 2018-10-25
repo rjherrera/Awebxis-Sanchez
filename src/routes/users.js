@@ -1,12 +1,14 @@
 const KoaRouter = require('koa-router');
+const cloudStorage = require('../lib/cloud-storage');
 const { isLoggedIn, isAdmin, isAdminOrSelf } = require('../lib/routes/permissions');
-const { Author } = require('../models');
+const sendActivationEmail = require('../mailers/activation');
 
 const router = new KoaRouter();
 
 router.param('username', async (username, ctx, next) => {
-  ctx.state.user = await ctx.orm.User.findOne({ where: { username } });
-  ctx.assert(ctx.state.user, 404);
+  const user = await ctx.orm.User.findOne({ where: { username } });
+  ctx.assert(user, 404);
+  ctx.state.user = user;
   return next();
 });
 
@@ -46,8 +48,24 @@ router.get('users-edit', '/:username/edit', isAdminOrSelf, async (ctx) => {
 
 router.post('users-create', '/', async (ctx) => {
   try {
-    await ctx.orm.User.create(ctx.request.body);
-    ctx.redirect(ctx.router.url('session-new'));
+    const user = await ctx.orm.User.create(ctx.request.body);
+    const { files } = ctx.request;
+    if (files.profilePicUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.profilePicUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'users', namePrefix: user.username });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await user.update({ profilePicUrl: remoteImagePath });
+    }
+    sendActivationEmail(ctx, {
+      user,
+      origin: ctx.request.origin,
+      activationPath: ctx.router.url('users-activate',
+        user.username, { query: { uuid: await user.uuid } }),
+    });
+    await ctx.render('users/activation-sent', {
+      user,
+      resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+    });
   } catch (validationError) {
     await ctx.render('users/new', {
       user: ctx.orm.User.create(ctx.request.body),
@@ -65,6 +83,13 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
     await user.update(params, {
       fields: ['username', 'firstName', 'lastName', 'email', 'password'],
     });
+    const { files } = ctx.request;
+    if (files.profilePicUrl.size) {
+      const { path: localImagePath, name: localImageName } = files.profilePicUrl;
+      const remoteImagePath = cloudStorage.buildRemotePath(localImageName, { directoryPath: 'users', namePrefix: user.username });
+      await cloudStorage.upload(localImagePath, remoteImagePath);
+      await user.update({ profilePicUrl: remoteImagePath });
+    }
     ctx.redirect(ctx.router.url('users-show', { username: user.username }));
   } catch (validationError) {
     await ctx.render('names/edit', {
@@ -77,17 +102,25 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
 
 router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   const { user } = ctx.state;
+  const isSelf = ctx.state.currentUser.id === user.id;
   const interests = await user.getInterests({ scope: ['withBook'] });
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();
-  const userBooks = await user.getUserBooks({ scope: ['withBook', 'active'] });
+  const userBooks = await user.getUserBooks({
+    scope: [
+      isSelf ? 'withBookAndInterestedUsers' : 'withBook',
+      'active',
+    ],
+  });
   const currentUserBooks = await ctx.state.currentUser.getUserBooks({ scope: ['withBook', 'active'] });
   const pendingMatches = await ctx.orm.Match.scope('withInstances', 'pending').findAll();
   const settledMatches = await ctx.orm.Match.scope('withInstances', 'settled').findAll();
 
   await ctx.render('users/show', {
     user,
+    isSelf,
+    isAdminOrSelf: ctx.state.currentUserIsAdmin || isSelf,
     interests,
     followers,
     following,
@@ -105,6 +138,42 @@ router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
       interestsCount: 4, valueInterestsCount: 80, matchesCount: 1, valueMatchesCount: 20,
     },
   });
+});
+
+router.get('users-activate', '/:username/activate', async (ctx) => {
+  const { user } = ctx.state;
+  const targetUuid = await user.uuid;
+  if (ctx.query.uuid === targetUuid) {
+    user.update({ active: true });
+    ctx.redirect(ctx.router.url('session-new'));
+  } else {
+    await ctx.render('users/activation-failed', {
+      resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+    });
+  }
+});
+
+router.post('users-resend-activation', '/:username/resend-activation', async (ctx) => {
+  const { user } = ctx.state;
+  sendActivationEmail(ctx, {
+    user,
+    origin: ctx.request.origin,
+    activationPath: ctx.router.url('users-activate',
+      user.username, { query: { uuid: await user.uuid } }),
+  });
+  await ctx.render('users/activation-sent', {
+    user,
+    resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
+  });
+});
+
+router.get('users-show-image', '/:username/image', async (ctx) => {
+  const { profilePicUrl } = ctx.state.user;
+  if (/^https?:\/\//.test(profilePicUrl)) {
+    ctx.redirect(profilePicUrl);
+  } else {
+    ctx.body = cloudStorage.download(profilePicUrl);
+  }
 });
 
 router.delete('users-destroy', '/:username', isAdmin, async (ctx) => {

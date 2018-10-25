@@ -1,5 +1,5 @@
 <div class="form-container">
-  <form action="<%= submitBookPath %>" method="post" class="form-card">
+  <form action="<%= submitBookPath %>" method="post" enctype="multipart/form-data" class="form-card">
     <h1 class="form-title"><%= title %></h1>
     <% if (locals.errors) { %>
     <p class="errors">Check the following errors:</p>
@@ -41,7 +41,7 @@
     </div>
     <div>
       <label for="imageUrl">Image URL</label>
-      <input type="text" name="imageUrl" value="<%= book.imageUrl %>" placeholder="https://goo.gl/oUmTRR"/>
+      <input type="file" name="imageUrl" accept="image/*"/>
     </div>
     <div>
       <label for="publisher">Publisher</label>

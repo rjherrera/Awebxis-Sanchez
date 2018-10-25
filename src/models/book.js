@@ -7,11 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     imageUrl: {
       type: DataTypes.STRING,
-      validate: {
-        isUrl: {
-          msg: 'must be a valid url',
-        },
-      },
     },
     isbn: {
       allowNull: false,
@@ -62,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
     scopes: {
       withAuthor: () => ({
         include: [{ model: sequelize.models.Author, as: 'author' }],
+      }),
+      withInterestedUsers: () => ({
+        include: [{ model: sequelize.models.Interest.scope('withUser'), as: 'interests' }],
       }),
     },
   });

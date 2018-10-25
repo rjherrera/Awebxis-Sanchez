@@ -32,8 +32,10 @@ router.use(async (ctx, next) => {
     currentUserIsAdmin: currentUser && currentUser.admin,
     buildAuthorPath: author => ctx.router.url('authors-show', author.kebabName),
     buildBookPath: book => ctx.router.url('books-show', book.isbn),
+    getBookImagePath: book => ctx.router.url('books-show-image', book.isbn),
     buildGenrePath: genre => ctx.router.url('genres-show', _.kebabCase(genre.name)),
     buildUserPath: user => ctx.router.url('users-show', user.username),
+    getUserProfilePicPath: user => ctx.router.url('users-show-image', user.username),
     pageSize: 24,
     defaults,
     ...utils,
@@ -51,5 +53,9 @@ router.use('/session', session.routes());
 router.use('/book-instances', bookInstances.routes());
 router.use('/interests', interests.routes());
 router.use('/matches', matches.routes());
+
+router.get('error', '/oops', (ctx) => {
+  return ctx.render('errors/404');
+});
 
 module.exports = router;
