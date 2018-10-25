@@ -1,19 +1,24 @@
+<div class="user-info">
+  <div>
+    <img src="<%= user.profilePicUrl ? getUserProfilePicPath(user) : defaults.userImageUrl %>" alt="<%= user.username %>">
+  </div>
+  <div>
+    <h1><%= user.fullName %></h1>
+    <h5><%= followers.length %> followers and following <%= following.length %> people </h5>
+  </div>
+</div>
 
-<h1><%= user.firstName + " " + user.lastName %></h1>
-<h5><%= followers.length %> followers and following <%= following.length %> people </h5>
 
-<img src="<%= user.profilePicUrl ? getUserProfilePicPath(user) : defaults.userImageUrl %>" alt="<%= user.username %>">
 
 <% const isAdminOrSelf = currentUserIsAdmin || currentUser.id === user.id %>
-
 
 <% if (currentUser.id === user.id) { %>
   <div class="flex-row">
   
     <div class="flex-column quadrant1 flex-top">
-        <h1>Pending matches</h1>
+      <h1>Pending matches</h1>
       <%- include('show/_matches') %>
-  </div>
+    </div>
     <div class="flex-column quadrant2 flex-top">
         <h1>Interest on user's books</h1>
         <%- include('show/_interests', { isAdminOrSelf }) %>

@@ -1,7 +1,6 @@
 .flex-row {
-    flex-direction: row;
     display: flex;
-    /* flex-flow: row wrap; */
+    flex-direction: row;
     margin-left: -5.55555%;
     margin-right: -5.55555%;
 }
@@ -26,10 +25,6 @@
     padding: 15px;
     margin-left: -5.55555%;
     margin-right: -5.55555%;
-}
-
-h5 {
-    font-style: italic;
 }
 
 .interest-count {
@@ -97,4 +92,30 @@ ul {
 
 .empty-feedbacks {
     font-style: italic;
+}
+
+.user-info {
+    display: flex;
+    height: 150px;
+    margin: 20px;
+    div:nth-child(1) {
+        width: 150px;
+        margin-right: 25px;
+        img {
+            border-radius: 50%;
+            object-fit: cover;
+            height: 150px;
+            width: 150px;
+        }
+    }
+    div:nth-child(2) {
+        flex: 5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        h5 {
+            margin-top: 0;
+            font-style: italic;
+        }
+    }
 }
