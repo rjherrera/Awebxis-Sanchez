@@ -66,6 +66,9 @@ module.exports = (sequelize, DataTypes) => {
         const activation = await this.getActivation();
         return activation.uuid;
       },
+      fullName() {
+        return `${this.firstName} ${this.lastName}`;
+      },
     },
   });
 

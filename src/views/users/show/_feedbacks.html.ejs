@@ -1,8 +1,8 @@
 <div class="reviews-section">
   <h1 class="section-title">Feedbacks</h1>
   <div class="reviews-container">
-    <% if (feedbacks.length === 0) { %>
-      <p class="empty-feedbacks">No feedbacks yet</p>
+    <% if (!feedbacks.length) { %>
+      <p class="empty-message">No feedbacks yet</p>
     <% } %>
     <% feedbacks.forEach(feedback => { %>
     <div class="review">

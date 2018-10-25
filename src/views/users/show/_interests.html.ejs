@@ -1,7 +1,13 @@
-<ul>
-  <% userBooks.forEach(instance => { %>
-    <li>
-      · <%= instance.book.title %> <span class="interest-count">- <%= stats.interestsCount %> Interesados</span>
-    </li>
-  <% }) %>
-</ul>
+<% if (!userBooks.length) { %>
+  <p class="empty-message">You don't own any book</p>
+<% } else { %>
+  <ul>
+    <% userBooks.forEach(instance => { %>
+      <% const interestsCount = instance.book.interests.length %> 
+      <% const people = interestsCount === 1 ? 'user' : 'users' %> 
+      <li>
+        · <%= instance.book.title %> <span class="interest-count">- <%= interestsCount %> <%= people %>  interested</span>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>

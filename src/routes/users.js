@@ -102,17 +102,25 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
 
 router.get('users-show', '/:username', isLoggedIn, async (ctx) => {
   const { user } = ctx.state;
+  const isSelf = ctx.state.currentUser.id === user.id;
   const interests = await user.getInterests({ scope: ['withBook'] });
   const followers = await user.getFollowers();
   const following = await user.getFollowing();
   const feedbacks = await user.getFeedbacks();
-  const userBooks = await user.getUserBooks({ scope: ['withBook', 'active'] });
+  const userBooks = await user.getUserBooks({
+    scope: [
+      isSelf ? 'withBookAndInterestedUsers' : 'withBook',
+      'active',
+    ],
+  });
   const currentUserBooks = await ctx.state.currentUser.getUserBooks({ scope: ['withBook', 'active'] });
   const pendingMatches = await ctx.orm.Match.scope('withInstances', 'pending').findAll();
   const settledMatches = await ctx.orm.Match.scope('withInstances', 'settled').findAll();
 
   await ctx.render('users/show', {
     user,
+    isSelf,
+    isAdminOrSelf: ctx.state.currentUserIsAdmin || isSelf,
     interests,
     followers,
     following,

@@ -4,21 +4,9 @@
       <img src="<%= getBookImagePath(book) %>" alt="<%= book.title %>">
     </div>
     <div class="actions-container">
-      <% if (bookInstance) { %>
-        <form action="<%= destroyBookInstancePath(bookInstance) %>" method="post">
-          <input type="hidden" name="_method" value="delete" />
-          <input type="submit" class="button secondary" value="Don't have it" />
-        </form>
-      <% } else if (currentUser) {%>
-        <%- include('_have-it-form') %>
-      <%}%>
-      <% if (interest) { %>
-        <form action="<%= destroyInterestPath(interest) %>" method="post">
-          <input type="hidden" name="_method" value="delete" />
-          <input type="submit" class="button secondary" value="Don't want it" />
-        </form>
-      <% } else if (currentUser) { %>
-        <%- include('_want-it-form') %>
+      <% if (currentUser) { %>
+        <%- include('_interest-form') %>
+        <%- include('_instance-form') %>
       <% } %>
 
       <% if (currentUserIsAdmin) { %>
