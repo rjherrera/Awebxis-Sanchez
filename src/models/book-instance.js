@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       withBook: () => ({
         include: [{ model: sequelize.models.Book.scope('withAuthor'), as: 'book' }],
       }),
+      withBookAndInterestedUsers: () => ({
+        include: [{ model: sequelize.models.Book.scope('withAuthor', 'withInterestedUsers'), as: 'book' }],
+      }),
       withUser: () => ({
         include: [{ model: sequelize.models.User, as: 'user' }],
       }),

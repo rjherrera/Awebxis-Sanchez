@@ -58,6 +58,9 @@ module.exports = (sequelize, DataTypes) => {
       withAuthor: () => ({
         include: [{ model: sequelize.models.Author, as: 'author' }],
       }),
+      withInterestedUsers: () => ({
+        include: [{ model: sequelize.models.Interest.scope('withUser'), as: 'interests' }],
+      }),
     },
   });
 
