@@ -15,7 +15,7 @@
             <p class="author"><%= instance.book.author.name %></p>
           </div>
         </a>
-        <% if (!isSelf) { %>         
+        <% if (!isSelf && currentUserBooks.length) { %>         
           <form action="<%= createMatchPath %>" class="flex-form-center" method="post">
             <input type="hidden" name="proposeeBookInstanceId" value="<%= instance.id %>"/>
             <select name="proposerBookInstanceId" required>
