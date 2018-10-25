@@ -143,21 +143,10 @@ router.get('books-show', '/:isbn', async (ctx) => {
 
   const avgRating = await fetchAvgRating(book);
 
-  const interestsCount = await ctx.orm.Interest.count({ where: { bookId: book.id } });
-  const bookInterests = await ctx.orm.Book.findAll({
-    attributes: {
-      include: [[ctx.orm.Sequelize.fn('COUNT', ctx.orm.Sequelize.col('interests.id')), 'interestCount']],
-    },
-    include: [{
-      model: ctx.orm.Interest,
-      as: 'interests',
-      attributes: [],
-    }],
-    group: ['Book.id'],
-  });
-  const counts = bookInterests.map(bk => +bk.dataValues.interestCount);
-  const max = Math.max(...counts);
-  const valueInterestsCount = parseInt(interestsCount / max * 100, 10);
+  const books = await ctx.orm.Book.scope('withInterestedUsers').findAll();
+  const interestsCount = books.find(bk => bk.id === book.id).interests.length;
+  const maxCount = Math.max(...books.map(bk => bk.interests.length));
+  const valueInterestsCount = parseInt(interestsCount / maxCount * 100, 10);
 
   await ctx.render('books/show', {
     reviews,
