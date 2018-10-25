@@ -143,12 +143,30 @@ router.get('books-show', '/:isbn', async (ctx) => {
 
   const avgRating = await fetchAvgRating(book);
 
+  const interestsCount = await ctx.orm.Interest.count({ where: { bookId: book.id } });
+  const bookInterests = await ctx.orm.Book.findAll({
+    attributes: {
+      include: [[ctx.orm.Sequelize.fn('COUNT', ctx.orm.Sequelize.col('interests.id')), 'interestCount']],
+    },
+    include: [{
+      model: ctx.orm.Interest,
+      as: 'interests',
+      attributes: [],
+    }],
+    group: ['Book.id'],
+  });
+  const counts = bookInterests.map(bk => +bk.dataValues.interestCount);
+  const max = Math.max(...counts);
+  const valueInterestsCount = parseInt(interestsCount / max * 100, 10);
+
   await ctx.render('books/show', {
     reviews,
     bookInstance,
     interest,
     avgRating,
-    stats: { interestsCount: 4, valueInterestsCount: 80, matchesCount: 1, valueMatchesCount: 20 },
+    stats: {
+      interestsCount, valueInterestsCount, matchesCount: 1, valueMatchesCount: 20,
+    },
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
