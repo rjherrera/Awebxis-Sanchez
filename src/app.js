@@ -80,6 +80,26 @@ render(app, {
 
 mailer(app);
 
+// Error handling
+app.use(async (ctx, next) => {
+  try {
+    await next();
+    if (ctx.status === 404) {
+      ctx.redirect(ctx.router.url('error'));
+    }
+  } catch (err) {
+    ctx.status = err.status || 500;
+    switch (ctx.status) {
+      case 404:
+        await ctx.render('errors/404');
+        break;
+      default:
+        await ctx.render('errors/500');
+        break;
+    }
+  }
+});
+
 // Routing middleware
 app.use(routes.routes());
 

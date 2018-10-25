@@ -6,8 +6,9 @@ const sendActivationEmail = require('../mailers/activation');
 const router = new KoaRouter();
 
 router.param('username', async (username, ctx, next) => {
-  ctx.state.user = await ctx.orm.User.findOne({ where: { username } });
-  ctx.assert(ctx.state.user, 404);
+  const user = await ctx.orm.User.findOne({ where: { username } });
+  ctx.assert(user, 404);
+  ctx.state.user = user;
   return next();
 });
 

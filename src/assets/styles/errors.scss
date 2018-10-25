@@ -1,0 +1,14 @@
+.error {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    .title {
+        font-size: 60px;
+        margin-bottom: 0;
+    }
+    .message {
+        text-align: center;
+        font-size: 30px;
+        width: 40%;
+    }
+}
