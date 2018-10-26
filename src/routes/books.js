@@ -143,19 +143,25 @@ router.get('books-show', '/:isbn', async (ctx) => {
 
   const avgRating = await fetchAvgRating(book);
 
-  const books = await ctx.orm.Book.scope('withInterestedUsers').findAll();
-  const interestsCount = books.find(bk => bk.id === book.id).interests.length;
-  const maxCount = Math.max(...books.map(bk => bk.interests.length));
-  const valueInterestsCount = parseInt(interestsCount / maxCount * 100, 10);
+  const books = await ctx.orm.Book.scope('withInterestedUsers', 'withInstances').findAll();
+  const loadedBook = books.find(bk => bk.id === book.id);
+
+  const interestsCount = loadedBook.interests.length;
+  const interestsMaxCount = Math.max(...books.map(bk => bk.interests.length)) || 1;
+  const valueInterestsCount = parseInt(interestsCount / interestsMaxCount * 100, 10);
+
+  const instances = books.map(bk => bk.instances).reduce((acc, val) => acc.concat(val), []);
+  const countMatches = i => i.proposerMatches.length + i.proposeeMatches.length;
+  const matchesCount = loadedBook.instances.map(countMatches).reduce((acc, val) => acc + val, 0);
+  const matchesMaxCount = Math.max(...instances.map(countMatches)) || 1;
+  const valueMatchesCount = parseInt(matchesCount / matchesMaxCount * 100, 10);
 
   await ctx.render('books/show', {
     reviews,
     bookInstance,
     interest,
     avgRating,
-    stats: {
-      interestsCount, valueInterestsCount, matchesCount: 1, valueMatchesCount: 20,
-    },
+    stats: { interestsCount, valueInterestsCount, matchesCount, valueMatchesCount },
     editBookPath: ctx.router.url('books-edit', book.isbn),
     destroyBookPath: ctx.router.url('books-destroy', book.isbn),
     authorPath: ctx.router.url('authors-show', book.author.kebabName),
