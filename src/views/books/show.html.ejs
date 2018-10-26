@@ -39,14 +39,14 @@
         <div class="filled-<%= stats.valueInterestsCount %>"></div>
         <div class="not-filled-<%= 100 - stats.valueInterestsCount %>"></div>
       </div>
-      <div class="text"><%= stats.interestsCount %> Interesados</div>
+      <div class="text"><%= stats.interestsCount %> <%= pluralize(stats.interestsCount, 'Interest') %></div>
     </div>
     <div class="stat">
       <div class="bar">
         <div class="filled-<%= stats.valueMatchesCount %>"></div>
         <div class="not-filled-<%= 100 - stats.valueMatchesCount %>"></div>
       </div>
-      <div class="text"><%= stats.matchesCount %> Intercambios</div>
+      <div class="text"><%= stats.matchesCount %> <%= pluralize(stats.matchesCount, 'Exchange') %></div>
     </div>
   </div>
 </div>
@@ -71,7 +71,7 @@
             <% if (currentUser) { %>
               <a href="<%= buildUserPath(review.user) %> " class="username"><%= review.user.firstName %></a>
             <% } else { %>
-              <%= review.user.firstName %>               
+              <%= review.user.firstName %>
             <% } %>
              rated it
             <% Array(5).fill().forEach((e, i) => { %>
