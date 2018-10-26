@@ -13,6 +13,8 @@ const session = require('./routes/session');
 const bookInstances = require('./routes/book-instances');
 const interests = require('./routes/interests');
 const matches = require('./routes/matches');
+const tellAdmins = require('./routes/tellAdmins');
+
 
 const defaults = require('./defaults');
 
@@ -28,6 +30,8 @@ router.use(async (ctx, next) => {
     newUserPath: ctx.router.url('users-new'),
     newSessionPath: ctx.router.url('session-new'),
     destroySessionPath: ctx.router.url('session-destroy'),
+    tellAdminGetPath: ctx.router.url('tell-admin-get'),
+    tellAdminPostPath: ctx.router.url('tell-admin-post'),
     currentUser,
     currentUserIsAdmin: currentUser && currentUser.admin,
     buildAuthorPath: author => ctx.router.url('authors-show', author.kebabName),
@@ -53,6 +57,8 @@ router.use('/session', session.routes());
 router.use('/book-instances', bookInstances.routes());
 router.use('/interests', interests.routes());
 router.use('/matches', matches.routes());
+router.use('/tell-admin', tellAdmins.routes());
+
 
 router.get('error', '/oops', (ctx) => {
   return ctx.render('errors/404');

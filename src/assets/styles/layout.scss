@@ -2,6 +2,7 @@ html, body {
   margin: 0;
   padding: 0;
   min-height: 100%;
+  position: relative;
 }
 
 body, a, p, span {
@@ -102,16 +103,39 @@ header {
     }
   }
 }
+
+// .wrapper {
+//   min-height: 100%;
+//   /* equal to footer height */
+//   margin-bottom: -142px; 
+// }
+
+// .wrapper:after {
+//   content: "";
+//   display: block;
+// }
+
+// .footer, .wrapper:after {
+//   height: 142px; 
+// }
+
+
+
+
 .footer {
+  clear: both;
   display: block;
+  // flex-direction: column;
   background-color: #EAEAEA;
   margin-left: -5.555%;
-  margin-right: -5.555%;
+//   margin-right: -5.555%;
   padding: 15px;
-  justify-content: center;
-  align-items: center;
+  margin-bottom: -5.555555%;
   height: 100px;
-  margin-bottom: -5%;
+  margin-top: 100px;
+  position: absolute;
+  width: 100%;
+  // bottom: 0;
 }
 
 .footer p {
