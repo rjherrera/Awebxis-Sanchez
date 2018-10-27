@@ -48,14 +48,14 @@ html, body {
 }
 
 .black-text {
-    color: #0B0B0B;
+    color: $cambalache-black;
     text-align: center;
     font-size: 14pt;
     font-weight: 200;
 }
 
 .black-title {
-    color: #0B0B0B;
+    color: $cambalache-black;
     text-align: center;
     font-size: 16pt;
     font-weight: 300;
@@ -80,12 +80,6 @@ html, body {
     text-transform: uppercase;
     text-decoration: none;
 }
-
-// #second-screen {
-//     position: relative;
-//     top: 110vh;
-//     padding-bottom: 50px;
-// }
 
 .a-link {
     text-decoration: none;
