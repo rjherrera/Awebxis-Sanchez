@@ -1,8 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
-  position: relative;
+  height: 100%;
 }
 
 body, a, p, span {
@@ -12,8 +11,7 @@ body, a, p, span {
 body {
   background: linear-gradient(to bottom right, $cambalache-brown 0%, $cambalache-yellow 100%);
   background-attachment: fixed;
-  padding: 60px 5%;
-  // margin: 0 5%;
+  padding: 0 5% 0 5%;
 }
 
 * {
@@ -45,7 +43,7 @@ header {
     display: flex;
     height: 100%;
     align-items: center;
-    
+
     .profile {
       display: flex;
       align-items: center;
@@ -104,50 +102,29 @@ header {
   }
 }
 
-// .wrapper {
-//   min-height: 100%;
-//   /* equal to footer height */
-//   margin-bottom: -142px; 
-// }
-
-// .wrapper:after {
-//   content: "";
-//   display: block;
-// }
-
-// .footer, .wrapper:after {
-//   height: 142px; 
-// }
-
-
-
+#main-content {
+  padding: 60px 0;
+  min-height: calc(100% - 250px); // Footer: (100height+15*2padding) + Self: (60*2padding)
+}
 
 .footer {
-  clear: both;
   display: block;
-  // flex-direction: column;
-  background-color: #EAEAEA;
-  margin-left: -5.555%;
-//   margin-right: -5.555%;
+  background-color: $cambalache-white;
+  margin: 0 -5.55555%;
   padding: 15px;
-  margin-bottom: -5.555555%;
   height: 100px;
-  margin-top: 100px;
-  position: absolute;
-  width: 100%;
-  // bottom: 0;
-}
 
-.footer p {
-  color: #0B0B0B;
-  text-align: center;
-  display: block;
-}
+  p {
+    color: $cambalache-black;
+    text-align: center;
+    display: block;
+  }
 
-#link-footer {
-  text-decoration: none;
-  color: #D4A25E;
-  font-weight: bolder;
+  a {
+    text-decoration: none;
+    color: $cambalache-orange;
+    font-weight: 400;
+  }
 }
 
 .empty-message {
