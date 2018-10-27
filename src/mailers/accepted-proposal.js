@@ -31,6 +31,5 @@ const getInfoAndSendAcceptedProposalEmail = async (ctx, match) => {
 };
 
 module.exports = {
-  sendAcceptedProposalEmail,
   getInfoAndSendAcceptedProposalEmail,
 };
