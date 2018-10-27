@@ -29,6 +29,7 @@ router.post('match-create', '/new', async (ctx) => {
       bookProposee,
       sender,
       bookProposer,
+      bookInstanceProposer,
       origin: ctx.request.origin,
     });
   } catch (error) {

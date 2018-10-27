@@ -22,10 +22,18 @@
 
                   <tr>
                     <td style="padding:20px 30px 20px 30px;">
-                      <h2 style="font-size:1.2rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:0px; margin-bottom:10px;font-weight: normal">Hello! You've received a new proposal for an exchange!
+                      <h2 style="font-size:1.2rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:0px; margin-bottom:15px;font-weight: normal">Hello! You've received a new proposal for an exchange!
                       </h2>
-                      <p style="font-size:0.9rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:0px; margin-bottom:0px;"> <strong>Your book: <%= bookProposee.title %></strong></p>
+                      <p style="font-size:0.9rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:10px; margin-bottom:10px;"> <strong>Your book: <%= bookProposee.title %></strong></p>
                       <p style="font-size:0.9rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:0px; margin-bottom:0px;"> <strong>Proposed book: <%= bookProposer.title %></strong></p>
+                      <ul>
+                        <li style="margin-top: -3%; margin-bottom: 0px;">
+                          <p style="font-size:0.7rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:0px; margin-bottom:0px;"> <strong>Status: <%= bookInstanceProposer.status %></strong></p>
+                        </li>
+                        <li style="margin-top: 0px; margin-bottom: 0px;">
+                          <p style="font-size:0.7rem; color:rgba(0, 0, 0, .87); font-family: Raleway; margin-top:0px; margin-bottom:0px;"> <strong>Comment: <%= bookInstanceProposer.comment %></strong></p>
+                        </ul>
+                        </li>                      
                     </td>
                   </tr>
 
