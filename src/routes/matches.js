@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
-const sendNewProposalEmail = require('../mailers/new-proposal.js');
-const sendAcceptedProposalEmail = require('../mailers/accepted-proposal.js');
+const newProposal = require('../mailers/new-proposal.js');
+const acceptedProposal = require('../mailers/accepted-proposal.js');
 
 
 const router = new KoaRouter();
@@ -15,26 +15,8 @@ router.param('id', async (id, ctx, next) => {
 router.post('match-create', '/new', async (ctx) => {
   const match = await ctx.orm.Match.build(ctx.request.body);
 
-  const bookInstanceProposee = await ctx.orm.BookInstance.findById(match.proposeeBookInstanceId);
-  const bookProposee = await ctx.orm.Book.findById(bookInstanceProposee.bookId);
-  const recipient = await ctx.orm.User.findById(bookInstanceProposee.userId);
+  await newProposal.getInfoAndSendNewProposalEmail(ctx, match);
 
-  const bookInstanceProposer = await ctx.orm.BookInstance.findById(match.proposerBookInstanceId);
-  const bookProposer = await ctx.orm.Book.findById(bookInstanceProposer.bookId);
-  const sender = await ctx.orm.User.findById(bookInstanceProposer.userId);
-
-  try {
-    sendNewProposalEmail(ctx, {
-      recipient,
-      bookProposee,
-      sender,
-      bookProposer,
-      bookInstanceProposer,
-      origin: ctx.request.origin,
-    });
-  } catch (error) {
-    // Ignore if mail not sent, though it shouldn't fail
-  }
   await match.save({ fields: ['proposerBookInstanceId', 'proposeeBookInstanceId'] });
   ctx.redirect('back');
 });
@@ -43,25 +25,7 @@ router.post('match-create', '/new', async (ctx) => {
 router.patch('match-accept', '/:id', async (ctx) => {
   const { match } = ctx.state;
 
-  const bookInstanceProposee = await ctx.orm.BookInstance.findById(match.proposeeBookInstanceId);
-  const bookProposee = await ctx.orm.Book.findById(bookInstanceProposee.bookId);
-  const recipient = await ctx.orm.User.findById(bookInstanceProposee.userId);
-
-  const bookInstanceProposer = await ctx.orm.BookInstance.findById(match.proposerBookInstanceId);
-  const bookProposer = await ctx.orm.Book.findById(bookInstanceProposer.bookId);
-  const sender = await ctx.orm.User.findById(bookInstanceProposer.userId);
-
-  try {
-    sendAcceptedProposalEmail(ctx, {
-      recipient,
-      bookProposee,
-      sender,
-      bookProposer,
-      origin: ctx.request.origin,
-    });
-  } catch (error) {
-    // Ignore if mail not sent, though it shouldn't fail
-  }
+  await acceptedProposal.getInfoAndSendAcceptedProposalEmail(ctx, match);
 
   await match.accept();
   ctx.redirect('back');
