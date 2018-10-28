@@ -33,5 +33,7 @@
   <a class="page-arrow" href="<%= previousPagePath %>">&lt;</a>
   <% } %>
   <span class="page-number"><%= page %></span>
-  <a class="page-arrow" href="<%= nextPagePath %>">&gt;</a>
+  <% if (!isLastPage) { -%>
+    <a class="page-arrow" href="<%= nextPagePath %>">&gt;</a>
+  <% } -%>
 </div>
