@@ -10,6 +10,20 @@ const db = {};
 const sequelizeConfig = (config.use_env_variable) ? process.env[config.use_env_variable] : config;
 const sequelize = new Sequelize(sequelizeConfig);
 
+const pageSize = 24;
+
+sequelize.Model.findAllPaged = async function findAllPaged(options, page) {
+  const newOptions = {
+    ...options,
+    offset: (page - 1) * pageSize,
+    limit: pageSize + 1,
+  };
+  const result = await this.findAll(newOptions);
+  result.isLastPage = result.length <= pageSize;
+  result.splice(-1, 1);
+  return result;
+};
+
 fs
   .readdirSync(__dirname)
   .filter(file => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js')
