@@ -19,17 +19,16 @@ router.param('kebabName', async (kebabName, ctx, next) => {
 router.get('authors', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
   const q = ctx.query.q || '';
-  const authors = await ctx.orm.Author.findAll({
-    offset: (page - 1) * ctx.state.pageSize,
-    limit: ctx.state.pageSize,
+  const authors = await ctx.orm.Author.findAllPaged({
     order: [['name', 'ASC']],
     include: [{ model: Book, as: 'books', limit: 1 }],
     where: { name: { $iLike: `%${q}%` } },
-  });
+  }, page);
   await ctx.render('authors/index', {
     authors,
     newAuthorPath: ctx.router.url('authors-new'),
     page,
+    isLastPage: authors.isLastPage,
     q,
     previousPagePath: ctx.router.url('authors', { query: { page: page - 1, q } }),
     nextPagePath: ctx.router.url('authors', { query: { page: page + 1, q } }),

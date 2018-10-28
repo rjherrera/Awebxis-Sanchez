@@ -23,16 +23,15 @@ router.param('isbn', async (isbn, ctx, next) => {
 router.get('books', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
   const q = ctx.query.q || '';
-  const books = await ctx.orm.Book.findAll({
-    offset: (page - 1) * ctx.state.pageSize,
-    limit: ctx.state.pageSize,
+  const books = await ctx.orm.Book.findAllPaged({
     include: [{ model: Author, as: 'author' }],
     where: { title: { $iLike: `%${q}%` } },
-  });
+  }, page);
   await ctx.render('books/index', {
     books,
     newBookPath: ctx.router.url('books-new'),
     page,
+    isLastPage: books.isLastPage,
     q,
     previousPagePath: ctx.router.url('books', { query: { page: page - 1, q } }),
     nextPagePath: ctx.router.url('books', { query: { page: page + 1, q } }),

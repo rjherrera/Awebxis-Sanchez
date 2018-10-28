@@ -15,15 +15,14 @@ router.param('username', async (username, ctx, next) => {
 router.get('users', '/', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
   const q = ctx.query.q || '';
-  const users = await ctx.orm.User.findAll({
+  const users = await ctx.orm.User.findAllPaged({
     order: [['username', 'ASC']],
-    offset: (page - 1) * ctx.state.pageSize,
-    limit: ctx.state.pageSize,
     where: { username: { $iLike: `%${q}%` } },
-  });
+  }, page);
   await ctx.render('users/index', {
     users,
     page,
+    isLastPage: users.isLastPage,
     q,
     previousPagePath: ctx.router.url('users', { query: { page: page - 1, q } }),
     nextPagePath: ctx.router.url('users', { query: { page: page + 1, q } }),
