@@ -1,4 +1,7 @@
 const KoaRouter = require('koa-router');
+const newProposal = require('../mailers/new-proposal.js');
+const acceptedProposal = require('../mailers/accepted-proposal.js');
+
 
 const router = new KoaRouter();
 
@@ -11,6 +14,9 @@ router.param('id', async (id, ctx, next) => {
 
 router.post('match-create', '/new', async (ctx) => {
   const match = await ctx.orm.Match.build(ctx.request.body);
+
+  await newProposal.getInfoAndSendNewProposalEmail(ctx, match);
+
   await match.save({ fields: ['proposerBookInstanceId', 'proposeeBookInstanceId'] });
   ctx.redirect('back');
 });
@@ -18,6 +24,9 @@ router.post('match-create', '/new', async (ctx) => {
 
 router.patch('match-accept', '/:id', async (ctx) => {
   const { match } = ctx.state;
+
+  await acceptedProposal.getInfoAndSendAcceptedProposalEmail(ctx, match);
+
   await match.accept();
   ctx.redirect('back');
 });
