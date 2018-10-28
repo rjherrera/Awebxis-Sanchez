@@ -1,3 +1,8 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 .landing h1 {
     font-size: 2.75em;
     font-weight: normal;
@@ -43,14 +48,14 @@
 }
 
 .black-text {
-    color: black;
+    color: $cambalache-black;
     text-align: center;
     font-size: 14pt;
     font-weight: 200;
 }
 
 .black-title {
-    color: black;
+    color: $cambalache-black;
     text-align: center;
     font-size: 16pt;
     font-weight: 300;
@@ -74,12 +79,6 @@
     font-size: 1.1em;
     text-transform: uppercase;
     text-decoration: none;
-}
-
-#second-screen {
-    position: relative;
-    top: 110vh;
-    padding-bottom: 50px;
 }
 
 .a-link {
@@ -123,7 +122,6 @@
 
 #book-column {
     align-items: unset;
-    // overflow-x: hidden;
 }
 
 .full-screen {
@@ -140,13 +138,8 @@
     flex: 22%;
 }
 
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
 .flex-row.timeline {
-
+    position: relative;
     margin-top: 20px;
     margin-bottom: 20px;
 
