@@ -20,7 +20,7 @@ sequelize.Model.findAllPaged = async function findAllPaged(options, page) {
   };
   const result = await this.findAll(newOptions);
   result.isLastPage = result.length <= pageSize;
-  result.splice(-1, 1);
+  result.splice(pageSize, 1);
   return result;
 };
 
