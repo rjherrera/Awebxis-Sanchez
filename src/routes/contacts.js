@@ -1,15 +1,15 @@
 const KoaRouter = require('koa-router');
-const sendTellAdminEmail = require('../mailers/tell-admin.js');
+const sendTellAdminEmail = require('../mailers/contact.js');
 
 
 const router = new KoaRouter();
 
 
-router.get('tell-admin-get', '/', async (ctx) => {
-  await ctx.render('tellAdmins/index', { });
+router.get('contact-get', '/', async (ctx) => {
+  await ctx.render('contact/index', { });
 });
 
-router.post('tell-admin-post', '/', async (ctx) => {
+router.post('contact-post', '/', async (ctx) => {
   const { title } = ctx.request.body;
   const { author } = ctx.request.body;
   const admins = await ctx.orm.User.findAll({
@@ -25,6 +25,7 @@ router.post('tell-admin-post', '/', async (ctx) => {
   } catch (error) {
     console.log(error);
   }
+  ctx.redirect('/');
 });
 
 
