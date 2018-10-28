@@ -17,7 +17,6 @@ router.put('session-create', '/', async (ctx) => {
     return ctx.redirect('/');
   }
   if (user && !user.active) {
-    console.log('ACA3');
     return ctx.render('users/activation-sent', {
       user,
       resendActivationPath: ctx.router.url('users-resend-activation', { username: user.username }),
