@@ -68,7 +68,7 @@
 
   .right-container {
     flex: 3;
-    margin-left: 20px;
+    margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -84,13 +84,24 @@
         flex: 2;
         display: flex;
 
-        *:not([class^="not-filled"]) {
-          border-radius: 10px;
+        * {
           height: 15px;
-          background-color: $cambalache-white;
+          border-radius: 10px;
         }
 
-        @for $i from 1 through 100 {
+        *:not([class^="not-filled"]) {
+          background-color: $cambalache-white;
+          min-width: 20px;
+          max-width: 100%;
+        }
+
+        *[class^="not-filled"] {
+          background-color: rgba($cambalache-white, 0.15);
+          max-width: calc(100% - 10px);
+          margin-left: -10px;
+        }
+
+        @for $i from 0 through 101 {
           .filled-#{$i} {
             flex: $i;
           }
@@ -102,7 +113,7 @@
       }
 
       .text {
-        margin-left: 5px;
+        margin-left: 10px;
         flex: 3;
       }
     }

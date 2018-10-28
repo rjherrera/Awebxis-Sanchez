@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       withBookAndInterestedUsers: () => ({
         include: [{ model: sequelize.models.Book.scope('withAuthor', 'withInterestedUsers'), as: 'book' }],
       }),
+      withMatches: () => ({
+        include: [
+          { model: sequelize.models.Match, as: 'proposerMatches' },
+          { model: sequelize.models.Match, as: 'proposeeMatches' },
+        ],
+      }),
       withUser: () => ({
         include: [{ model: sequelize.models.User, as: 'user' }],
       }),
@@ -54,6 +60,8 @@ module.exports = (sequelize, DataTypes) => {
   BookInstance.associate = (models) => {
     BookInstance.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
     BookInstance.belongsTo(models.Book, { as: 'book', foreignKey: 'bookId' });
+    BookInstance.hasMany(models.Match, { as: 'proposerMatches', foreignKey: 'proposerBookInstanceId' });
+    BookInstance.hasMany(models.Match, { as: 'proposeeMatches', foreignKey: 'proposeeBookInstanceId' });
   };
   return BookInstance;
 };
