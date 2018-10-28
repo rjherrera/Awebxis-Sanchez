@@ -95,6 +95,7 @@ router.get('genres-show', '/:kebabName', async (ctx) => {
   const page = parseInt(ctx.query.page, 10) || 1;
   const books = await genre.getBooks({
     offset: (page - 1) * ctx.state.pageSize,
+    limit: ctx.state.pageSize,
     include: [{ model: Author, as: 'author' }],
   });
   await ctx.render('genres/show', {
