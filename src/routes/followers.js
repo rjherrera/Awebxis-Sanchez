@@ -1,5 +1,5 @@
 const KoaRouter = require('koa-router');
-const { isLoggedIn } = require('../lib/routes/permissions');
+const { isLoggedIn, isAdminOrSelf } = require('../lib/routes/permissions');
 
 const router = new KoaRouter();
 
@@ -37,7 +37,7 @@ router.get('following', '/:username/following/', isLoggedIn, async (ctx) => {
   ctx.body = { following };
 });
 
-router.post('follow', '/:username/following/:followeeUsername', isLoggedIn, async (ctx) => {
+router.post('follow', '/:username/following/:followeeUsername', isAdminOrSelf, async (ctx) => {
   const { user, followee } = ctx.state;
   const [follow, created] = await ctx.orm.Follows.findOrCreate({
     where: {
@@ -48,7 +48,7 @@ router.post('follow', '/:username/following/:followeeUsername', isLoggedIn, asyn
   ctx.body = { follow, created };
 });
 
-router.delete('unfollow', '/:username/following/:followeeUsername', isLoggedIn, async (ctx) => {
+router.delete('unfollow', '/:username/following/:followeeUsername', isAdminOrSelf, async (ctx) => {
   const { user, followee } = ctx.state;
   const follow = await ctx.orm.Follows.findOne({
     where: {
