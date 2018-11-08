@@ -37,18 +37,7 @@ router.get('following', '/:username/following/', isLoggedIn, async (ctx) => {
   ctx.body = { following };
 });
 
-router.post('follow', '/:username/following/:followeeUsername', isAdminOrSelf, async (ctx) => {
-  const { user, followee } = ctx.state;
-  const [follow, created] = await ctx.orm.Follows.findOrCreate({
-    where: {
-      followerId: user.id,
-      followeeId: followee.id,
-    },
-  });
-  ctx.body = { follow, created };
-});
-
-router.delete('unfollow', '/:username/following/:followeeUsername', isAdminOrSelf, async (ctx) => {
+router.get('following-show', '/:username/follow/:followeeUsername', isAdminOrSelf, async (ctx) => {
   const { user, followee } = ctx.state;
   const follow = await ctx.orm.Follows.findOne({
     where: {
@@ -56,9 +45,30 @@ router.delete('unfollow', '/:username/following/:followeeUsername', isAdminOrSel
       followeeId: followee.id,
     },
   });
-  ctx.assert(follow, 404);
-  await follow.destroy();
   ctx.body = { follow };
+});
+
+router.post('follow-create', '/:username/follow/:followeeUsername', isAdminOrSelf, async (ctx) => {
+  const { user, followee } = ctx.state;
+  await ctx.orm.Follows.findOrCreate({
+    where: {
+      followerId: user.id,
+      followeeId: followee.id,
+    },
+  });
+  ctx.body = { isFollowing: true };
+});
+
+router.delete('follow-destroy', '/:username/follow/:followeeUsername', isAdminOrSelf, async (ctx) => {
+  const { user, followee } = ctx.state;
+  const follow = await ctx.orm.Follows.findOne({
+    where: {
+      followerId: user.id,
+      followeeId: followee.id,
+    },
+  });
+  if (follow) await follow.destroy();
+  ctx.body = { isFollowing: false };
 });
 
 module.exports = router;
