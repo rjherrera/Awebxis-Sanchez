@@ -1,11 +1,15 @@
+
+
 <div class="user-info">
   <div>
     <img src="<%= user.profilePicUrl ? getUserProfilePicPath(user) : defaults.userImageUrl %>" alt="<%= user.username %>">
   </div>
   <div>
     <h1><%= user.fullName %></h1>
-    <h5><%= followers.length %> followers and following <%= following.length %> people </h5>
-  </div>
+      <div id="follows-app" data-username="<%= user.username %>" data-current-username="<%= currentUser.username %>">
+        <h5><%= followers.length %> followers and following <%= following.length %> people </h5>
+      </div>
+    </div>
 </div>
 
 <% if (isSelf) { %>

@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import FollowsApp from './follows-app/components/FollowsApp';
 
-const reactAppContainer = document.getElementById('react-app');
+const reactFollowsAppContainer = document.getElementById('follows-app');
 
-if (reactAppContainer) {
-  ReactDOM.render(<App />, reactAppContainer);
+if (reactFollowsAppContainer) {
+  ReactDOM.render(
+    <FollowsApp serverData={reactFollowsAppContainer.dataset} />,
+    reactFollowsAppContainer,
+  );
 }
