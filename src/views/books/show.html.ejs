@@ -6,7 +6,10 @@
     <div class="actions-container">
       <% if (currentUser) { %>
         <%- include('_interest-form') %>
-        <%- include('_instance-form') %>
+        <% if (!bookInstance) { %>
+          <% bookInstance = { id: -1, }%>
+        <% } %>
+        <div id="have-it" data-instance-id="<%= bookInstance.id %>" data-book-id="<%= book.id %>" data-book-instance-path="<%= newBookInstancePath %>" ></div>
       <% } %>
 
       <% if (currentUserIsAdmin) { %>
