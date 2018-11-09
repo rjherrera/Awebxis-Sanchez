@@ -15,6 +15,7 @@ router.param('id', async (id, ctx, next) => {
 });
 
 router.post('book-instances-create', '/', async (ctx) => {
+  console.log(ctx.request.body);
   const instance = await ctx.orm.BookInstance.build(
     { ...ctx.request.body, userId: ctx.state.currentUser.id },
   );

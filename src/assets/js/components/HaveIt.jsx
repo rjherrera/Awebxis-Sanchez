@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Field from './Field';
+import { fetchInstance } from './instances';
 
 const fetch = require('node-fetch');
 
@@ -8,12 +9,16 @@ const fetch = require('node-fetch');
 export default class HaveIt extends Component {
   constructor(props) {
     super(props);
-    const { instanceId } = this.props;
-    const { bookId } = this.props;
-    const { state } = this.props;
-    const { comment } = this.props;
+    const {
+      username,
+      instanceId,
+      bookId,
+      state,
+      comment,
+    } = this.props;
     this.state = {
       have: instanceId > 0,
+      username,
       instanceId,
       bookId,
       state,
@@ -22,10 +27,22 @@ export default class HaveIt extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.loadInstance();
+  }
+
+  async loadInstance() {
+    console.log('On loadInstance!');
+    const { username, bookId } = this.props;
+    const instanceId = await fetchInstance(username, bookId);
+    this.setState({ instanceId });
+    console.log('instanceId es ', instanceId);
+  }
+
   async handleSubmit(e) {
     e.preventDefault();
     const { have } = this.state;
-    const { instanceId } = this.props;
+    const { instanceId } = this.state;
     // console.log('props', this.props);
     // console.log('state', this.state);
     this.setState({ have: !have });
@@ -46,6 +63,8 @@ export default class HaveIt extends Component {
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       })
         .then(response => console.log(response));
+      this.loadInstance();
+      console.log('state es ', this.state);
     }
     console.log("don't have!");
     if (instanceId !== -1) {
@@ -65,7 +84,6 @@ export default class HaveIt extends Component {
 
   render() {
     // const { have } = this.state;
-    console.log(this.state);
     const {
       have,
       bookId,
@@ -101,8 +119,9 @@ export default class HaveIt extends Component {
 }
 
 HaveIt.propTypes = {
+  username: PropTypes.string.isRequired,
   instanceId: PropTypes.number.isRequired,
-  bookId: PropTypes.number.isRequired,
+  bookId: PropTypes.string.isRequired,
   state: PropTypes.string,
   comment: PropTypes.string,
 };

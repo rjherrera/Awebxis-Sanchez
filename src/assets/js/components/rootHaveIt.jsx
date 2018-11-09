@@ -6,14 +6,14 @@ import HaveIt from './HaveIt';
 
 function RootHaveIt({ serverData }) {
   return (
-    <div><HaveIt instanceId={Number(serverData.instanceId)} bookId={Number(serverData.bookId)} bookInstancePath={String(serverData.bookInstancePath)} /></div>
+    <div><HaveIt username={String(serverData.username)} instanceId={Number(serverData.instanceId)} bookId={String(serverData.bookId)} bookInstancePath={String(serverData.bookInstancePath)} /></div>
   );
 }
 
 RootHaveIt.propTypes = {
   serverData: PropTypes.shape({
-    instanceId: PropTypes.string,
-    bookId: PropTypes.string.isRequired,
+    // instanceId: PropTypes.string,
+    // bookId: PropTypes.string.isRequired,
   }).isRequired,
 };
 
