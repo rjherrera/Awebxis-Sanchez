@@ -15,23 +15,15 @@ router.param('id', async (id, ctx, next) => {
 });
 
 router.post('book-instances-create', '/', async (ctx) => {
-  console.log(ctx.request.body);
   const instance = await ctx.orm.BookInstance.build(
     { ...ctx.request.body, userId: ctx.state.currentUser.id },
   );
   await instance.save();
-  console.log(`instance is ${instance}`);
-  // ctx.append('id', `${instance.id}`);
-  ctx.redirect('back');
 });
 
 router.delete('book-instances-destroy', '/:id', isAdminOrSelf, async (ctx) => {
   const { instance } = ctx.state;
   await instance.destroy();
-  // const book = await ctx.orm.Book.findById(instance.bookId);
-  // console.log(`book.isbn es ${book.isbn}`);
-  // ctx.redirect(ctx.router.url('books-show', { isbn: book.isbn }));
-  ctx.redirect('back');
 });
 
 

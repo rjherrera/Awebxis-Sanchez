@@ -18,14 +18,12 @@ router.param('book', async (id, ctx, next) => {
 
 router.get('instances', '/:username/:book', async (ctx) => {
   const { bookId, userId } = ctx.state;
-  console.log(bookId, userId);
   const instance = await ctx.orm.BookInstance.findOne({
     where: {
       bookId,
       userId,
     },
   });
-  console.log(instance);
   if (instance) {
     ctx.body = { id: instance.id };
   } else {

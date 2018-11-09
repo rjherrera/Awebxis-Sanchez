@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import RootHaveIt from './components/rootHaveIt';
+import RootHaveIt from './instance-app/components/rootHaveIt';
 
 const reactAppContainer = document.getElementById('react-app');
 
