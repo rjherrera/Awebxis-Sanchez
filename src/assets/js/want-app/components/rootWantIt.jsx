@@ -6,7 +6,7 @@ import WantIt from './WantIt';
 
 function RootWantIt({ serverData }) {
   return (
-    <div><WantIt username={String(serverData.username)} interestId={Number(serverData.interestId)} bookId={String(serverData.bookId)} interestPath={String(serverData.interestPath)} /></div>
+    <div><WantIt username={String(serverData.username)} bookId={String(serverData.bookId)} interestPath={String(serverData.interestPath)} /></div>
   );
 }
 

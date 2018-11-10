@@ -7,12 +7,10 @@ export default class WantIt extends Component {
   constructor(props) {
     super(props);
     const {
-      interestId,
       bookId,
     } = this.props;
     this.state = {
-      want: interestId > 0,
-      interestId,
+      want: false,
       bookId,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,6 +24,7 @@ export default class WantIt extends Component {
     const { username, bookId } = this.props;
     const interestId = await fetchInterest(username, bookId);
     this.setState({ interestId });
+    this.setState({ want: interestId > 0 });
   }
 
   async handleSubmit(e) {
@@ -74,6 +73,5 @@ export default class WantIt extends Component {
 
 WantIt.propTypes = {
   username: PropTypes.string.isRequired,
-  interestId: PropTypes.number.isRequired,
   bookId: PropTypes.string.isRequired,
 };
