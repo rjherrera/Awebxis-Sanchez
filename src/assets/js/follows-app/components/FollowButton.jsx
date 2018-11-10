@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 export default function FollowButton(props) {
   const { toogleFollow, isFollowing } = props;
   return (
-    <button type="submit" onClick={toogleFollow}>
+    <button
+      type="submit"
+      onClick={toogleFollow}
+      className={`button fitted ${isFollowing ? 'secondary' : 'primary'}`}
+    >
       {
         isFollowing ? 'Unfollow' : 'Follow'
       }
