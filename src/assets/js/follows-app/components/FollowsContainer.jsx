@@ -18,15 +18,21 @@ export default class FollowsContainer extends Component {
   }
 
   componentDidMount() {
-    this.loadFollows();
+    this.loadFollowers();
+    this.loadFollowing();
     this.loadFollow();
   }
 
-  async loadFollows() {
+  async loadFollowers() {
     const { username } = this.props;
     const followers = await fetchFollowers(username);
+    this.setState({ followers });
+  }
+
+  async loadFollowing() {
+    const { username } = this.props;
     const following = await fetchFollowing(username);
-    this.setState({ followers, following });
+    this.setState({ following });
   }
 
   async loadFollow() {
@@ -45,7 +51,7 @@ export default class FollowsContainer extends Component {
       const result = await followUser(currentUsername, username);
       this.setState({ isFollowing: !!result });
     }
-    this.loadFollows();
+    this.loadFollowers();
   }
 
   render() {
