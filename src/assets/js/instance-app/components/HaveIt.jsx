@@ -48,9 +48,7 @@ export default class HaveIt extends Component {
       } = this.state;
       haveBook(path, bookId, state, comment);
       this.loadInstance();
-      return null;
-    }
-    if (instanceId !== -1) {
+    } else if (instanceId !== -1) {
       return dontHaveBook(path, instanceId);
     }
     return null;

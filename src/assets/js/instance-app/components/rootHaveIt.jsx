@@ -6,7 +6,7 @@ import HaveIt from './HaveIt';
 
 function RootHaveIt({ serverData }) {
   return (
-    <div><HaveIt username={String(serverData.username)} instanceId={Number(serverData.instanceId)} bookId={String(serverData.bookId)} bookInstancePath={String(serverData.bookInstancePath)} /></div>
+    <div><HaveIt username={String(serverData.username)} bookId={String(serverData.bookId)} bookInstancePath={String(serverData.bookInstancePath)} /></div>
   );
 }
 
