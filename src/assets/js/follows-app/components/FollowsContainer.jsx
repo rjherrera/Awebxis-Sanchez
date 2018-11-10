@@ -49,14 +49,15 @@ export default class FollowsContainer extends Component {
   }
 
   render() {
+    const { currentUsername, username } = this.props;
     const { followers, following, isFollowing } = this.state;
     return (
       <div>
         <Stats followers={followers} following={following} />
-        <FollowButton
-          toogleFollow={this.toogleFollow}
-          isFollowing={isFollowing}
-        />
+        {
+          currentUsername !== username
+          && <FollowButton toogleFollow={this.toogleFollow} isFollowing={isFollowing} />
+        }
       </div>
     );
   }
