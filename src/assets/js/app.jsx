@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
 import RootWantIt from './want-app/components/rootWantIt';
+import FollowsApp from './follows-app/components/FollowsApp';
 
-const reactAppContainer = document.getElementById('react-app');
+const reactFollowsAppContainer = document.getElementById('follows-app');
+
 
 const wantItContainer = document.getElementById('want-it');
 
 
-if (reactAppContainer) {
-  ReactDOM.render(<App />, reactAppContainer);
+if (reactFollowsAppContainer) {
+  ReactDOM.render(
+    <FollowsApp serverData={reactFollowsAppContainer.dataset} />,
+    reactFollowsAppContainer,
+  );
+
 }
 
 if (wantItContainer) {

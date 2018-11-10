@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Follows = sequelize.define('Follows', {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     followeeId: {
       type: DataTypes.INTEGER,
       references: 'followee',
@@ -14,11 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
 
-  Follows.associate = function (models) {
-    models.User.belongsToMany(models.User, { through: Follows, as: 'followers', foreignKey: 'followerId' });
-    models.User.belongsToMany(models.User, { through: Follows, as: 'following', foreignKey: 'followeeId' });
-    Follows.belongsTo(models.User, { foreignKey: 'followeeId' });
-    Follows.belongsTo(models.User, { foreignKey: 'followerId' });
+  Follows.associate = (models) => {
+    models.User.belongsToMany(models.User, { through: Follows, as: 'followers', foreignKey: 'followeeId' });
+    models.User.belongsToMany(models.User, { through: Follows, as: 'following', foreignKey: 'followerId' });
   };
+
   return Follows;
 };

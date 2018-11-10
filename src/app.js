@@ -88,6 +88,7 @@ app.use(async (ctx, next) => {
       ctx.redirect(ctx.router.url('error'));
     }
   } catch (err) {
+    ctx.app.emit('error', err, ctx);
     ctx.status = err.status || 500;
     switch (ctx.status) {
       case 404:
