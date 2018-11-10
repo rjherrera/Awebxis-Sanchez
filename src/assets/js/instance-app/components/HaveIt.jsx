@@ -7,14 +7,12 @@ export default class HaveIt extends Component {
   constructor(props) {
     super(props);
     const {
-      instanceId,
       bookId,
       state,
       comment,
     } = this.props;
     this.state = {
-      have: instanceId > 0,
-      instanceId,
+      have: false,
       bookId,
       state,
       comment,
@@ -30,6 +28,7 @@ export default class HaveIt extends Component {
     const { username, bookId } = this.props;
     const instanceId = await fetchInstance(username, bookId);
     this.setState({ instanceId });
+    this.setState({ have: instanceId > 0 });
   }
 
   async handleSubmit(e) {
@@ -82,7 +81,6 @@ export default class HaveIt extends Component {
 
 HaveIt.propTypes = {
   username: PropTypes.string.isRequired,
-  instanceId: PropTypes.number.isRequired,
   bookId: PropTypes.string.isRequired,
   state: PropTypes.string,
   comment: PropTypes.string,
