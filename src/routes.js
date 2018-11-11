@@ -16,6 +16,8 @@ const matches = require('./routes/matches');
 const contact = require('./routes/contacts');
 const followers = require('./routes/followers');
 const propositionsApi = require('./routes/api/propositions');
+const posessionsApi = require('./routes/api/posessions');
+const interestsApi = require('./routes/api/interests');
 
 
 const defaults = require('./defaults');
@@ -62,6 +64,8 @@ router.use('/matches', matches.routes());
 router.use('/contact', contact.routes());
 router.use('/users', followers.routes());
 router.use('/users', propositionsApi.routes());
+router.use('/users', posessionsApi.routes());
+router.use('/users', interestsApi.routes());
 
 
 router.get('error', '/oops', (ctx) => {
