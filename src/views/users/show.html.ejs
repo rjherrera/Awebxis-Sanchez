@@ -10,6 +10,10 @@
   </div>
 </div>
 
+<div id="interactions-app" data-username="<%= user.username %>" data-current-username="<%= currentUser.username %>">
+
+</div>
+
 <% if (isSelf) { %>
   <div class="flex-row">
     <div class="flex-column quadrant1 flex-top">
@@ -36,7 +40,7 @@
 
 <%- include('show/_feedbacks') %>
 
-<% if (isSelf) { %>
+<% if (isAdminOrSelf) { %>
   <form action='<%= editUserPath %>' class="flex-column_full">
     <input type="submit" class="button" value="User's info">
   </form>
