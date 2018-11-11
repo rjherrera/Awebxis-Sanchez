@@ -15,6 +15,7 @@ const interests = require('./routes/interests');
 const matches = require('./routes/matches');
 const contact = require('./routes/contacts');
 const followers = require('./routes/followers');
+const propositions = require('./routes/propositions');
 
 
 const defaults = require('./defaults');
@@ -60,6 +61,7 @@ router.use('/interests', interests.routes());
 router.use('/matches', matches.routes());
 router.use('/contact', contact.routes());
 router.use('/users', followers.routes());
+router.use('/users', propositions.routes());
 
 
 router.get('error', '/oops', (ctx) => {
