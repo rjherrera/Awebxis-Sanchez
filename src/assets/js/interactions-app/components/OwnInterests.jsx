@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { buildBookPath } from '../services/books';
 
 
 function renderInterest(interest) {
   return (
     <div className="card-exchange-container">
-      <a className="card-book" href={`/books/${interest.book.isbn}`}>
+      <a className="card-book" href={buildBookPath(interest.book)}>
         <img src={interest.book.imageUrl} alt={interest.book.title} />
         <div className="shadow">
           <p className="title">{interest.book.title}</p>

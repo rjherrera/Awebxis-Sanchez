@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { buildBookPath } from '../services/books';
 
 
 function renderPosession(posession) {
   return (
     <div className="card-exchange-container">
-      <a className="card-book" href={`/books/${posession.book.isbn}`}>
+      <a className="card-book" href={buildBookPath(posession.book)}>
         <img src={posession.book.imageUrl} alt={posession.book.title} />
         <div className="shadow">
           <p className="title">{posession.book.title}</p>

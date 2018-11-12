@@ -1,14 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { buildBookPath } from '../services/books';
+
+function bookAnchor(book) {
+  return (
+    <a className="bolded" href={buildBookPath(book)}>
+      { book.title }
+    </a>
+  );
+}
 
 function proposition(match) {
   const { proposerBookInstance, proposeeBookInstance } = match;
   return (
     <li>
       You&apos;re being offered&nbsp;
-      <a className="bolded" href="/">{ proposerBookInstance.book.title }</a>
+      { bookAnchor(proposerBookInstance.book) }
       &nbsp;for your book&nbsp;
-      <a className="bolded" href="/">{ proposeeBookInstance.book.title }</a>
+      { bookAnchor(proposeeBookInstance.book) }
     </li>
   );
 }
@@ -18,9 +27,9 @@ function proposal(match) {
   return (
     <li>
       You&apos;re offering&nbsp;
-      <a className="bolded" href="/">{ proposerBookInstance.book.title }</a>
+      { bookAnchor(proposerBookInstance.book) }
       &nbsp;for&nbsp;
-      <a className="bolded" href="/">{ proposeeBookInstance.book.title }</a>
+      { bookAnchor(proposeeBookInstance.book) }
     </li>
   );
 }
