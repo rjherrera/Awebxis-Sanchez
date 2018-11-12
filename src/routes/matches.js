@@ -13,12 +13,21 @@ router.param('id', async (id, ctx, next) => {
 });
 
 router.post('match-create', '/new', async (ctx) => {
-  const match = await ctx.orm.Match.build(ctx.request.body);
+  const { proposerBookInstanceId, proposeeBookInstanceId } = JSON.parse(ctx.request.body);
+  const match = await ctx.orm.Match.create({ proposerBookInstanceId, proposeeBookInstanceId });
 
   await newProposal.getInfoAndSendNewProposalEmail(ctx, match);
 
-  await match.save({ fields: ['proposerBookInstanceId', 'proposeeBookInstanceId'] });
-  ctx.redirect('back');
+  switch (ctx.accepts(['html', 'json'])) {
+    case 'json':
+      ctx.body = { match };
+      break;
+    case 'html':
+      ctx.redirect('back');
+      break;
+    default:
+      break;
+  }
 });
 
 

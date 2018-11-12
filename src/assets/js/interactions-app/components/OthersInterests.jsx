@@ -26,6 +26,6 @@ export default function OthersInterests(props) {
 
 OthersInterests.propTypes = {
   instances: PropTypes.arrayOf(PropTypes.shape({
-    intance: PropTypes.object.isRequired,
+    instance: PropTypes.object.isRequired,
   })).isRequired,
 };

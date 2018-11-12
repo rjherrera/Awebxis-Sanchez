@@ -1,25 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildBookPath } from '../services/books';
+import PosessionContainer from './PosessionContainer';
 
-
-function renderPosession(posession) {
-  return (
-    <div className="card-exchange-container">
-      <a className="card-book" href={buildBookPath(posession.book)}>
-        <img src={posession.book.imageUrl} alt={posession.book.title} />
-        <div className="shadow">
-          <p className="title">{posession.book.title}</p>
-          <p className="author">{posession.book.author.name}</p>
-        </div>
-      </a>
-    </div>
-  );
-}
 
 export default function Posessions(props) {
-  const { posessions } = props;
-  const rows = posessions.map(posession => renderPosession(posession));
+  const { posessions, currentPosessions, username, currentUsername, onPropose } = props;
+  const rows = posessions.map(posession => (<PosessionContainer
+    isSelf={username === currentUsername}
+    posession={posession}
+    currentPosessions={currentPosessions}
+    onPropose={onPropose}
+  />
+  ));
   return rows.length ? (
     <div className="cards-container">
       {rows}
@@ -33,4 +25,10 @@ Posessions.propTypes = {
   posessions: PropTypes.arrayOf(PropTypes.shape({
     instance: PropTypes.object.isRequired,
   })).isRequired,
+  currentPosessions: PropTypes.arrayOf(PropTypes.shape({
+    instance: PropTypes.object.isRequired,
+  })).isRequired,
+  username: PropTypes.string.isRequired,
+  currentUsername: PropTypes.string.isRequired,
+  onPropose: PropTypes.func.isRequired,
 };

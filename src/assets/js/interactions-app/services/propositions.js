@@ -1,5 +1,5 @@
-async function fetchJson(path, method) {
-  const response = await fetch(path, { method, headers: { Accept: 'application/json' } });
+async function fetchJson(path, method, body) {
+  const response = await fetch(path, { method, body, headers: { Accept: 'application/json' } });
   return response.json();
 }
 
@@ -24,5 +24,12 @@ export async function acceptMatch(match) {
 export async function cancelMatch(match) {
   const path = `/matches/${match.id}`;
   const json = await fetchJson(path, 'DELETE');
+  return json;
+}
+
+export async function proposeExchange(proposerBookInstanceId, proposeeBookInstanceId) {
+  const path = '/matches/new';
+  const body = JSON.stringify({ proposerBookInstanceId, proposeeBookInstanceId });
+  const json = await fetchJson(path, 'POST', body);
   return json;
 }

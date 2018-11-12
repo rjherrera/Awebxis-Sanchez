@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { fetchProposers, fetchProposing, acceptMatch, cancelMatch } from '../services/propositions';
+import { fetchProposers, fetchProposing, acceptMatch, cancelMatch, proposeExchange } from '../services/propositions';
 import { fetchPosessions } from '../services/posessions';
 import { fetchInterests, fetchOthersInterests } from '../services/interests';
 import OthersInterests from './OthersInterests';
@@ -13,10 +13,12 @@ export default class InteractionsContainer extends Component {
     super(props);
     this.handleAccept = this.handleAccept.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handlePropose = this.handlePropose.bind(this);
     this.state = {
       proposers: [],
       proposing: [],
       posessions: [],
+      currentPosessions: [],
       interests: [],
       othersInterests: [],
     };
@@ -26,6 +28,7 @@ export default class InteractionsContainer extends Component {
     this.loadProposers();
     this.loadProposing();
     this.loadPosessions();
+    this.loadCurrentPosessions();
     this.loadInterests();
     this.loadOthersInterests();
   }
@@ -60,6 +63,12 @@ export default class InteractionsContainer extends Component {
     this.setState({ posessions });
   }
 
+  async loadCurrentPosessions() {
+    const { currentUsername } = this.props;
+    const currentPosessions = await fetchPosessions(currentUsername);
+    this.setState({ currentPosessions });
+  }
+
   async handleAccept(match) {
     await acceptMatch(match);
     this.loadProposing();
@@ -74,9 +83,26 @@ export default class InteractionsContainer extends Component {
     this.loadProposers();
   }
 
+  async handlePropose(e, proposerInstanceId, proposeeInstanceId) {
+    e.preventDefault();
+    if (proposerInstanceId === null) {
+      alert('Please select a book to offer in exchange');
+    } else {
+      await proposeExchange(proposerInstanceId, proposeeInstanceId);
+      this.loadProposing();
+    }
+  }
+
   render() {
     const { currentUsername, username } = this.props;
-    const { proposers, proposing, posessions, interests, othersInterests } = this.state;
+    const {
+      proposers,
+      proposing,
+      posessions,
+      currentPosessions,
+      interests,
+      othersInterests,
+    } = this.state;
     return (
       <div>
         <div className="flex-row">
@@ -101,7 +127,13 @@ export default class InteractionsContainer extends Component {
           </div>
           <div className="flex-column quadrant4 flex-top">
             <h1>{ currentUsername === username ? 'Own' : 'Owns' }</h1>
-            <Posessions posessions={posessions} />
+            <Posessions
+              posessions={posessions}
+              currentPosessions={currentPosessions}
+              username={username}
+              currentUsername={currentUsername}
+              onPropose={this.handlePropose}
+            />
           </div>
         </div>
       </div>
