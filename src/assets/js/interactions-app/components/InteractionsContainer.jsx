@@ -46,6 +46,7 @@ export default class InteractionsContainer extends Component {
   }
 
   render() {
+    const { currentUsername, username } = this.props;
     const { proposers, proposing, posessions, interests } = this.state;
     return (
       <div>
@@ -55,14 +56,17 @@ export default class InteractionsContainer extends Component {
             <Propositions proposers={proposers} proposing={proposing} />
           </div>
           <div className="flex-column quadrant2 flex-top">
+            <h1>People looking for your books</h1>
             {/* <OthersInterests /> */}
           </div>
         </div>
         <div className="flex-row">
           <div className="flex-column quadrant3 flex-top">
+            <h1>{ currentUsername === username ? 'Want' : 'Wants' }</h1>
             <OwnInterests interests={interests} />
           </div>
           <div className="flex-column quadrant4 flex-top">
+            <h1>{ currentUsername === username ? 'Own' : 'Owns' }</h1>
             <Posessions posessions={posessions} />
           </div>
         </div>
