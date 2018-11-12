@@ -6,8 +6,11 @@ function renderInstance(instance) {
   const interestsCount = instance.book.interests.length;
   const people = interestsCount === 1 ? 'user' : 'users';
   return (
-    <li>
-      · {instance.book.title} <span className="interest-count">- {interestsCount} {people} interested</span>
+    <li key={instance.id}>
+      {instance.book.title}
+      <span className="interest-count">
+        {` - ${interestsCount} ${people} interested`}
+      </span>
     </li>
   );
 }
@@ -26,6 +29,6 @@ export default function OthersInterests(props) {
 
 OthersInterests.propTypes = {
   instances: PropTypes.arrayOf(PropTypes.shape({
-    instance: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
 };

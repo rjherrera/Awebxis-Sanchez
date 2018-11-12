@@ -17,11 +17,16 @@ export default class PosessionContainer extends Component {
   }
 
   render() {
-    const { posession, currentPosessions, onPropose, isSelf } = this.props;
+    const {
+      posession,
+      currentPosessions,
+      onPropose,
+      isSelf,
+    } = this.props;
     const { proposerInstanceId } = this.state;
     const proposeeInstanceId = posession.id;
     const offerOptions = currentPosessions.map(
-      instance => <option value={instance.id}>{instance.book.title}</option>,
+      instance => <option key={instance.id} value={instance.id}>{instance.book.title}</option>,
     );
     return (
       <div className="card-exchange-container">
@@ -50,10 +55,12 @@ export default class PosessionContainer extends Component {
 }
 
 PosessionContainer.propTypes = {
-  posession: PropTypes.object.isRequired,
+  posession: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  }).isRequired,
   onPropose: PropTypes.func.isRequired,
   isSelf: PropTypes.bool.isRequired,
   currentPosessions: PropTypes.arrayOf(PropTypes.shape({
-    instance: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
 };

@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { fetchProposers, fetchProposing, acceptMatch, cancelMatch, proposeExchange } from '../services/propositions';
+import {
+  fetchProposers,
+  fetchProposing,
+  acceptMatch,
+  cancelMatch,
+  proposeExchange,
+} from '../services/propositions';
 import { fetchPosessions } from '../services/posessions';
 import { fetchInterests, fetchOthersInterests } from '../services/interests';
 import OthersInterests from './OthersInterests';

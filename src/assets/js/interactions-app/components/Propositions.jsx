@@ -14,7 +14,7 @@ function proposition(match, props) {
   const { proposerBookInstance, proposeeBookInstance } = match;
   const { onAccept, onCancel } = props;
   return (
-    <div>
+    <div key={match.id}>
       <li>
         You&apos;re being offered&nbsp;
         { bookAnchor(proposerBookInstance.book) }
@@ -38,7 +38,7 @@ function proposal(match, props) {
   const { proposerBookInstance, proposeeBookInstance } = match;
   const { onCancel } = props;
   return (
-    <div>
+    <div key={match.id}>
       <li>
         You&apos;re offering&nbsp;
         { bookAnchor(proposerBookInstance.book) }
@@ -79,4 +79,6 @@ Propositions.propTypes = {
     proposeeBookInstance: PropTypes.object.isRequired,
     proposerBookInstance: PropTypes.object.isRequired,
   })).isRequired,
+  onAccept: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };

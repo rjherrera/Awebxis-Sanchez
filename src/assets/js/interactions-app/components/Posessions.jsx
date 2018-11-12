@@ -4,13 +4,21 @@ import PosessionContainer from './PosessionContainer';
 
 
 export default function Posessions(props) {
-  const { posessions, currentPosessions, username, currentUsername, onPropose } = props;
-  const rows = posessions.map(posession => (<PosessionContainer
-    isSelf={username === currentUsername}
-    posession={posession}
-    currentPosessions={currentPosessions}
-    onPropose={onPropose}
-  />
+  const {
+    posessions,
+    currentPosessions,
+    username,
+    currentUsername,
+    onPropose,
+  } = props;
+  const rows = posessions.map(posession => (
+    <PosessionContainer
+      key={posession.id}
+      isSelf={username === currentUsername}
+      posession={posession}
+      currentPosessions={currentPosessions}
+      onPropose={onPropose}
+    />
   ));
   return rows.length ? (
     <div className="cards-container">
@@ -23,10 +31,10 @@ export default function Posessions(props) {
 
 Posessions.propTypes = {
   posessions: PropTypes.arrayOf(PropTypes.shape({
-    instance: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
   currentPosessions: PropTypes.arrayOf(PropTypes.shape({
-    instance: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
   username: PropTypes.string.isRequired,
   currentUsername: PropTypes.string.isRequired,

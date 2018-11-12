@@ -5,7 +5,7 @@ import { buildBookPath } from '../services/books';
 
 function renderInterest(interest) {
   return (
-    <div className="card-exchange-container">
+    <div key={interest.id} className="card-exchange-container">
       <a className="card-book" href={buildBookPath(interest.book)}>
         <img src={interest.book.imageUrl} alt={interest.book.title} />
         <div className="shadow">
@@ -31,6 +31,6 @@ export default function Interests(props) {
 
 Interests.propTypes = {
   interests: PropTypes.arrayOf(PropTypes.shape({
-    interest: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
 };
