@@ -44,7 +44,6 @@ function proposal(match, props) {
         { bookAnchor(proposerBookInstance.book) }
         &nbsp;for&nbsp;
         { bookAnchor(proposeeBookInstance.book) }
-        
       </li>
       <div className="flex-row">
         <div className="flex-column">

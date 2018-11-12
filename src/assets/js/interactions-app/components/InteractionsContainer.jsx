@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { fetchProposers, fetchProposing, acceptMatch, cancelMatch } from '../services/propositions';
 import { fetchPosessions } from '../services/posessions';
-import { fetchOwnInterests, fetchOthersInterests } from '../services/interests';
+import { fetchInterests, fetchOthersInterests } from '../services/interests';
 import OthersInterests from './OthersInterests';
 import Propositions from './Propositions';
 import Posessions from './Posessions';
-import OwnInterests from './OwnInterests';
+import Interests from './Interests';
 
 export default class InteractionsContainer extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export default class InteractionsContainer extends Component {
       proposers: [],
       proposing: [],
       posessions: [],
-      ownInterests: [],
+      interests: [],
       othersInterests: [],
     };
   }
@@ -26,7 +26,7 @@ export default class InteractionsContainer extends Component {
     this.loadProposers();
     this.loadProposing();
     this.loadPosessions();
-    this.loadOwnInterests();
+    this.loadInterests();
     this.loadOthersInterests();
   }
 
@@ -42,10 +42,10 @@ export default class InteractionsContainer extends Component {
     this.setState({ proposing });
   }
 
-  async loadOwnInterests() {
-    const { currentUsername } = this.props;
-    const ownInterests = await fetchOwnInterests(currentUsername);
-    this.setState({ ownInterests });
+  async loadInterests() {
+    const { username } = this.props;
+    const interests = await fetchInterests(username);
+    this.setState({ interests });
   }
 
   async loadOthersInterests() {
@@ -55,8 +55,8 @@ export default class InteractionsContainer extends Component {
   }
 
   async loadPosessions() {
-    const { currentUsername } = this.props;
-    const posessions = await fetchPosessions(currentUsername);
+    const { username } = this.props;
+    const posessions = await fetchPosessions(username);
     this.setState({ posessions });
   }
 
@@ -76,7 +76,7 @@ export default class InteractionsContainer extends Component {
 
   render() {
     const { currentUsername, username } = this.props;
-    const { proposers, proposing, posessions, ownInterests, othersInterests } = this.state;
+    const { proposers, proposing, posessions, interests, othersInterests } = this.state;
     return (
       <div>
         <div className="flex-row">
@@ -97,7 +97,7 @@ export default class InteractionsContainer extends Component {
         <div className="flex-row">
           <div className="flex-column quadrant3 flex-top">
             <h1>{ currentUsername === username ? 'Want' : 'Wants' }</h1>
-            <OwnInterests interests={ownInterests} />
+            <Interests interests={interests} />
           </div>
           <div className="flex-column quadrant4 flex-top">
             <h1>{ currentUsername === username ? 'Own' : 'Owns' }</h1>

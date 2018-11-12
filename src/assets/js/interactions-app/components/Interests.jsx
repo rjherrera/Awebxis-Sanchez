@@ -17,7 +17,7 @@ function renderInterest(interest) {
   );
 }
 
-export default function OwnInterests(props) {
+export default function Interests(props) {
   const { interests } = props;
   const rows = interests.map(interest => renderInterest(interest));
   return rows.length ? (
@@ -29,7 +29,7 @@ export default function OwnInterests(props) {
   );
 }
 
-OwnInterests.propTypes = {
+Interests.propTypes = {
   interests: PropTypes.arrayOf(PropTypes.shape({
     interest: PropTypes.object.isRequired,
   })).isRequired,

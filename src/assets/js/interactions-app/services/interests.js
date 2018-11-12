@@ -3,8 +3,8 @@ async function fetchJson(path, method) {
   return response.json();
 }
 
-export async function fetchOwnInterests(username) {
-  const path = `/users/${username}/interests/own`;
+export async function fetchInterests(username) {
+  const path = `/users/${username}/interests/`;
   const json = await fetchJson(path, 'get');
   return json.interests;
 }
