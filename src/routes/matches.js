@@ -15,12 +15,13 @@ router.param('id', async (id, ctx, next) => {
 router.post('match-create', '/new', async (ctx) => {
   const { proposerBookInstanceId, proposeeBookInstanceId } = JSON.parse(ctx.request.body);
   const match = await ctx.orm.Match.create({ proposerBookInstanceId, proposeeBookInstanceId });
+  const matchWithBooks = await ctx.orm.Match.scope('withInstances').findById(match.id);
 
   await newProposal.getInfoAndSendNewProposalEmail(ctx, match);
 
   switch (ctx.accepts(['html', 'json'])) {
     case 'json':
-      ctx.body = { match };
+      ctx.body = { match: matchWithBooks };
       break;
     case 'html':
       ctx.redirect('back');

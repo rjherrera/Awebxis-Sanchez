@@ -1,0 +1,43 @@
+.notification {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  margin-top: 40px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  animation: slide-down 0.2s ease-out;
+  
+  &.positive {
+    background-color: $cambalache-green;
+  }
+  
+  &.negative {
+    background-color: $cambalache-red;
+  }
+
+  .button-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: bold;
+    font-style: italic;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+@keyframes slide-down {
+  0% {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

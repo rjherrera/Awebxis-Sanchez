@@ -13,6 +13,16 @@ import OthersInterests from './OthersInterests';
 import Propositions from './Propositions';
 import Posessions from './Posessions';
 import Interests from './Interests';
+import Notification from '../../notification/components/Notification';
+import { buildBookPath } from '../services/books';
+
+function bookAnchor(book) {
+  return (
+    <a className="bolded" href={buildBookPath(book)}>
+      { book.title }
+    </a>
+  );
+}
 
 export default class InteractionsContainer extends Component {
   constructor(props) {
@@ -20,6 +30,7 @@ export default class InteractionsContainer extends Component {
     this.handleAccept = this.handleAccept.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handlePropose = this.handlePropose.bind(this);
+    this.handleDismiss = this.handleDismiss.bind(this);
     this.state = {
       proposers: [],
       proposing: [],
@@ -27,6 +38,8 @@ export default class InteractionsContainer extends Component {
       currentPosessions: [],
       interests: [],
       othersInterests: [],
+      notificationText: null,
+      notificationType: null,
     };
   }
 
@@ -92,11 +105,30 @@ export default class InteractionsContainer extends Component {
   async handlePropose(e, proposerInstanceId, proposeeInstanceId) {
     e.preventDefault();
     if (proposerInstanceId === null) {
-      alert('Please select a book to offer in exchange');
+      this.setState({
+        notificationText: 'Please select a book to offer in exchange',
+        notificationType: 'negative',
+      });
     } else {
-      await proposeExchange(proposerInstanceId, proposeeInstanceId);
+      const { match } = await proposeExchange(proposerInstanceId, proposeeInstanceId);
+      const proposerBook = match.proposerBookInstance.book;
+      const proposeeBook = match.proposeeBookInstance.book;
+      this.setState({
+        notificationText:
+  <span>
+    You&apos;re offering&nbsp;
+    { bookAnchor(proposerBook) }
+    &nbsp;for&nbsp;
+    { bookAnchor(proposeeBook) }
+  </span>,
+        notificationType: 'positive',
+      });
       this.loadProposing();
     }
+  }
+
+  handleDismiss() {
+    this.setState({ notificationText: null, notificationType: null });
   }
 
   render() {
@@ -108,9 +140,14 @@ export default class InteractionsContainer extends Component {
       currentPosessions,
       interests,
       othersInterests,
+      notificationText,
+      notificationType,
     } = this.state;
     return (
       <div>
+        {
+          notificationText && <Notification text={notificationText} type={notificationType} onDismiss={this.handleDismiss} />
+        }
         {
           currentUsername === username
           && (

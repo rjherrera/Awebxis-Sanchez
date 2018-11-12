@@ -59,8 +59,11 @@ ul {
 }
 
 .bolded {
-    font-weight: bold;
+    font-weight: 400;
     font-style: italic;
+    &:hover {
+        opacity: 0.85;
+    }
 }
 
 .flex-top {
