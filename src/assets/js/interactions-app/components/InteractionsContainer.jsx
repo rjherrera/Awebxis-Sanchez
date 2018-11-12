@@ -105,21 +105,26 @@ export default class InteractionsContainer extends Component {
     } = this.state;
     return (
       <div>
-        <div className="flex-row">
-          <div className="flex-column quadrant1 flex-top">
-            <h1>Pending proposals</h1>
-            <Propositions
-              proposers={proposers}
-              proposing={proposing}
-              onAccept={this.handleAccept}
-              onCancel={this.handleCancel}
-            />
-          </div>
-          <div className="flex-column quadrant2 flex-top">
-            <h1>People looking for your books</h1>
-            <OthersInterests instances={othersInterests} />
-          </div>
-        </div>
+        {
+          currentUsername === username
+          && (
+            <div className="flex-row">
+              <div className="flex-column quadrant1 flex-top">
+                <h1>Pending proposals</h1>
+                <Propositions
+                  proposers={proposers}
+                  proposing={proposing}
+                  onAccept={this.handleAccept}
+                  onCancel={this.handleCancel}
+                />
+              </div>
+              <div className="flex-column quadrant2 flex-top">
+                <h1>People looking for your books</h1>
+                <OthersInterests instances={othersInterests} />
+              </div>
+            </div>
+          )
+        }
         <div className="flex-row">
           <div className="flex-column quadrant3 flex-top">
             <h1>{ currentUsername === username ? 'Want' : 'Wants' }</h1>
