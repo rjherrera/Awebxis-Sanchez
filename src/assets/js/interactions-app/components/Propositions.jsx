@@ -14,14 +14,23 @@ function proposition(match, props) {
   const { proposerBookInstance, proposeeBookInstance } = match;
   const { onAccept, onCancel } = props;
   return (
-    <li>
-      You&apos;re being offered&nbsp;
-      { bookAnchor(proposerBookInstance.book) }
-      &nbsp;for your book&nbsp;
-      { bookAnchor(proposeeBookInstance.book) }
-      <button type="submit" onClick={() => onAccept(match)}>Accept</button>
-      <button type="submit" onClick={() => onCancel(match)}>Refuse</button>
-    </li>
+    <div>
+      <li>
+        You&apos;re being offered&nbsp;
+        { bookAnchor(proposerBookInstance.book) }
+        &nbsp;for your book&nbsp;
+        { bookAnchor(proposeeBookInstance.book) }
+      </li>
+      <div className="flex-row">
+        <div className="flex-column">
+          <button className="button secondary" type="submit" onClick={() => onAccept(match)}>Accept</button>
+        </div>
+        <div className="flex-column">
+          <button className="button negative" type="submit" onClick={() => onCancel(match)}>Refuse</button>
+        </div>
+      </div>
+    </div>
+
   );
 }
 
@@ -29,13 +38,20 @@ function proposal(match, props) {
   const { proposerBookInstance, proposeeBookInstance } = match;
   const { onCancel } = props;
   return (
-    <li>
-      You&apos;re offering&nbsp;
-      { bookAnchor(proposerBookInstance.book) }
-      &nbsp;for&nbsp;
-      { bookAnchor(proposeeBookInstance.book) }
-      <button type="submit" onClick={() => onCancel(match)}>Cancel</button>
-    </li>
+    <div>
+      <li>
+        You&apos;re offering&nbsp;
+        { bookAnchor(proposerBookInstance.book) }
+        &nbsp;for&nbsp;
+        { bookAnchor(proposeeBookInstance.book) }
+        
+      </li>
+      <div className="flex-row">
+        <div className="flex-column">
+          <button className="button negative" type="submit" onClick={() => onCancel(match)}>Cancel</button>
+        </div>
+      </div>
+    </div>
   );
 }
 
