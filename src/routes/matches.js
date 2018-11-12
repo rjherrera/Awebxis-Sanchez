@@ -28,13 +28,31 @@ router.patch('match-accept', '/:id', async (ctx) => {
   await acceptedProposal.getInfoAndSendAcceptedProposalEmail(ctx, match);
 
   await match.accept();
-  ctx.redirect('back');
+  switch (ctx.accepts(['html', 'json'])) {
+    case 'json':
+      ctx.body = { match };
+      break;
+    case 'html':
+      ctx.redirect('back');
+      break;
+    default:
+      break;
+  }
 });
 
 router.delete('match-destroy', '/:id', async (ctx) => {
   const { match } = ctx.state;
   await match.destroy();
-  ctx.redirect('back');
+  switch (ctx.accepts(['html', 'json'])) {
+    case 'json':
+      ctx.body = { match };
+      break;
+    case 'html':
+      ctx.redirect('back');
+      break;
+    default:
+      break;
+  }
 });
 
 module.exports = router;

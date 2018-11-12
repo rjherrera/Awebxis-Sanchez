@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { fetchProposers, fetchProposing } from '../services/propositions';
+import { fetchProposers, fetchProposing, acceptMatch, cancelMatch } from '../services/propositions';
 import { fetchPosessions } from '../services/posessions';
 import { fetchOwnInterests, fetchOthersInterests } from '../services/interests';
 import OthersInterests from './OthersInterests';
@@ -11,6 +11,8 @@ import OwnInterests from './OwnInterests';
 export default class InteractionsContainer extends Component {
   constructor(props) {
     super(props);
+    this.handleAccept = this.handleAccept.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
     this.state = {
       proposers: [],
       proposing: [],
@@ -58,6 +60,20 @@ export default class InteractionsContainer extends Component {
     this.setState({ posessions });
   }
 
+  async handleAccept(match) {
+    await acceptMatch(match);
+    this.loadProposing();
+    this.loadProposers();
+    this.loadPosessions();
+    this.loadOthersInterests();
+  }
+
+  async handleCancel(match) {
+    await cancelMatch(match);
+    this.loadProposing();
+    this.loadProposers();
+  }
+
   render() {
     const { currentUsername, username } = this.props;
     const { proposers, proposing, posessions, ownInterests, othersInterests } = this.state;
@@ -66,7 +82,12 @@ export default class InteractionsContainer extends Component {
         <div className="flex-row">
           <div className="flex-column quadrant1 flex-top">
             <h1>Pending proposals</h1>
-            <Propositions proposers={proposers} proposing={proposing} />
+            <Propositions
+              proposers={proposers}
+              proposing={proposing}
+              onAccept={this.handleAccept}
+              onCancel={this.handleCancel}
+            />
           </div>
           <div className="flex-column quadrant2 flex-top">
             <h1>People looking for your books</h1>
