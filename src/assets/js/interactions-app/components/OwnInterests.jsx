@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 function renderInterest(interest) {
   return (
     <div className="card-exchange-container">
-      <a className="card-book" href="/">
+      <a className="card-book" href={`/books/${interest.book.isbn}`}>
         <img src={interest.book.imageUrl} alt={interest.book.title} />
         <div className="shadow">
           <p className="title">{interest.book.title}</p>

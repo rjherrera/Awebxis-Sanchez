@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 function renderPosession(posession) {
   return (
     <div className="card-exchange-container">
-      <a className="card-book" href="/">
+      <a className="card-book" href={`/books/${posession.book.isbn}`}>
         <img src={posession.book.imageUrl} alt={posession.book.title} />
         <div className="shadow">
           <p className="title">{posession.book.title}</p>
