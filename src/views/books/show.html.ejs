@@ -5,8 +5,8 @@
     </div>
     <div class="actions-container">
       <% if (currentUser) { %>
+        <div id="have-it" data-username="<%= currentUser.username %>" data-book-id="<%= book.id %>" data-book-instance-path="<%= newBookInstancePath %>" ></div>
         <div id="want-it" data-username="<%= currentUser.username %>" data-book-id="<%= book.id %>" data-interest-path="<%= newInterestPath %>" ></div>
-        <%- include('_instance-form') %>
       <% } %>
 
       <% if (currentUserIsAdmin) { %>
