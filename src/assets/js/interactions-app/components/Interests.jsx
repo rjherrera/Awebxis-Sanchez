@@ -1,25 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildBookPath } from '../services/books';
-
-
-function renderInterest(interest) {
-  return (
-    <div key={interest.id} className="card-exchange-container">
-      <a className="card-book" href={buildBookPath(interest.book)}>
-        <img src={interest.book.imageUrl} alt={interest.book.title} />
-        <div className="shadow">
-          <p className="title">{interest.book.title}</p>
-          <p className="author">{interest.book.author.name}</p>
-        </div>
-      </a>
-    </div>
-  );
-}
+import Interest from './Interest';
 
 export default function Interests(props) {
   const { interests } = props;
-  const rows = interests.map(interest => renderInterest(interest));
+  const rows = interests.map(interest => <Interest interest={interest} key={interest.id} />);
   return rows.length ? (
     <div className="cards-container">
       {rows}

@@ -19,7 +19,7 @@ import { buildBookPath } from '../services/books';
 function bookAnchor(book) {
   return (
     <a className="bolded" href={buildBookPath(book)}>
-      { book.title }
+      {book.title}
     </a>
   );
 }
@@ -117,9 +117,9 @@ export default class InteractionsContainer extends Component {
         notificationText:
   <span>
     You&apos;re offering&nbsp;
-    { bookAnchor(proposerBook) }
+    {bookAnchor(proposerBook)}
     &nbsp;for&nbsp;
-    { bookAnchor(proposeeBook) }
+    {bookAnchor(proposeeBook)}
   </span>,
         notificationType: 'positive',
       });
@@ -133,6 +133,7 @@ export default class InteractionsContainer extends Component {
 
   render() {
     const { currentUsername, username } = this.props;
+    const isSelf = currentUsername === username;
     const {
       proposers,
       proposing,
@@ -146,10 +147,17 @@ export default class InteractionsContainer extends Component {
     return (
       <div>
         {
-          notificationText && <Notification text={notificationText} type={notificationType} onDismiss={this.handleDismiss} />
+          notificationText
+          && (
+          <Notification
+            text={notificationText}
+            type={notificationType}
+            onDismiss={this.handleDismiss}
+          />
+          )
         }
         {
-          currentUsername === username
+          isSelf
           && (
             <div className="flex-row">
               <div className="flex-column quadrant1 flex-top">
@@ -170,16 +178,15 @@ export default class InteractionsContainer extends Component {
         }
         <div className="flex-row">
           <div className="flex-column quadrant3 flex-top">
-            <h1>{ currentUsername === username ? 'Want' : 'Wants' }</h1>
+            <h1>{isSelf ? 'Want' : 'Wants'}</h1>
             <Interests interests={interests} />
           </div>
           <div className="flex-column quadrant4 flex-top">
-            <h1>{ currentUsername === username ? 'Own' : 'Owns' }</h1>
+            <h1>{isSelf ? 'Own' : 'Owns'}</h1>
             <Posessions
               posessions={posessions}
               currentPosessions={currentPosessions}
-              username={username}
-              currentUsername={currentUsername}
+              isSelf={isSelf}
               onPropose={this.handlePropose}
             />
           </div>

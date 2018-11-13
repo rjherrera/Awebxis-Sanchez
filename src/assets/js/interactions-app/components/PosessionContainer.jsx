@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { buildBookPath } from '../services/books';
 
-
 export default class PosessionContainer extends Component {
   constructor(props) {
     super(props);
