@@ -19,11 +19,13 @@ router.post('book-instances-create', '/', async (ctx) => {
     { ...ctx.request.body, userId: ctx.state.currentUser.id },
   );
   await instance.save();
+  ctx.redirect('back');
 });
 
 router.delete('book-instances-destroy', '/:id', isAdminOrSelf, async (ctx) => {
   const { instance } = ctx.state;
   await instance.destroy();
+  ctx.redirect('back');
 });
 
 

@@ -5,33 +5,20 @@ export default function Field(props) {
   const {
     name,
     value,
-    // labelText,
-    error,
     onChange,
   } = props;
   return (
-    <label htmlFor={name}>
-      {/* <span>{labelText}</span> */}
-      <input type="hidden" name={name} id={name} value={value} onChange={onChange} />
-      {error
-        ? <span className="error">{error}</span>
-        : null
-      }
-    </label>
+    <input type="hidden" name={name} id={name} value={value} onChange={onChange} />
   );
 }
 Field.propTypes = {
   name: PropTypes.string,
-//   value: PropTypes.string,
-  error: PropTypes.string,
-  //   labelText: PropTypes.string,
+  value: PropTypes.string,
   onChange: PropTypes.func,
 };
 
 Field.defaultProps = {
   name: '',
   value: 'no value',
-  error: undefined,
-  //   labelText: '',
   onChange: undefined,
 };
