@@ -10,33 +10,13 @@
   </div>
 </div>
 
-<% if (isSelf) { %>
-  <div class="flex-row">
-    <div class="flex-column quadrant1 flex-top">
-      <h1>Pending proposals</h1>
-      <%- include('show/_matches') %>
-    </div>
-    <div class="flex-column quadrant2 flex-top">
-      <h1>People looking for your books</h1>
-      <%- include('show/_interests') %>
-    </div>
-  </div>
-<% } %>
+<div id="interactions-app" data-username="<%= user.username %>" data-current-username="<%= currentUser.username %>">
 
-<div class="flex-row">
-  <div class="flex-column quadrant3 flex-top" >
-    <h1>Want<%= (isSelf) ? '' : 's' %></h1>
-    <%- include('show/_interests_cards') %>
-  </div>
-  <div class="flex-column quadrant4 flex-top">
-    <h1>Own<%= (isSelf) ? '' : 's' %></h1>
-      <%- include('show/_books') %>
-  </div>
 </div>
 
 <%- include('show/_feedbacks') %>
 
-<% if (isSelf) { %>
+<% if (isAdminOrSelf) { %>
   <form action='<%= editUserPath %>' class="flex-column_full">
     <input type="submit" class="button" value="User's info">
   </form>
