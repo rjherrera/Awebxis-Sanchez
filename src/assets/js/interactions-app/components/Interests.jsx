@@ -4,7 +4,7 @@ import Interest from './Interest';
 
 export default function Interests(props) {
   const { interests } = props;
-  const rows = interests.map(interest => <Interest interest={interest} />);
+  const rows = interests.map(interest => <Interest interest={interest} key={interest.id} />);
   return rows.length ? (
     <div className="cards-container">
       {rows}

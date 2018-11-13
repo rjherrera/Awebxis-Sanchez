@@ -5,7 +5,7 @@ import { buildBookPath } from '../services/books';
 export default function Interest(props) {
   const { interest } = props;
   return (
-    <div key={interest.id} className="card-exchange-container">
+    <div className="card-exchange-container">
       <a className="card-book" href={buildBookPath(interest.book)}>
         <img src={interest.book.imageUrl} alt={interest.book.title} />
         <div className="shadow">
