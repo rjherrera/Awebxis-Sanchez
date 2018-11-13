@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 function renderInstance(instance) {
   const interestsCount = instance.book.interests.length;
   const people = interestsCount === 1 ? 'user' : 'users';

@@ -101,6 +101,7 @@ export default class InteractionsContainer extends Component {
 
   render() {
     const { currentUsername, username } = this.props;
+    const isSelf = currentUsername === username;
     const {
       proposers,
       proposing,
@@ -112,7 +113,7 @@ export default class InteractionsContainer extends Component {
     return (
       <div>
         {
-          currentUsername === username
+          isSelf
           && (
             <div className="flex-row">
               <div className="flex-column quadrant1 flex-top">
@@ -133,16 +134,15 @@ export default class InteractionsContainer extends Component {
         }
         <div className="flex-row">
           <div className="flex-column quadrant3 flex-top">
-            <h1>{ currentUsername === username ? 'Want' : 'Wants' }</h1>
+            <h1>{ isSelf ? 'Want' : 'Wants' }</h1>
             <Interests interests={interests} />
           </div>
           <div className="flex-column quadrant4 flex-top">
-            <h1>{ currentUsername === username ? 'Own' : 'Owns' }</h1>
+            <h1>{ isSelf ? 'Own' : 'Owns' }</h1>
             <Posessions
               posessions={posessions}
               currentPosessions={currentPosessions}
-              username={username}
-              currentUsername={currentUsername}
+              isSelf={isSelf}
               onPropose={this.handlePropose}
             />
           </div>

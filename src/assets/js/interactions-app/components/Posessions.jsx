@@ -2,19 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PosessionContainer from './PosessionContainer';
 
-
 export default function Posessions(props) {
   const {
     posessions,
     currentPosessions,
-    username,
-    currentUsername,
+    isSelf,
     onPropose,
   } = props;
   const rows = posessions.map(posession => (
     <PosessionContainer
       key={posession.id}
-      isSelf={username === currentUsername}
+      isSelf={isSelf}
       posession={posession}
       currentPosessions={currentPosessions}
       onPropose={onPropose}
@@ -36,7 +34,6 @@ Posessions.propTypes = {
   currentPosessions: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
   })).isRequired,
-  username: PropTypes.string.isRequired,
-  currentUsername: PropTypes.string.isRequired,
+  isSelf: PropTypes.bool.isRequired,
   onPropose: PropTypes.func.isRequired,
 };
