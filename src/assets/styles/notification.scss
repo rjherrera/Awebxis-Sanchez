@@ -9,7 +9,8 @@
   line-height: 30px;
   text-align: center;
   animation: slide-down 0.2s ease-out;
-  
+  opacity: 0.9;
+
   &.positive {
     background-color: $cambalache-green;
   }
