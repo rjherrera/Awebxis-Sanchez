@@ -90,6 +90,7 @@ export default class InteractionsContainer extends Component {
 
   async handleAccept(match) {
     await acceptMatch(match);
+    this.setState({ notificationText: 'You\'ve accepted the proposal. We updated your books!', notificationType: 'positive' });
     this.loadProposing();
     this.loadProposers();
     this.loadPosessions();
@@ -98,6 +99,7 @@ export default class InteractionsContainer extends Component {
 
   async handleCancel(match) {
     await cancelMatch(match);
+    this.setState({ notificationText: 'Proposal canceled', notificationType: 'warning' });
     this.loadProposing();
     this.loadProposers();
   }

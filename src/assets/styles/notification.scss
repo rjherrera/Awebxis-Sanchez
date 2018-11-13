@@ -13,7 +13,11 @@
   &.positive {
     background-color: $cambalache-green;
   }
-  
+
+  &.warning {
+    background-color: $cambalache-orange;
+  }
+
   &.negative {
     background-color: $cambalache-red;
   }
