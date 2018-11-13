@@ -5,7 +5,7 @@
     </div>
     <div class="actions-container">
       <% if (currentUser) { %>
-        <%- include('_interest-form') %>
+        <div id="want-it" data-username="<%= currentUser.username %>" data-book-id="<%= book.id %>" data-interest-path="<%= newInterestPath %>" ></div>
         <%- include('_instance-form') %>
       <% } %>
 
