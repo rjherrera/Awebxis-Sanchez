@@ -91,6 +91,9 @@ app.use(async (ctx, next) => {
     ctx.app.emit('error', err, ctx);
     ctx.status = err.status || 500;
     switch (ctx.status) {
+      case 401:
+        await ctx.render('errors/401');
+        break;
       case 404:
         await ctx.render('errors/404');
         break;
