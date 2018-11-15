@@ -1,6 +1,7 @@
 const KoaRouter = require('koa-router');
 const jwt = require('koa-jwt');
 const authRoutes = require('./auth');
+const interestsRoutes = require('./interests');
 
 const router = new KoaRouter();
 
@@ -11,9 +12,12 @@ router.use('/auth', authRoutes.routes());
 router.use(jwt({ secret: process.env.JWT_SECRET, key: 'authData' }));
 router.use(async (ctx, next) => {
   if (ctx.state.authData.userId) {
-    ctx.state.currentUser = await ctx.orm.user.findById(ctx.state.authData.userId);
+    ctx.state.currentUser = await ctx.orm.User.findById(ctx.state.authData.userId);
   }
   return next();
 });
+
+// authenticated endpoints
+router.use('/users', interestsRoutes.routes());
 
 module.exports = router;
