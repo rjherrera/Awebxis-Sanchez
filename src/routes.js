@@ -70,8 +70,6 @@ router.use('/users', posessionsApi.routes());
 router.use('/users', interestsApi.routes());
 
 
-router.get('error', '/oops', (ctx) => {
-  return ctx.render('errors/404');
-});
+router.get('error', '/oops', ctx => ctx.render('errors/404'));
 
 module.exports = router;
