@@ -2,6 +2,8 @@ const KoaRouter = require('koa-router');
 const jwt = require('koa-jwt');
 const authRoutes = require('./auth');
 const interestsRoutes = require('./interests');
+const posessionsRoutes = require('./posessions');
+const propositionsRoutes = require('./propositions');
 
 const router = new KoaRouter();
 
@@ -19,5 +21,7 @@ router.use(async (ctx, next) => {
 
 // authenticated endpoints
 router.use('/users', interestsRoutes.routes());
+router.use('/users', posessionsRoutes.routes());
+router.use('/users', propositionsRoutes.routes());
 
 module.exports = router;
