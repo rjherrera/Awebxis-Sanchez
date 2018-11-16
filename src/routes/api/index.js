@@ -10,6 +10,7 @@ const interestsRoutes = require('./interests');
 const matchesRoutes = require('./matches');
 const posessionsRoutes = require('./posessions');
 const propositionsRoutes = require('./propositions');
+const reviewsRoutes = require('./reviews');
 
 const router = new KoaRouter();
 
@@ -40,5 +41,6 @@ router.use('/users', followersRoutes.routes());
 router.use('/users', interestsRoutes.routes());
 router.use('/users', posessionsRoutes.routes());
 router.use('/users', propositionsRoutes.routes());
+router.use('/reviews', reviewsRoutes.routes());
 
 module.exports = router;
