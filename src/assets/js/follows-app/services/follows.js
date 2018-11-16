@@ -4,18 +4,18 @@ async function fetchJson(path, method) {
 }
 
 async function requestFollow(currentUsername, username, method) {
-  const path = `/users/${currentUsername}/follow/${username}`;
+  const path = `/api/users/${currentUsername}/follow/${username}`;
   return fetchJson(path, method);
 }
 
 export async function fetchFollowers(username) {
-  const path = `/users/${username}/followers`;
+  const path = `/api/users/${username}/followers`;
   const json = await fetchJson(path, 'get');
   return json.followers;
 }
 
 export async function fetchFollowing(username) {
-  const path = `/users/${username}/following`;
+  const path = `/api/users/${username}/following`;
   const json = await fetchJson(path, 'get');
   return json.following;
 }
