@@ -4,13 +4,13 @@ async function fetchJson(path, method, body) {
 }
 
 export async function fetchProposers(username) {
-  const path = `/users/${username}/proposers`;
+  const path = `/api/users/${username}/proposers`;
   const json = await fetchJson(path, 'GET');
   return json.proposers;
 }
 
 export async function fetchProposing(username) {
-  const path = `/users/${username}/proposing`;
+  const path = `/api/users/${username}/proposing`;
   const json = await fetchJson(path, 'GET');
   return json.proposing;
 }

@@ -4,7 +4,7 @@ async function fetchJson(path, method) {
 }
 
 export async function fetchPosessions(username) {
-  const path = `/users/${username}/posessions`;
+  const path = `/api/users/${username}/posessions`;
   const json = await fetchJson(path, 'get');
   return json.posessions;
 }
