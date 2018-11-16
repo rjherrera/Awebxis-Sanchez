@@ -2,6 +2,7 @@ const KoaRouter = require('koa-router');
 const jwt = require('koa-jwt');
 const authRoutes = require('./auth');
 const authorsRoutes = require('./authors');
+const booksRoutes = require('./books');
 const followersRoutes = require('./followers');
 const instancesRoutes = require('./instances');
 const interestsRoutes = require('./interests');
@@ -30,6 +31,7 @@ router.use(async (ctx, next) => {
 
 // authenticated endpoints
 router.use('/authors', authorsRoutes.routes());
+router.use('/books', booksRoutes.routes());
 router.use('/instances', instancesRoutes.routes());
 router.use('/matches', matchesRoutes.routes());
 router.use('/users', followersRoutes.routes());

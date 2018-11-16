@@ -5,7 +5,6 @@ const { isAdmin } = require('../lib/routes/permissions');
 const { Author, Genre, User } = require('../models');
 const { fetchAvgRating } = require('../lib/utils/fetch-avg-rating.js');
 
-
 const router = new KoaRouter();
 
 router.param('isbn', async (isbn, ctx, next) => {
