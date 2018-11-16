@@ -2,6 +2,7 @@ const KoaRouter = require('koa-router');
 const jwt = require('koa-jwt');
 const authRoutes = require('./auth');
 const followersRoutes = require('./followers');
+const instancesRoutes = require('./instances');
 const interestsRoutes = require('./interests');
 const matchesRoutes = require('./matches');
 const posessionsRoutes = require('./posessions');
@@ -27,6 +28,7 @@ router.use(async (ctx, next) => {
 });
 
 // authenticated endpoints
+router.use('/instances', instancesRoutes.routes());
 router.use('/matches', matchesRoutes.routes());
 router.use('/users', followersRoutes.routes());
 router.use('/users', interestsRoutes.routes());

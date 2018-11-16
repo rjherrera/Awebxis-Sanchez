@@ -1,10 +1,9 @@
 export async function fetchInstance(username, bookId) {
-  const path = `/instances/${username}/${bookId}`;
+  const path = `/api/instances/${username}/${bookId}`;
   const response = await fetch(path, { headers: { Accept: 'application/json' } });
   const json = await response.json();
   return json.id;
 }
-
 
 export async function haveBook(path, bookId, state, comment) {
   fetch(path, {

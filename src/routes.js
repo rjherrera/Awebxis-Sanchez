@@ -14,7 +14,6 @@ const bookInstances = require('./routes/book-instances');
 const interests = require('./routes/interests');
 const matches = require('./routes/matches');
 const contact = require('./routes/contacts');
-const instances = require('./routes/instances');
 
 const defaults = require('./defaults');
 
@@ -58,7 +57,6 @@ router.use('/book-instances', bookInstances.routes());
 router.use('/interests', interests.routes());
 router.use('/matches', matches.routes());
 router.use('/contact', contact.routes());
-router.use('/instances', instances.routes());
 
 router.get('error', '/oops', ctx => ctx.render('errors/404'));
 
