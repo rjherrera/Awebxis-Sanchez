@@ -16,19 +16,19 @@ export async function fetchProposing(username) {
 }
 
 export async function acceptMatch(match) {
-  const path = `/matches/${match.id}`;
+  const path = `/api/matches/${match.id}`;
   const json = await fetchJson(path, 'PATCH');
   return json;
 }
 
 export async function cancelMatch(match) {
-  const path = `/matches/${match.id}`;
+  const path = `/api/matches/${match.id}`;
   const json = await fetchJson(path, 'DELETE');
   return json;
 }
 
 export async function proposeExchange(proposerBookInstanceId, proposeeBookInstanceId) {
-  const path = '/matches/new';
+  const path = '/api/matches/new';
   const body = JSON.stringify({ proposerBookInstanceId, proposeeBookInstanceId });
   const json = await fetchJson(path, 'POST', body);
   return json;
