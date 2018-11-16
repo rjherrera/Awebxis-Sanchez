@@ -34,6 +34,12 @@ app.use((ctx, next) => {
   return next();
 });
 
+// default values for pagination
+app.use((ctx, next) => {
+  ctx.state.pageSize = 24;
+  return next();
+});
+
 // log requests
 app.use(koaLogger());
 
