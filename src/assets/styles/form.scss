@@ -40,7 +40,7 @@
     input::placeholder, textarea::placeholder {
         font-style: italic;
     }
-    .button {
+    .button:not(button) {
         border-block-end: none;
         display: flex;
         justify-content: center;
@@ -57,6 +57,12 @@
         }
         input:hover {
             opacity: 0.75;
+        }
+    }
+    .copy {
+        height: 10px;
+        h2 {
+            margin-top: 5px;
         }
     }
 }

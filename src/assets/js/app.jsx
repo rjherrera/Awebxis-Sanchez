@@ -4,22 +4,19 @@ import RootHaveIt from './instance-app/components/rootHaveIt';
 import RootWantIt from './want-app/components/rootWantIt';
 import FollowsApp from './follows-app/components/FollowsApp';
 import InteractionsApp from './interactions-app/components/InteractionsApp';
+import TokenApp from './token-app/components/TokenApp';
 
 const reactFollowsAppContainer = document.getElementById('follows-app');
 const reactInteractionsAppContainer = document.getElementById('interactions-app');
-
-
 const wantItContainer = document.getElementById('want-it');
-
-
 const haveItContainer = document.getElementById('have-it');
+const reactTokenAppContainer = document.getElementById('token-app');
 
 if (reactFollowsAppContainer) {
   ReactDOM.render(
     <FollowsApp serverData={reactFollowsAppContainer.dataset} />,
     reactFollowsAppContainer,
   );
-
 }
 
 if (wantItContainer) {
@@ -35,4 +32,8 @@ if (reactInteractionsAppContainer) {
 
 if (haveItContainer) {
   ReactDOM.render(<RootHaveIt serverData={haveItContainer.dataset} />, haveItContainer);
+}
+
+if (reactTokenAppContainer) {
+  ReactDOM.render(<TokenApp />, reactTokenAppContainer);
 }

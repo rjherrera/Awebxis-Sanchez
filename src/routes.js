@@ -3,6 +3,7 @@ const _ = require('lodash');
 
 const utils = require('./lib/utils');
 
+const auth = require('./routes/auth');
 const authors = require('./routes/authors');
 const books = require('./routes/books');
 const genres = require('./routes/genres');
@@ -47,6 +48,7 @@ router.use(async (ctx, next) => {
 });
 
 router.use('/', index.routes());
+router.use('/auth', auth.routes());
 router.use('/authors', authors.routes());
 router.use('/books', books.routes());
 router.use('/genres', genres.routes());
