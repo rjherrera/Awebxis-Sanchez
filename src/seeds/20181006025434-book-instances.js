@@ -1,20 +1,22 @@
-const getJSON = require('../lib/seeds/get-json');
 const { User, Book } = require('../models');
+
+const randint = n => Math.floor(Math.random() * n) + 1;
 
 module.exports = {
   up: async (queryInterface) => {
-    const instancesJson = await getJSON('book-instances.json');
-    const users = await User.findAll({ attributes: ['id', 'username'] });
-    const books = await Book.findAll({ attributes: ['id', 'isbn'] });
+    const users = await User.findAll({ attributes: ['id'] });
+    const books = await Book.findAll({ attributes: ['id'] });
     const instancesData = [];
-    instancesJson.bookInstances.forEach((instance) => {
-      instancesData.push({
-        userId: users.find(user => user.username === instance.username).id,
-        bookId: books.find(book => book.isbn === instance.isbn).id,
-        state: 4,
-        comment: 'Almost new, I promise.',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+    users.forEach(({ id }) => {
+      Array(4).fill(0).forEach(() => {
+        instancesData.push({
+          userId: id,
+          bookId: books[randint(books.length - 1)].id,
+          state: 4,
+          comment: 'Almost new, I promise',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
       });
     });
     return queryInterface.bulkInsert('BookInstances', instancesData);
