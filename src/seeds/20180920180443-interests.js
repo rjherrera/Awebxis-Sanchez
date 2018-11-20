@@ -8,11 +8,13 @@ module.exports = {
     const books = await Book.findAll({ attributes: ['id'] });
     const interestsData = [];
     users.forEach(({ id }) => {
-      interestsData.push({
-        userId: id,
-        bookId: books[randint(books.length - 1)].id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+      Array(4).fill(0).forEach(() => {
+        interestsData.push({
+          userId: id,
+          bookId: books[randint(books.length - 1)].id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
       });
     });
     return queryInterface.bulkInsert('Interests', interestsData);
