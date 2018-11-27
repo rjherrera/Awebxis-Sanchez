@@ -1,4 +1,5 @@
 const KoaRouter = require('koa-router');
+const Sequelize = require('sequelize');
 const cloudStorage = require('../../lib/cloud-storage');
 const { isValidationError, getFirstErrors } = require('../../lib/models/validation-error');
 const { isAdmin } = require('../../lib/routes/permissions');
@@ -27,6 +28,13 @@ router.get('books', '/', async (ctx) => {
     where: { title: { $iLike: `%${q}%` } },
   }, page);
   ctx.body = { books };
+});
+
+router.get('books', '/random', async (ctx) => {
+  const book = await ctx.orm.Book.find({
+    order: [Sequelize.fn('RANDOM')],
+  });
+  ctx.body = { book };
 });
 
 router.post('books-create', '/', isAdmin, async (ctx) => {
