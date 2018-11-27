@@ -10,13 +10,13 @@ router.param('username', async (username, ctx, next) => {
   return next();
 });
 
-router.get('proposers', '/:username/proposers/', isLoggedIn, async (ctx) => {
+router.get('proposers', '/:username/proposers', isLoggedIn, async (ctx) => {
   const { user } = ctx.state;
   const pendingMatches = await ctx.orm.Match.scope('withInstances', 'pending').findAll();
   ctx.body = { proposers: pendingMatches.filter(m => m.proposeeBookInstance.userId === user.id) };
 });
 
-router.get('proposing', '/:username/proposing/', isLoggedIn, async (ctx) => {
+router.get('proposing', '/:username/proposing', isLoggedIn, async (ctx) => {
   const { user } = ctx.state;
   const pendingMatches = await ctx.orm.Match.scope('withInstances', 'pending').findAll();
   ctx.body = { proposing: pendingMatches.filter(m => m.proposerBookInstance.userId === user.id) };

@@ -9,7 +9,7 @@ router.param('username', async (username, ctx, next) => {
   return next();
 });
 
-router.get('posessions', '/:username/posessions/', async (ctx) => {
+router.get('user-posessions', '/:username/posessions', async (ctx) => {
   const { user } = ctx.state;
   const isSelf = ctx.state.currentUser.id === user.id;
   const posessions = await user.getUserBooks({

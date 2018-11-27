@@ -21,5 +21,4 @@ router.get('others-interests', '/:username/interests/others', async (ctx) => {
   ctx.body = { interests };
 });
 
-
 module.exports = router;
