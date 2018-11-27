@@ -66,6 +66,7 @@
     "preview-email": "^0.0.8",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.0.0",
     "react-hot-loader": "^4.3.4",
     "sequelize": "^4.6.0",

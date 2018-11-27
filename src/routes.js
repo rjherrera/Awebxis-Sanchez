@@ -3,6 +3,7 @@ const _ = require('lodash');
 
 const utils = require('./lib/utils');
 
+const auth = require('./routes/auth');
 const authors = require('./routes/authors');
 const books = require('./routes/books');
 const genres = require('./routes/genres');
@@ -22,6 +23,7 @@ const router = new KoaRouter();
 router.use(async (ctx, next) => {
   const currentUser = ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId);
   Object.assign(ctx.state, {
+    apiPath: ctx.router.url('auth-new'),
     authorsPath: ctx.router.url('authors'),
     booksPath: ctx.router.url('books'),
     genresPath: ctx.router.url('genres'),
@@ -47,6 +49,7 @@ router.use(async (ctx, next) => {
 });
 
 router.use('/', index.routes());
+router.use('/auth', auth.routes());
 router.use('/authors', authors.routes());
 router.use('/books', books.routes());
 router.use('/genres', genres.routes());
