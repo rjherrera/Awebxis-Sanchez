@@ -11,12 +11,15 @@ export default function OtherInterest(props) {
       <span className="interest-count">
         {` - ${interestsCount} ${people} interested `}
       </span>
-      <input
-        type="button"
-        className="button white empty borderless"
-        onClick={() => onClick(instance.book)}
-        value="more info."
-      />
+      { interestsCount ? (
+        <input
+          type="button"
+          className="button white empty borderless"
+          onClick={() => onClick(instance.book)}
+          value="more info."
+        />
+      ) : ''
+      }
     </li>
   );
 }
