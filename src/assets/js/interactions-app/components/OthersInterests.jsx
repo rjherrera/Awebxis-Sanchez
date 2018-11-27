@@ -1,22 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-function renderInstance(instance) {
-  const interestsCount = instance.book.interests.length;
-  const people = interestsCount === 1 ? 'user' : 'users';
-  return (
-    <li key={instance.id}>
-      {instance.book.title}
-      <span className="interest-count">
-        {` - ${interestsCount} ${people} interested`}
-      </span>
-    </li>
-  );
-}
+import OtherInterest from './OtherInterest';
 
 export default function OthersInterests(props) {
   const { instances } = props;
-  const rows = instances.map(instance => renderInstance(instance));
+  const rows = instances.map(instance => <OtherInterest instance={instance} key={instance.id} />);
   return rows.length ? (
     <ul>
       {rows}
