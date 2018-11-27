@@ -49,6 +49,10 @@
     margin: 0;
   }
 
+  &.borderless {
+    border: 0px none transparent;
+  }
+
   &:hover {
     opacity: 0.75;
   }
