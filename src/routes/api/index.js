@@ -16,6 +16,7 @@ const router = new KoaRouter();
 
 // unauthenticated endpoints
 router.use('/auth', authRoutes.routes());
+router.use('/books', booksRoutes.routes());
 
 // JWT authentication with passthrough (error if not authenticated)
 // ... also allow session cookies
@@ -33,7 +34,6 @@ router.use(async (ctx, next) => {
 
 // authenticated endpoints
 router.use('/authors', authorsRoutes.routes());
-router.use('/books', booksRoutes.routes());
 router.use('/genres', genresRoutes.routes());
 router.use('/instances', instancesRoutes.routes());
 router.use('/matches', matchesRoutes.routes());
