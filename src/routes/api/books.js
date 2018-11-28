@@ -31,7 +31,7 @@ router.get('books', '/', async (ctx) => {
 });
 
 router.get('books', '/random', async (ctx) => {
-  const book = await ctx.orm.Book.find({
+  const book = await ctx.orm.Book.scope('withAuthor').find({
     order: [Sequelize.fn('RANDOM')],
   });
   ctx.body = { book };
