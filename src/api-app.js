@@ -1,5 +1,6 @@
 const jsonApiSerializer = require('jsonapi-serializer');
 const Koa = require('koa');
+const cors = require('@koa/cors');
 const koaBody = require('koa-body');
 const koaLogger = require('koa-logger');
 const session = require('koa-session');
@@ -16,6 +17,8 @@ app.keys = [
   'and thus preventing someone just writing a cookie',
   'saying he is logged in when it\'s really not',
 ];
+
+app.use(cors());
 
 // expose ORM through context's prototype
 app.context.orm = orm;
