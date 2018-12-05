@@ -6,13 +6,9 @@ import { fetchInterest, wantBook, dontWantBook } from '../services/wants';
 export default class WantIt extends Component {
   constructor(props) {
     super(props);
-    const {
-      bookId,
-    } = this.props;
-    this.state = {
-      want: false,
-      bookId,
-    };
+    const { bookId, store } = this.props;
+    this.store = store;
+    this.state = { bookId, want: false, interestId: -1 };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -23,37 +19,28 @@ export default class WantIt extends Component {
   async loadInterest() {
     const { username, bookId } = this.props;
     const interestId = await fetchInterest(username, bookId);
-    this.setState({ interestId });
     this.setState({ want: interestId > 0 });
+    this.setState({ interestId });
   }
 
   async handleSubmit(e) {
     e.preventDefault();
-    const { want } = this.state;
-    const { interestId } = this.state;
+
+    const { username } = this.props;
+    const { want, bookId, interestId } = this.state;
     this.setState({ want: !want });
 
-    const path = '/interests/';
-
     if (!want) {
-      const {
-        bookId,
-      } = this.state;
-      wantBook(path, bookId);
-      this.loadInterest();
-      return null;
+      const { id } = await wantBook(username, bookId);
+      this.setState({ interestId: id });
+    } else {
+      await dontWantBook(username, interestId);
+      this.setState({ interestId: -1 });
     }
-    if (interestId !== -1) {
-      return dontWantBook(path, interestId);
-    }
-    return null;
   }
 
   render() {
-    const {
-      want,
-      bookId,
-    } = this.state;
+    const { want, bookId } = this.state;
 
     if (want) {
       return (
