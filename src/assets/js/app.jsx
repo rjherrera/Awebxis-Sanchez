@@ -1,16 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import RootHaveIt from './instance-app/components/rootHaveIt';
-import RootWantIt from './want-app/components/rootWantIt';
+import WantItApp from './want-app/components/WantItApp';
 import FollowsApp from './follows-app/components/FollowsApp';
 import InteractionsApp from './interactions-app/components/InteractionsApp';
 import TokenApp from './token-app/components/TokenApp';
 
+import Store from './utils/store';
+
 const reactFollowsAppContainer = document.getElementById('follows-app');
 const reactInteractionsAppContainer = document.getElementById('interactions-app');
-const wantItContainer = document.getElementById('want-it');
-const haveItContainer = document.getElementById('have-it');
+const wantItAppContainer = document.getElementById('want-it');
+const haveItAppContainer = document.getElementById('have-it');
 const reactTokenAppContainer = document.getElementById('token-app');
+
+const store = new Store();
 
 if (reactFollowsAppContainer) {
   ReactDOM.render(
@@ -19,8 +23,15 @@ if (reactFollowsAppContainer) {
   );
 }
 
-if (wantItContainer) {
-  ReactDOM.render(<RootWantIt serverData={wantItContainer.dataset} />, wantItContainer);
+if (wantItAppContainer) {
+  ReactDOM.render(<WantItApp
+    serverData={wantItAppContainer.dataset}
+    store={store}
+  />, wantItAppContainer);
+}
+
+if (haveItAppContainer) {
+  ReactDOM.render(<RootHaveIt serverData={haveItAppContainer.dataset} />, haveItAppContainer);
 }
 
 if (reactInteractionsAppContainer) {
@@ -28,10 +39,6 @@ if (reactInteractionsAppContainer) {
     <InteractionsApp serverData={reactInteractionsAppContainer.dataset} />,
     reactInteractionsAppContainer,
   );
-}
-
-if (haveItContainer) {
-  ReactDOM.render(<RootHaveIt serverData={haveItContainer.dataset} />, haveItContainer);
 }
 
 if (reactTokenAppContainer) {
