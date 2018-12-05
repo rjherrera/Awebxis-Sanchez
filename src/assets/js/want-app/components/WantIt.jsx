@@ -7,6 +7,7 @@ export default class WantIt extends Component {
   constructor(props) {
     super(props);
     const { bookId, store } = this.props;
+    store.subscribers.push(this);
     this.store = store;
     this.state = { bookId, want: false, interestId: -1 };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,6 +24,10 @@ export default class WantIt extends Component {
     this.setState({ interestId });
   }
 
+  updateInterestsAmountBy(n) {
+    this.store.setState({ interests: this.store.state.interests + n });
+  }
+
   async handleSubmit(e) {
     e.preventDefault();
 
@@ -31,9 +36,11 @@ export default class WantIt extends Component {
     this.setState({ want: !want });
 
     if (!want) {
+      this.updateInterestsAmountBy(1);
       const { id } = await wantBook(username, bookId);
       this.setState({ interestId: id });
     } else {
+      this.updateInterestsAmountBy(-1);
       await dontWantBook(username, interestId);
       this.setState({ interestId: -1 });
     }
@@ -61,4 +68,5 @@ export default class WantIt extends Component {
 WantIt.propTypes = {
   username: PropTypes.string.isRequired,
   bookId: PropTypes.string.isRequired,
+  store: PropTypes.shape({}).isRequired,
 };
