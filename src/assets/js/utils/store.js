@@ -7,6 +7,6 @@ export default class Store {
 
   setState(partialState) {
     Object.assign(this.state, partialState);
-    this.subscribers.forEach(component => component.setState(partialState));
+    this.subscribers.forEach(component => component.forceUpdate());
   }
 }
