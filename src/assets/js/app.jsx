@@ -5,6 +5,7 @@ import WantItApp from './want-app/components/WantItApp';
 import FollowsApp from './follows-app/components/FollowsApp';
 import InteractionsApp from './interactions-app/components/InteractionsApp';
 import TokenApp from './token-app/components/TokenApp';
+import StatsApp from './stats-app/components/StatsApp';
 
 import Store from './utils/store';
 
@@ -13,6 +14,7 @@ const reactInteractionsAppContainer = document.getElementById('interactions-app'
 const wantItAppContainer = document.getElementById('want-it');
 const haveItAppContainer = document.getElementById('have-it');
 const reactTokenAppContainer = document.getElementById('token-app');
+const reactStatsAppContainer = document.getElementById('stats-app');
 
 const store = new Store();
 
@@ -21,6 +23,13 @@ if (reactFollowsAppContainer) {
     <FollowsApp serverData={reactFollowsAppContainer.dataset} />,
     reactFollowsAppContainer,
   );
+}
+
+if (reactStatsAppContainer) {
+  ReactDOM.render(<StatsApp
+    serverData={reactStatsAppContainer.dataset}
+    store={store}
+  />, reactStatsAppContainer);
 }
 
 if (wantItAppContainer) {
