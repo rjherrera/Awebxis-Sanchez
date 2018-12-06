@@ -20,10 +20,10 @@
         <img src="<%= assetPath('logo.svg') %>" alt="Logo" />
       </a>
       <nav>
-        <a href="<%= booksPath %>">Books</a>
-        <a href="<%= genresPath %>">Genres</a>
-        <a href="<%= authorsPath %>">Authors</a>
-        <a href="<%= usersPath %>">Users</a>
+        <a href="<%= booksPath %>" class="desktop-only">Books</a>
+        <a href="<%= genresPath %>" class="desktop-only">Genres</a>
+        <a href="<%= authorsPath %>" class="desktop-only">Authors</a>
+        <a href="<%= usersPath %>" class="desktop-only">Users</a>
         <% if (currentUser) { %>
           <a href="<%= buildUserPath(currentUser) %>" class="profile">
             <img src="<%= currentUser.profilePicUrl ? getUserProfilePicPath(currentUser) : defaults.userImageUrl %>">
