@@ -30,17 +30,17 @@ export default class HaveIt extends Component {
   async handleSubmit(e) {
     e.preventDefault();
 
+    const { username } = this.props;
     const { have, bookId, instanceId } = this.state;
     this.setState({ have: !have });
 
-    const path = '/book-instances/';
-
     if (!have) {
       const { state, comment } = this.state;
-      haveBook(path, bookId, state, comment);
-      this.loadInstance();
+      const { id } = await haveBook(username, bookId, state, comment);
+      this.setState({ instanceId: id });
     } else {
-      dontHaveBook(path, instanceId);
+      await dontHaveBook(username, instanceId);
+      this.setState({ instanceId: -1 });
     }
   }
 

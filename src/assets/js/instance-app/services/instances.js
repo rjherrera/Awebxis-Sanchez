@@ -1,26 +1,22 @@
+async function fetchJson(path, method, body) {
+  const response = await fetch(path, { method, body, headers: { Accept: 'application/json' } });
+  return response.json();
+}
+
 export async function fetchInstance(username, bookId) {
   const path = `/api/instances/${username}/${bookId}`;
-  const response = await fetch(path, { headers: { Accept: 'application/json' } });
-  const json = await response.json();
+  const json = await fetchJson(path, 'GET');
   return json.id;
 }
 
-export async function haveBook(path, bookId, state, comment) {
-  fetch(path, {
-    method: 'post',
-    body: JSON.stringify({ bookId, state, comment }),
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-  })
-    .then(response => response);
+export async function haveBook(username, bookId, state, comment) {
+  const path = `/api/users/${username}/posessions`;
+  const json = await fetchJson(path, 'POST', JSON.stringify({ bookId, state, comment }));
+  return json.instance;
 }
 
-export async function dontHaveBook(path, instanceId) {
-  return fetch(`${path}${instanceId}`, {
-    method: 'post',
-    body: JSON.stringify({
-      _method: 'delete',
-    }),
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-  })
-    .then(response => response);
+export async function dontHaveBook(username, instanceId) {
+  const path = `/api/users/${username}/posessions/${instanceId}`;
+  const json = await fetchJson(path, 'DELETE');
+  return json;
 }
