@@ -30,6 +30,11 @@
   .actions-container {
     flex: 100%;
     margin-top: 10px;
+    padding: 0 15px;
+
+    >* {
+      flex: 1;
+    }
   }
 
   .info {
@@ -90,6 +95,7 @@
         display: flex;
 
         * {
+          transition: all 0.25s;
           height: 15px;
           border-radius: 10px;
         }
