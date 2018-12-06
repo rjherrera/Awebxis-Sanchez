@@ -7,6 +7,7 @@
     <% if (env !== 'development') { %>
       <link rel="stylesheet" href="<%= assetPath('app.css') %>">
     <% } %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="<%= assetPath('favicon.png') %>">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,300,400,400i,500,600,700,700i,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
@@ -19,10 +20,10 @@
         <img src="<%= assetPath('logo.svg') %>" alt="Logo" />
       </a>
       <nav>
-        <a href="<%= booksPath %>">Books</a>
-        <a href="<%= genresPath %>">Genres</a>
-        <a href="<%= authorsPath %>">Authors</a>
-        <a href="<%= usersPath %>">Users</a>
+        <a href="<%= booksPath %>" class="desktop-only">Books</a>
+        <a href="<%= genresPath %>" class="desktop-only">Genres</a>
+        <a href="<%= authorsPath %>" class="desktop-only">Authors</a>
+        <a href="<%= usersPath %>" class="desktop-only">Users</a>
         <% if (currentUser) { %>
           <a href="<%= buildUserPath(currentUser) %>" class="profile">
             <img src="<%= currentUser.profilePicUrl ? getUserProfilePicPath(currentUser) : defaults.userImageUrl %>">
