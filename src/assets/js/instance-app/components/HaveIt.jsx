@@ -27,6 +27,10 @@ export default class HaveIt extends Component {
     this.setState({ have: instanceId > 0, instanceId });
   }
 
+  updateInstancesAmountBy(n) {
+    this.store.setState({ instances: this.store.state.instances + n });
+  }
+
   async handleSubmit(e) {
     e.preventDefault();
 
@@ -37,9 +41,11 @@ export default class HaveIt extends Component {
     if (!have) {
       const { state, comment } = this.state;
       const { id } = await haveBook(username, bookId, state, comment);
+      this.updateInstancesAmountBy(1);
       this.setState({ instanceId: id });
     } else {
       await dontHaveBook(username, instanceId);
+      this.updateInstancesAmountBy(-1);
       this.setState({ instanceId: -1 });
     }
   }
