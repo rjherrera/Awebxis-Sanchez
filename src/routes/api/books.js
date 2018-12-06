@@ -97,5 +97,31 @@ router.delete('books-destroy', '/:isbn', isAdmin, async (ctx) => {
   ctx.body = { deleted: true };
 });
 
+router.get('books-stats', '/:isbn/stats', async (ctx) => {
+  const { book } = ctx.state;
+
+  const books = await ctx.orm.Book.scope('withInterestedUsers', 'withInstances').findAll();
+  const loadedBook = books.find(bk => bk.id === book.id);
+
+  const interestsCount = loadedBook.interests.length;
+  const interestsMaxCount = Math.max(...books.map(bk => bk.interests.length)) || 1;
+
+  const instances = books.map(bk => bk.instances).reduce((acc, val) => acc.concat(val), []);
+  const countMatches = i => i.proposerMatches.length + i.proposeeMatches.length;
+  const matchesCount = loadedBook.instances.map(countMatches).reduce((acc, val) => acc + val, 0);
+  const matchesMaxCount = Math.max(...instances.map(countMatches)) || 1;
+
+  const instancesCount = loadedBook.instances.length;
+  const instancesMaxCount = Math.max(...books.map(bk => bk.instances.length)) || 1;
+
+  ctx.body = {
+    interestsCount,
+    interestsMaxCount,
+    matchesCount,
+    matchesMaxCount,
+    instancesCount,
+    instancesMaxCount,
+  };
+});
 
 module.exports = router;
