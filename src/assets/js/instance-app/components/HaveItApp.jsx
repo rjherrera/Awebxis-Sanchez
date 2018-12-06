@@ -4,21 +4,24 @@ import PropTypes from 'prop-types';
 import HaveIt from './HaveIt';
 
 
-function HaveItApp({ serverData }) {
+function HaveItApp({ serverData, store }) {
   return (
     <HaveIt
-      username={String(serverData.username)}
-      bookId={String(serverData.bookId)}
-      bookInstancePath={String(serverData.bookInstancePath)}
+      username={serverData.username}
+      bookId={serverData.bookId}
+      bookInstancePath={serverData.bookInstancePath}
+      store={store}
     />
   );
 }
 
 HaveItApp.propTypes = {
   serverData: PropTypes.shape({
-    // instanceId: PropTypes.string,
-    // bookId: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    bookId: PropTypes.string.isRequired,
+    bookInstancePath: PropTypes.string.isRequired,
   }).isRequired,
+  store: PropTypes.shape({}).isRequired,
 };
 
 export default hot(module)(HaveItApp);

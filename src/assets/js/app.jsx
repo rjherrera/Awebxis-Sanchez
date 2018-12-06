@@ -40,7 +40,10 @@ if (wantItAppContainer) {
 }
 
 if (haveItAppContainer) {
-  ReactDOM.render(<HaveItApp serverData={haveItAppContainer.dataset} />, haveItAppContainer);
+  ReactDOM.render(<HaveItApp
+    serverData={haveItAppContainer.dataset}
+    store={store}
+  />, haveItAppContainer);
 }
 
 if (reactInteractionsAppContainer) {

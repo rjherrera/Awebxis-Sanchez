@@ -7,10 +7,10 @@ export default class HaveIt extends Component {
   constructor(props) {
     super(props);
     const {
-      bookId,
-      state,
-      comment,
+      bookId, state, comment, store,
     } = this.props;
+    store.subscribers.push(this);
+    this.store = store;
     this.state = {
       have: false,
       bookId,
@@ -86,6 +86,7 @@ HaveIt.propTypes = {
   bookId: PropTypes.string.isRequired,
   state: PropTypes.string,
   comment: PropTypes.string,
+  store: PropTypes.shape({}).isRequired,
 };
 
 HaveIt.defaultProps = {
