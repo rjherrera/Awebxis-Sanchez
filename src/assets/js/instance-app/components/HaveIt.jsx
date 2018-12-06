@@ -12,10 +12,7 @@ export default class HaveIt extends Component {
     store.subscribers.push(this);
     this.store = store;
     this.state = {
-      have: false,
-      bookId,
-      state,
-      comment,
+      have: false, bookId, state, comment, instanceId: -1,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -27,40 +24,29 @@ export default class HaveIt extends Component {
   async loadInstance() {
     const { username, bookId } = this.props;
     const instanceId = await fetchInstance(username, bookId);
-    this.setState({ instanceId });
-    this.setState({ have: instanceId > 0 });
+    this.setState({ have: instanceId > 0, instanceId });
   }
 
   async handleSubmit(e) {
     e.preventDefault();
-    const { have } = this.state;
-    const { instanceId } = this.state;
+
+    const { have, bookId, instanceId } = this.state;
     this.setState({ have: !have });
 
     const path = '/book-instances/';
 
     if (!have) {
-      const {
-        bookId,
-        state,
-        comment,
-      } = this.state;
+      const { state, comment } = this.state;
       haveBook(path, bookId, state, comment);
       this.loadInstance();
-      return null;
+    } else {
+      dontHaveBook(path, instanceId);
     }
-    if (instanceId !== -1) {
-      return dontHaveBook(path, instanceId);
-    }
-    return null;
   }
 
   render() {
     const {
-      have,
-      bookId,
-      state,
-      comment,
+      have, bookId, state, comment,
     } = this.state;
 
     if (have) {
