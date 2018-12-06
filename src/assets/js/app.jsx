@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import RootHaveIt from './instance-app/components/rootHaveIt';
+import HaveItApp from './instance-app/components/HaveItApp';
 import WantItApp from './want-app/components/WantItApp';
 import FollowsApp from './follows-app/components/FollowsApp';
 import InteractionsApp from './interactions-app/components/InteractionsApp';
@@ -40,7 +40,7 @@ if (wantItAppContainer) {
 }
 
 if (haveItAppContainer) {
-  ReactDOM.render(<RootHaveIt serverData={haveItAppContainer.dataset} />, haveItAppContainer);
+  ReactDOM.render(<HaveItApp serverData={haveItAppContainer.dataset} />, haveItAppContainer);
 }
 
 if (reactInteractionsAppContainer) {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import HaveIt from './HaveIt';
 
 
-function RootHaveIt({ serverData }) {
+function HaveItApp({ serverData }) {
   return (
     <HaveIt
       username={String(serverData.username)}
@@ -14,11 +14,11 @@ function RootHaveIt({ serverData }) {
   );
 }
 
-RootHaveIt.propTypes = {
+HaveItApp.propTypes = {
   serverData: PropTypes.shape({
     // instanceId: PropTypes.string,
     // bookId: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default hot(module)(RootHaveIt);
+export default hot(module)(HaveItApp);
