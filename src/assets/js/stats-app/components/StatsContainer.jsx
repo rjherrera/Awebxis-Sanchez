@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Stat from './Stat';
+import fetchStats from '../services/stats';
 
 
 export default class StatsContainer extends Component {
@@ -16,13 +17,37 @@ export default class StatsContainer extends Component {
     this.loadStats();
   }
 
-  loadStats() {
-    this.store.setState({ interests: 5, matches: 2, instances: 3 });
-    this.setState({ loading: false });
+  async loadStats() {
+    const { bookIsbn } = this.state;
+    const {
+      interestsCount,
+      interestsMaxCount,
+      matchesCount,
+      matchesMaxCount,
+      instancesCount,
+      instancesMaxCount,
+    } = await fetchStats(bookIsbn);
+    this.store.setState({
+      interests: interestsCount, matches: matchesCount, instances: instancesCount,
+    });
+    this.setState({
+      interestsMaxCount, matchesMaxCount, instancesMaxCount, loading: false,
+    });
+  }
+
+  relativeStats() {
+    const { interests, matches, instances } = this.store.state;
+    const { interestsMaxCount, matchesMaxCount, instancesMaxCount } = this.state;
+    const relativize = (n, t) => Math.min(parseInt(n / t * 100, 10), 100);
+    const interestsRelative = relativize(interests, interestsMaxCount);
+    const matchesRelative = relativize(matches, matchesMaxCount);
+    const instancesRelative = relativize(instances, instancesMaxCount);
+    return { interestsRelative, matchesRelative, instancesRelative };
   }
 
   render() {
     const { interests, matches, instances } = this.store.state;
+    const { interestsRelative, matchesRelative, instancesRelative } = this.relativeStats();
     const { loading } = this.state;
     return loading
       ? <p className="centered-text">Loading...</p>
@@ -30,9 +55,9 @@ export default class StatsContainer extends Component {
         <React.Fragment>
           <div className="left-container" />
           <div className="right-container">
-            <Stat value={interests} relative={interests} name="Interests" />
-            <Stat value={matches} relative={matches} name="Exchanges" />
-            <Stat value={instances} relative={instances} name="Owners" />
+            <Stat value={interests} relative={interestsRelative} name="Interests" />
+            <Stat value={matches} relative={matchesRelative} name="Exchanges" />
+            <Stat value={instances} relative={instancesRelative} name="Owners" />
           </div>
         </React.Fragment>
       );
@@ -40,6 +65,6 @@ export default class StatsContainer extends Component {
 }
 
 StatsContainer.propTypes = {
-  bookId: PropTypes.string.isRequired,
+  bookIsbn: PropTypes.string.isRequired,
   store: PropTypes.shape({}).isRequired,
 };
