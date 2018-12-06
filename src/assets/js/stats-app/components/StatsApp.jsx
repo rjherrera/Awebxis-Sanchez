@@ -5,14 +5,15 @@ import StatsContainer from './StatsContainer';
 
 function StatsApp({ serverData, store }) {
   return (
-    <StatsContainer bookId={serverData.bookId} store={store} />
+    <StatsContainer bookIsbn={serverData.bookIsbn} store={store} />
   );
 }
 
 StatsApp.propTypes = {
   serverData: PropTypes.shape({
-    bookId: PropTypes.string.isRequired,
+    bookIsbn: PropTypes.string.isRequired,
   }).isRequired,
+  store: PropTypes.shape({}).isRequired,
 };
 
 export default hot(module)(StatsApp);

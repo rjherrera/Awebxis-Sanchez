@@ -6,8 +6,8 @@ import Stat from './Stat';
 export default class StatsContainer extends Component {
   constructor(props) {
     super(props);
-    const { bookId, store } = this.props;
-    this.state = { loading: true };
+    const { bookIsbn, store } = this.props;
+    this.state = { bookIsbn, loading: true };
     store.subscribers.push(this);
     this.store = store;
   }
