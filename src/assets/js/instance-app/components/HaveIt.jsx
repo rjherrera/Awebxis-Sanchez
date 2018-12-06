@@ -7,15 +7,12 @@ export default class HaveIt extends Component {
   constructor(props) {
     super(props);
     const {
-      bookId,
-      state,
-      comment,
+      bookId, state, comment, store,
     } = this.props;
+    store.subscribers.push(this);
+    this.store = store;
     this.state = {
-      have: false,
-      bookId,
-      state,
-      comment,
+      have: false, bookId, state, comment, instanceId: -1,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -27,40 +24,35 @@ export default class HaveIt extends Component {
   async loadInstance() {
     const { username, bookId } = this.props;
     const instanceId = await fetchInstance(username, bookId);
-    this.setState({ instanceId });
-    this.setState({ have: instanceId > 0 });
+    this.setState({ have: instanceId > 0, instanceId });
+  }
+
+  updateInstancesAmountBy(n) {
+    this.store.setState({ instances: this.store.state.instances + n });
   }
 
   async handleSubmit(e) {
     e.preventDefault();
-    const { have } = this.state;
-    const { instanceId } = this.state;
+
+    const { username } = this.props;
+    const { have, bookId, instanceId } = this.state;
     this.setState({ have: !have });
 
-    const path = '/book-instances/';
-
     if (!have) {
-      const {
-        bookId,
-        state,
-        comment,
-      } = this.state;
-      haveBook(path, bookId, state, comment);
-      this.loadInstance();
-      return null;
+      const { state, comment } = this.state;
+      const { id } = await haveBook(username, bookId, state, comment);
+      this.updateInstancesAmountBy(1);
+      this.setState({ instanceId: id });
+    } else {
+      await dontHaveBook(username, instanceId);
+      this.updateInstancesAmountBy(-1);
+      this.setState({ instanceId: -1 });
     }
-    if (instanceId !== -1) {
-      return dontHaveBook(path, instanceId);
-    }
-    return null;
   }
 
   render() {
     const {
-      have,
-      bookId,
-      state,
-      comment,
+      have, bookId, state, comment,
     } = this.state;
 
     if (have) {
@@ -86,6 +78,7 @@ HaveIt.propTypes = {
   bookId: PropTypes.string.isRequired,
   state: PropTypes.string,
   comment: PropTypes.string,
+  store: PropTypes.shape({}).isRequired,
 };
 
 HaveIt.defaultProps = {

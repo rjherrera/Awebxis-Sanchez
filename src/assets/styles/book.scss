@@ -30,6 +30,11 @@
   .actions-container {
     flex: 100%;
     margin-top: 10px;
+    padding: 0 15px;
+
+    >* {
+      flex: 0 1 50%;
+    }
   }
 
   .info {
@@ -62,6 +67,11 @@
 .stats-container {
   display: flex;
 
+  .centered-text {
+    width: 100%;
+    text-align: center;
+  }
+
   .left-container {
     flex: 1;
   }
@@ -85,6 +95,7 @@
         display: flex;
 
         * {
+          transition: all 0.25s;
           height: 15px;
           border-radius: 10px;
         }

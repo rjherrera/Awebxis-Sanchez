@@ -31,24 +31,7 @@
   </div>
 </div>
 
-<div class="stats-container">
-  <div class="left-container"></div>
-  <div class="right-container">
-    <div class="stat">
-      <div class="bar">
-        <div class="filled-<%= stats.valueInterestsCount %>"></div>
-        <div class="not-filled-<%= 100 - stats.valueInterestsCount %>"></div>
-      </div>
-      <div class="text"><%= stats.interestsCount %> <%= pluralize(stats.interestsCount, 'Interest') %></div>
-    </div>
-    <div class="stat">
-      <div class="bar">
-        <div class="filled-<%= stats.valueMatchesCount %>"></div>
-        <div class="not-filled-<%= 100 - stats.valueMatchesCount %>"></div>
-      </div>
-      <div class="text"><%= stats.matchesCount %> <%= pluralize(stats.matchesCount, 'Exchange') %></div>
-    </div>
-  </div>
+<div id="stats-app" data-book-isbn="<%= book.isbn %>" class="stats-container">
 </div>
 
 <div class="bottom-container">
