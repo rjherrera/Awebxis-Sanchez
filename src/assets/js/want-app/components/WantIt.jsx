@@ -20,8 +20,7 @@ export default class WantIt extends Component {
   async loadInterest() {
     const { username, bookId } = this.props;
     const interestId = await fetchInterest(username, bookId);
-    this.setState({ want: interestId > 0 });
-    this.setState({ interestId });
+    this.setState({ want: interestId > 0, interestId });
   }
 
   updateInterestsAmountBy(n) {
