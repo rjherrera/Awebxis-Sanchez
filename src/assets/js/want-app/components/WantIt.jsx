@@ -35,12 +35,12 @@ export default class WantIt extends Component {
     this.setState({ want: !want });
 
     if (!want) {
-      this.updateInterestsAmountBy(1);
       const { id } = await wantBook(username, bookId);
+      this.updateInterestsAmountBy(1);
       this.setState({ interestId: id });
     } else {
-      this.updateInterestsAmountBy(-1);
       await dontWantBook(username, interestId);
+      this.updateInterestsAmountBy(-1);
       this.setState({ interestId: -1 });
     }
   }
