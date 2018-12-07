@@ -25,11 +25,7 @@ router.get('instances', '/:username/:book', async (ctx) => {
       expired: false,
     },
   });
-  if (instance) {
-    ctx.body = { id: instance.id };
-  } else {
-    ctx.body = { id: -1 };
-  }
+  ctx.body = { id: instance ? instance.id : -1 };
 });
 
 module.exports = router;
