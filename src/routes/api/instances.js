@@ -22,6 +22,7 @@ router.get('instances', '/:username/:book', async (ctx) => {
     where: {
       bookId,
       userId,
+      expired: false,
     },
   });
   if (instance) {
