@@ -91,7 +91,7 @@ router.patch('users-update', '/:username', isAdminOrSelf, async (ctx) => {
     }
     ctx.redirect(ctx.router.url('users-show', { username: user.username }));
   } catch (validationError) {
-    await ctx.render('names/edit', {
+    await ctx.render('users/edit', {
       user,
       errors: validationError.errors,
       submitUserPath: ctx.router.url('users-update', user.username),
