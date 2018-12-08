@@ -106,12 +106,14 @@ router.get('books-stats', '/:isbn/stats', async (ctx) => {
   const interestsCount = loadedBook.interests.length;
   const interestsMaxCount = Math.max(...books.map(bk => bk.interests.length)) || 1;
 
-  const instances = books.map(bk => bk.instances).reduce((acc, val) => acc.concat(val), []);
+  const instances = books.map(bk => bk.instances.filter(i => !i.expired))
+    .reduce((acc, val) => acc.concat(val), []);
   const countMatches = i => i.proposerMatches.length + i.proposeeMatches.length;
-  const matchesCount = loadedBook.instances.map(countMatches).reduce((acc, val) => acc + val, 0);
+  const matchesCount = loadedBook.instances.filter(i => !i.expired).map(countMatches)
+    .reduce((acc, val) => acc + val, 0);
   const matchesMaxCount = Math.max(...instances.map(countMatches)) || 1;
 
-  const instancesCount = loadedBook.instances.length;
+  const instancesCount = loadedBook.instances.filter(i => !i.expired).length;
   const instancesMaxCount = Math.max(...books.map(bk => bk.instances.length)) || 1;
 
   ctx.body = {
