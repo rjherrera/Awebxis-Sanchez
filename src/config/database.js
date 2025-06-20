@@ -18,8 +18,10 @@ const config = {
     extend: 'default',
     use_env_variable: 'DATABASE_URL',
     dialectOptions: {
-      require: true,
-      rejectUnauthorized: false
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
     },
   },
 };
