@@ -40,15 +40,6 @@ app.use((ctx, next) => {
 // log requests
 app.use(koaLogger());
 
-// webpack middleware for dev mode only
-if (developmentMode) {
-  // eslint-disable-next-line import/no-extraneous-dependencies, global-require
-  const koaWebpack = require('koa-webpack');
-  koaWebpack()
-    .then(middleware => app.use(middleware))
-    .catch(console.error); // eslint-disable-line no-console
-}
-
 app.use(koaStatic(path.join(__dirname, '..', 'build'), {}));
 
 // expose a session hash to store information across requests from same client

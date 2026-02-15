@@ -1,6 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WebpackAssetPipeline = require('webpack-asset-pipeline');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 const developmentMode = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
@@ -13,9 +13,7 @@ module.exports = {
   output: {
     publicPath: '/assets/',
     path: path.join(__dirname, 'build', 'assets'),
-    filename: developmentMode
-      ? '[name].js'
-      : '[name]-[hash].js',
+    filename: developmentMode ? '[name].js' : '[name]-[contenthash].js',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
@@ -32,9 +30,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=.+)?$/i,
         loader: 'file-loader',
         options: {
-          name: developmentMode
-            ? '[name].[ext]'
-            : '[name]-[hash].[ext]',
+          name: developmentMode ? '[name].[ext]' : '[name]-[hash].[ext]',
         },
       },
       {
@@ -49,9 +45,13 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name]-[hash].css',
-      chunkFilename: '[id]-[hash].css',
+      filename: '[name]-[contenthash].css',
+      chunkFilename: '[id]-[contenthash].css',
     }),
-    new WebpackAssetPipeline(),
+    new WebpackManifestPlugin({
+      fileName: 'manifest.json',
+      publicPath: '/assets/',
+      writeToFileEmit: true,
+    }),
   ],
 };

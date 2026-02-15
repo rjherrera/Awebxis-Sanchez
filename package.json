@@ -20,7 +20,6 @@
     "@babel/preset-env": "^7.24.0",
     "@babel/preset-react": "^7.24.0",
     "babel-loader": "^8.3.0",
-    "chokidar": "^3.6.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.4.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -29,15 +28,14 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "file-loader": "^2.0.0",
-    "koa-webpack": "^5.1.0",
     "mini-css-extract-plugin": "^0.4.2",
     "nodemon": "^1.11.0",
     "sass": "^1.97.3",
     "sass-loader": "^10",
     "style-loader": "^0.23.0",
-    "webpack": "^4.36.0",
-    "webpack-asset-pipeline": "^1.1.1",
-    "webpack-cli": "3"
+    "webpack": "^5.105.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-manifest-plugin": "^5.0.0"
   },
   "dependencies": {
     "@koa/cors": "2",
