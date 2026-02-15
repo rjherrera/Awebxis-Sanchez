@@ -27,10 +27,10 @@ module.exports = {
         loader: 'babel-loader',
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=.+)?$/i,
-        loader: 'file-loader',
-        options: {
-          name: developmentMode ? '[name].[ext]' : '[name]-[hash].[ext]',
+        test: /\.(png|jpe?g|gif|svg|woff2?|ttf|eot|ico)(\?v=.+)?$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: developmentMode ? '[name][ext]' : '[name]-[contenthash][ext]',
         },
       },
       {
