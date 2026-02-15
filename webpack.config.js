@@ -8,7 +8,7 @@ module.exports = {
   mode: developmentMode ? 'development' : 'production',
   context: path.join(__dirname, 'src', 'assets'),
   entry: {
-    app: ['./js/index.js', './js/app.jsx'],
+    app: ['core-js/stable', 'regenerator-runtime/runtime', './js/index.js', './js/app.jsx'],
   },
   output: {
     publicPath: '/assets/',
