@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader';
 import React from 'react';
 import PropTypes from 'prop-types';
 import FollowsContainer from './FollowsContainer';
@@ -19,4 +18,4 @@ FollowsApp.propTypes = {
   }).isRequired,
 };
 
-export default hot(module)(FollowsApp);
+export default FollowsApp;

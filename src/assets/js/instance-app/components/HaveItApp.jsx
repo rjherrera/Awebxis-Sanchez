@@ -1,5 +1,4 @@
 import React from 'react';
-import { hot } from 'react-hot-loader';
 import PropTypes from 'prop-types';
 import HaveIt from './HaveIt';
 
@@ -24,4 +23,4 @@ HaveItApp.propTypes = {
   store: PropTypes.shape({}).isRequired,
 };
 
-export default hot(module)(HaveItApp);
+export default HaveItApp;

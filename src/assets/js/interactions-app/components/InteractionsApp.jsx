@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader';
 import React from 'react';
 import PropTypes from 'prop-types';
 import InteractionsContainer from './InteractionsContainer';
@@ -19,4 +18,4 @@ InteractionsApp.propTypes = {
   }).isRequired,
 };
 
-export default hot(module)(InteractionsApp);
+export default InteractionsApp;

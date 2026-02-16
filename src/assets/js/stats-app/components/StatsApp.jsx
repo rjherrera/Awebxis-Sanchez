@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader';
 import React from 'react';
 import PropTypes from 'prop-types';
 import StatsContainer from './StatsContainer';
@@ -16,4 +15,4 @@ StatsApp.propTypes = {
   store: PropTypes.shape({}).isRequired,
 };
 
-export default hot(module)(StatsApp);
+export default StatsApp;

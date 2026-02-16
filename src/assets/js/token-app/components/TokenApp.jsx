@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader';
 import React from 'react';
 import TokenContainer from './TokenContainer';
 
@@ -8,4 +7,4 @@ function TokenApp() {
   );
 }
 
-export default hot(module)(TokenApp);
+export default TokenApp;
