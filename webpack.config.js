@@ -8,7 +8,8 @@ module.exports = {
   mode: developmentMode ? 'development' : 'production',
   context: path.join(__dirname, 'src', 'assets'),
   entry: {
-    app: ['core-js/stable', 'regenerator-runtime/runtime', './js/index.js', './js/app.jsx'],
+    app: ['./js/index.js', './js/app.jsx'],
+    assets: ['./js/assets.js'],
   },
   output: {
     publicPath: '/assets/',
@@ -50,7 +51,7 @@ module.exports = {
     }),
     new WebpackManifestPlugin({
       fileName: 'manifest.json',
-      publicPath: '/assets/',
+      publicPath: '',
       writeToFileEmit: true,
     }),
   ],
