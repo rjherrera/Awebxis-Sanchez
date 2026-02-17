@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const jwtgenerator = require('jsonwebtoken');
 
 const router = new KoaRouter();

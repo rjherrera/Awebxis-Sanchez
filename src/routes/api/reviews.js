@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const { isValidationError, getFirstErrors } = require('../../lib/models/validation-error');
 const { isLoggedIn } = require('../../lib/routes/permissions');
 

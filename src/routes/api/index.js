@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const jwt = require('koa-jwt');
 const authRoutes = require('./auth');
 const authorsRoutes = require('./authors');

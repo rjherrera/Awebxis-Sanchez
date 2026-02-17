@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const { Sequelize, Op } = require('sequelize');
 const cloudStorage = require('../../lib/cloud-storage');
 const { isValidationError, getFirstErrors } = require('../../lib/models/validation-error');

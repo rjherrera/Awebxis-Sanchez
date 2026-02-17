@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const api = require('./routes/api');
 
 const router = new KoaRouter();

@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const _ = require('lodash');
 const { Op } = require('sequelize');
 const { isValidationError, getFirstErrors } = require('../../lib/models/validation-error');

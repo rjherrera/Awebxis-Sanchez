@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const newProposal = require('../mailers/new-proposal.js');
 const acceptedProposal = require('../mailers/accepted-proposal.js');
 

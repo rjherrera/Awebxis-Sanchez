@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const { isAdminOrSelf, isLoggedIn } = require('../lib/routes/permissions');
 const { User } = require('../models');
 

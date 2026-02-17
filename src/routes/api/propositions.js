@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const { isLoggedIn } = require('../../lib/routes/permissions');
 
 const router = new KoaRouter();

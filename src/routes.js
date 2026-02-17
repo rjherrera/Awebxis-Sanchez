@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const _ = require('lodash');
 
 const utils = require('./lib/utils');

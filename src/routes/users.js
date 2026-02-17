@@ -1,4 +1,4 @@
-const KoaRouter = require('koa-router');
+const KoaRouter = require('@koa/router');
 const { Op } = require('sequelize');
 const cloudStorage = require('../lib/cloud-storage');
 const { isLoggedIn, isAdmin, isAdminOrSelf } = require('../lib/routes/permissions');
