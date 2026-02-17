@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 async function getJSON(fileName) {
   if (process.env.SEEDS_SERVER) {
     const response = await fetch(`${process.env.SEEDS_SERVER}/${fileName}`);

@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 const fetchAvgRating = async (book) => {
   const { isbn: bookISBN } = book;
   const key = process.env.GOODREADS_KEY;
