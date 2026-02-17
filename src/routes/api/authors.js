@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
+const { Op } = require('sequelize');
 const { isValidationError, getFirstErrors } = require('../../lib/models/validation-error');
 const { isAdmin } = require('../../lib/routes/permissions');
 const { Book } = require('../../models');
@@ -22,7 +23,7 @@ router.get('authors', '/', async (ctx) => {
   const authors = await ctx.orm.Author.findAllPaged({
     order: [['name', 'ASC']],
     include: [{ model: Book, as: 'books', limit: 1 }],
-    where: { name: { $iLike: `%${q}%` } },
+    where: { name: { [Op.iLike]: `%${q}%` } },
   }, page);
   ctx.body = { authors };
 });

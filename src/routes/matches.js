@@ -5,7 +5,7 @@ const acceptedProposal = require('../mailers/accepted-proposal.js');
 const router = new KoaRouter();
 
 router.param('id', async (id, ctx, next) => {
-  const match = await ctx.orm.Match.findById(id);
+  const match = await ctx.orm.Match.findByPk(id);
   ctx.assert(match, 404);
   ctx.state.match = match;
   return next();

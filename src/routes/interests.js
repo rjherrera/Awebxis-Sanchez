@@ -7,7 +7,7 @@ const router = new KoaRouter();
 router.use(isLoggedIn);
 
 router.param('id', async (id, ctx, next) => {
-  const interest = await ctx.orm.Interest.findById(id, { include: [{ model: User, as: 'user' }] });
+  const interest = await ctx.orm.Interest.findByPk(id, { include: [{ model: User, as: 'user' }] });
   ctx.assert(interest, 404);
   ctx.state.interest = interest;
   ctx.state.user = interest.user;

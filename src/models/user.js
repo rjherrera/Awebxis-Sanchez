@@ -61,16 +61,18 @@ module.exports = (sequelize, DataTypes) => {
         await sequelize.models.ActivationUuid.create({ userId: instance.id });
       },
     },
-    getterMethods: {
-      async uuid() {
-        const activation = await this.getActivation();
-        return activation.uuid;
-      },
-      fullName() {
-        return `${this.firstName} ${this.lastName}`;
-      },
+  });
+
+  Object.defineProperty(User.prototype, 'fullName', {
+    get() {
+      return `${this.firstName} ${this.lastName}`;
     },
   });
+
+  User.prototype.uuid = async function uuid() {
+    const activation = await this.getActivation();
+    return activation ? activation.uuid : null;
+  };
 
   User.prototype.checkPassword = function checkPassword(password) {
     return bcrypt.compare(password, this.password);

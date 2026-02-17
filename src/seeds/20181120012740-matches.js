@@ -9,7 +9,7 @@ module.exports = {
       return proposerBooks[0].id;
     }));
     const proposeesBooksIds = await Promise.all(users.map(async ({ id }) => {
-      const proposee = await User.findById((id % users.length) + 1);
+      const proposee = await User.findByPk((id % users.length) + 1);
       const proposeeBooks = await proposee.getUserBooks();
       return proposeeBooks[0].id;
     }));

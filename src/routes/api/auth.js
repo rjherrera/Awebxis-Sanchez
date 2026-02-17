@@ -18,9 +18,9 @@ router.post('auth-create', '/', async (ctx) => {
   let user;
   const { email, password } = ctx.request.body;
   if (email && password) {
-    user = await ctx.orm.User.find({ where: { email } });
+    user = await ctx.orm.User.findOne({ where: { email } });
   } else if (ctx.session.userId) {
-    user = await ctx.orm.User.findById(ctx.session.userId);
+    user = await ctx.orm.User.findByPk(ctx.session.userId);
   } else {
     ctx.throw(401);
   }

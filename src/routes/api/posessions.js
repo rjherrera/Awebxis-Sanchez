@@ -10,7 +10,7 @@ router.param('username', async (username, ctx, next) => {
 });
 
 router.param('id', async (id, ctx, next) => {
-  const instance = await ctx.orm.BookInstance.findById(id);
+  const instance = await ctx.orm.BookInstance.findByPk(id);
   ctx.assert(instance, 404);
   ctx.state.instance = instance;
   return next();

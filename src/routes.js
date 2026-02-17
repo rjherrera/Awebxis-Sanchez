@@ -21,7 +21,7 @@ const defaults = require('./defaults');
 const router = new KoaRouter();
 
 router.use(async (ctx, next) => {
-  const currentUser = ctx.session.userId && await ctx.orm.User.findById(ctx.session.userId);
+  const currentUser = ctx.session.userId && await ctx.orm.User.findByPk(ctx.session.userId);
   Object.assign(ctx.state, {
     apiPath: ctx.router.url('auth-new'),
     authorsPath: ctx.router.url('authors'),

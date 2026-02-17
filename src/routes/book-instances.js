@@ -7,7 +7,7 @@ const router = new KoaRouter();
 router.use(isLoggedIn);
 
 router.param('id', async (id, ctx, next) => {
-  const instance = await ctx.orm.BookInstance.findById(id, { include: [{ model: User, as: 'user' }] });
+  const instance = await ctx.orm.BookInstance.findByPk(id, { include: [{ model: User, as: 'user' }] });
   ctx.assert(instance, 404);
   ctx.state.instance = instance;
   ctx.state.user = instance.user;

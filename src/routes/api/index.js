@@ -23,9 +23,9 @@ router.use('/books', booksRoutes.routes());
 router.use(jwt({ secret: process.env.JWT_SECRET, passthrough: true, key: 'authData' }));
 router.use(async (ctx, next) => {
   if (ctx.state.authData && ctx.state.authData.userId) {
-    ctx.state.currentUser = await ctx.orm.User.findById(ctx.state.authData.userId);
+    ctx.state.currentUser = await ctx.orm.User.findByPk(ctx.state.authData.userId);
   } else if (ctx.session.userId) {
-    ctx.state.currentUser = await ctx.orm.User.findById(ctx.session.userId);
+    ctx.state.currentUser = await ctx.orm.User.findByPk(ctx.session.userId);
   } else {
     ctx.throw(401);
   }

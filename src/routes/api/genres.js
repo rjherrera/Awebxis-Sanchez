@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const _ = require('lodash');
+const { Op } = require('sequelize');
 const { isAdmin } = require('../../lib/routes/permissions');
 const { Author } = require('../../models');
 
@@ -9,7 +10,7 @@ router.param('kebabName', async (kebabName, ctx, next) => {
   const name = _.startCase(_.camelCase(kebabName));
   const genre = await ctx.orm.Genre.findOne({
     order: [['name', 'ASC']],
-    where: { name: { $iLike: `${name}%` } },
+    where: { name: { [Op.iLike]: `${name}%` } },
   });
   ctx.assert(genre, 404);
   ctx.state.genre = genre;
@@ -28,7 +29,7 @@ router.get('genres', '/', async (ctx) => {
   const q = ctx.query.q || '';
   const genres = await ctx.orm.Genre.findAllPaged({
     order: [['name', 'ASC']],
-    where: { name: { $iLike: `%${q}%` } },
+    where: { name: { [Op.iLike]: `%${q}%` } },
   }, page);
   ctx.body = { genres };
 });

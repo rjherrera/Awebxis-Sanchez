@@ -10,7 +10,7 @@ router.param('username', async (username, ctx, next) => {
 });
 
 router.param('id', async (id, ctx, next) => {
-  const interest = await ctx.orm.Interest.findById(id);
+  const interest = await ctx.orm.Interest.findByPk(id);
   ctx.assert(interest, 404);
   ctx.state.interest = interest;
   return next();
