@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import fetchToken from '../services/token';
 
 export default class TokenContainer extends Component {
@@ -23,6 +22,15 @@ export default class TokenContainer extends Component {
     this.setState({ token });
   }
 
+  async copyToken(token) {
+    try {
+      await navigator.clipboard.writeText(token);
+      this.onCopy();
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
   render() {
     const { token, copied } = this.state;
     return (
@@ -41,9 +49,7 @@ export default class TokenContainer extends Component {
             {
               token && !copied
               && (
-                <CopyToClipboard text={token} onCopy={this.onCopy}>
-                  <button type="submit" className="button secondary fitted">Copy</button>
-                </CopyToClipboard>
+                <button type="button" className="button secondary fitted" onClick={() => this.copyToken(token)}>Copy</button>
               )
             }
             {
