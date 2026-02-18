@@ -1,3 +1,5 @@
+@use "sass:list";
+
 .button {
   min-height: 30px;
   margin: 0px 5px;
@@ -9,22 +11,23 @@
   outline: none;
   cursor: pointer;
 
-  @each $color in $names {
-    $index: index($names, $color);
+  @each $name in $names {
+    $index: list.index($names, $name);
+    $value: list.nth($colors, $index);
 
-    &.#{$color} {
-      border: 1px solid nth($colors, $index);
+    &.#{$name} {
+      border: 1px solid $value;
       color: $cambalache-white;
-      background: nth($colors, $index);
+      background: $value;
     }
 
-    &.#{$color}.inverted {
-      color: nth($colors, $index);
+    &.#{$name}.inverted {
+      color: $value;
       background: $cambalache-white;
     }
 
-    &.#{$color}.empty {
-      color: nth($colors, $index);
+    &.#{$name}.empty {
+      color: $value;
       background-color: transparent;
     }
   }
