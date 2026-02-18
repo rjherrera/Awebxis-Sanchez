@@ -10,6 +10,6 @@ module.exports = {
   },
   // defaults to be passed to nodemailer's emails
   defaults: {
-    from: 'Cambalache <contact@cambalache.com>',
+    from: process.env.DEFAULT_EMAIL_ADDRESS,
   },
 };
