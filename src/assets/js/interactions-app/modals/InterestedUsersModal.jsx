@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../../components/Modal';
 
@@ -7,11 +7,11 @@ function interestedUsers(book) {
     <li ><a href={i.user.username}>{i.user.username}</a></li>
   ));
   return (
-    <React.Fragment>
+    <Fragment>
       <h3>These users have shown interest in <span className="bolded">{book.title}</span>!</h3>
       <ul>{links}</ul>
       <p>Visit their profile to see what they have to offer!</p>
-    </React.Fragment>
+    </Fragment>
   );
 }
 

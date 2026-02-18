@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import Stat from './Stat';
 import fetchStats from '../services/stats';
@@ -52,14 +52,14 @@ export default class StatsContainer extends Component {
     return loading
       ? <p className="centered-text">Loading...</p>
       : (
-        <React.Fragment>
+        <Fragment>
           <div className="left-container" />
           <div className="right-container">
             <Stat value={interests} relative={interestsRelative} name="Interests" />
             <Stat value={matches} relative={matchesRelative} name="Exchanges" />
             <Stat value={instances} relative={instancesRelative} name="Owners" />
           </div>
-        </React.Fragment>
+        </Fragment>
       );
   }
 }

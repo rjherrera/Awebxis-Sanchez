@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import OtherInterest from './OtherInterest';
 import InterestedUsersModal from '../modals/InterestedUsersModal';
@@ -27,7 +27,7 @@ export default class OthersInterests extends Component {
     ));
     const { modalOpened, modalBook } = this.state;
     return rows.length ? (
-      <React.Fragment>
+      <Fragment>
         <InterestedUsersModal
           show={modalOpened}
           handleClose={this.closeModal}
@@ -36,7 +36,7 @@ export default class OthersInterests extends Component {
         <ul>
           {rows}
         </ul>
-      </React.Fragment>
+      </Fragment>
     ) : (
       <p className="empty-message">You don&apos;t own any book</p>
     );

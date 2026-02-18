@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import fetchToken from '../services/token';
 

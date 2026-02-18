@@ -10,6 +10,7 @@ module.exports = function babelConfig(api) {
       }],
       ['@babel/preset-react', {
         development: babelEnv === 'development',
+        runtime: 'automatic',
       }],
     ],
     plugins: [],

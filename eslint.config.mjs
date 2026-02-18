@@ -59,8 +59,6 @@ export default [
     rules: {
       ...defaultRules,
       "import/no-unresolved": "off",
-      "no-unused-vars": ["error", { varsIgnorePattern: "^React$" }],
-      "react/react-in-jsx-scope": "error",
     },
   },
   // ESM config files
