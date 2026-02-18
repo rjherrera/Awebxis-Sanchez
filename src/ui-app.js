@@ -53,7 +53,11 @@ app.use(koaFlashMessage);
 // parse request body
 app.use(koaBody({
   multipart: true,
-  keepExtensions: true,
+  formidable: {
+    keepExtensions: true,
+    allowEmptyFiles: true,
+    minFileSize: 0,
+  },
 }));
 
 app.use(override());
