@@ -15,7 +15,7 @@
     "clean-assets": "rm -rf build/assets",
     "build-assets": "yarn run clean-assets && NODE_ENV=production webpack --config webpack.config.js",
     "dev-assets": "NODE_ENV=development webpack --watch --config webpack.config.js",
-    "heroku-postbuild": "yarn run build-assets && sequelize db:migrate"
+    "migrate": "sequelize db:migrate"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
