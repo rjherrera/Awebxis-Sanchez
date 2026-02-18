@@ -42,7 +42,7 @@
     "@faker-js/faker": "^10.3.0",
     "@koa/cors": "^5",
     "@koa/router": "^15",
-    "bcrypt": "^5.0.1",
+    "bcrypt": "^6",
     "bluebird": "^3.7.2",
     "chrono-node": "^1.4.9",
     "core-js": "^3.48.0",
