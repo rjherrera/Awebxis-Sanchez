@@ -3,7 +3,6 @@ async function getJSON(fileName) {
     const response = await fetch(`${process.env.SEEDS_SERVER}/${fileName}`);
     return response.json();
   }
-  /* eslint-disable import/no-dynamic-require, global-require */
   return require(`../../seeds/${fileName}`);
 }
 

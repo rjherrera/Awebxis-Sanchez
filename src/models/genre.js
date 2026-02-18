@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
 
-  Genre.associate = (models) => {
-  };
+  // Genre.associate = (models) => {
+  // };
 
   return Genre;
 };

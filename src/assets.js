@@ -1,11 +1,9 @@
 let manifest;
 
 try {
-  // eslint-disable-next-line global-require
   manifest = require('../build/assets/manifest.json');
-} catch (err) {
-
-  // noop
+} catch (error) {
+  console.error(error);
 }
 
 

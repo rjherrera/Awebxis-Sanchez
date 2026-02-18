@@ -20,7 +20,7 @@ module.exports = {
     return errors.reduce(
       (firstErrors, propError) => {
         if (firstErrors[propError.path]) return firstErrors;
-        firstErrors[propError.path] = { // eslint-disable-line no-param-reassign
+        firstErrors[propError.path] = {
           message: propError.message,
           validatorName: propError.validatorName,
         };

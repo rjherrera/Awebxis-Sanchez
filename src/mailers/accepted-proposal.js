@@ -26,7 +26,7 @@ const getInfoAndSendAcceptedProposalEmail = async (ctx, match) => {
       origin: ctx.request.origin,
     });
   } catch (error) {
-    // Ignore if mail not sent, though it shouldn't fail
+    console.error(error);
   }
 };
 
