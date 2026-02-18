@@ -6,7 +6,7 @@ const koaFlashMessage = require('koa-flash-message').default;
 const koaStatic = require('koa-static');
 const render = require('koa-ejs');
 const session = require('koa-session');
-const override = require('koa-override-method');
+const override = require('koa-override');
 const assets = require('./assets');
 const mailer = require('./mailers');
 const routes = require('./routes');
@@ -56,10 +56,7 @@ app.use(koaBody({
   keepExtensions: true,
 }));
 
-app.use((ctx, next) => {
-  ctx.request.method = override.call(ctx, ctx.request.body.fields || ctx.request.body);
-  return next();
-});
+app.use(override());
 
 // Configure EJS views
 app.use(assets(developmentMode));
