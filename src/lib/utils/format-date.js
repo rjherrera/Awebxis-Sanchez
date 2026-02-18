@@ -1,9 +1,5 @@
-const moment = require('moment');
+const { format } = require('date-fns');
 
-const formatDate = date => moment(date).format('YYYY-MM-DD');
-const formatDateTz = date => moment(date).tz('GMT').format('MMMM Do, YYYY');
+const formatDate = date => date ? format(date, 'yyyy-MM-dd') : '';
 
-module.exports = {
-  formatDate,
-  formatDateTz,
-};
+module.exports = { formatDate };
