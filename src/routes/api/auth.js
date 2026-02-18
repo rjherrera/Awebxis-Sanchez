@@ -16,7 +16,7 @@ const generateToken = async (user) => {
 
 router.post('auth-create', '/', async (ctx) => {
   let user;
-  const { email, password } = ctx.request.body;
+  const { email, password } = ctx.request.body || {};
   if (email && password) {
     user = await ctx.orm.User.findOne({ where: { email } });
   } else if (ctx.session.userId) {
